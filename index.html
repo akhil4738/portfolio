@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+
+<title>Jampala Akhil | Java Full Stack Developer & Tech Educator</title>
+
+<meta name="description" content="Jampala Akhil is a Java Full Stack Developer, Trainer, and Tech Enthusiast specializing in Java, Spring Boot, Python, Web Development, and Cloud.">
+<meta name="keywords" content="Jampala Akhil, Java Developer, Spring Boot, Full Stack Developer, Python, Web Development, AWS">
+
+<meta property="og:title" content="Jampala Akhil | Java Full Stack Developer & Tech Educator">
+<meta property="og:description" content="Java Full Stack Developer, Trainer & Tech Enthusiast from India.">
+<meta property="og:type" content="website">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+
+<!-- ================= INTERNAL CSS ================= -->
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0f172a;
+  color: #e5e7eb;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  background: rgba(15, 23, 42, 0.95);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand a {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.nav-menu a {
+  margin-left: 1.5rem;
+  font-weight: 500;
+}
+
+.nav-menu a:hover {
+  color: #38bdf8;
+}
+
+/* ================= HERO ================= */
+.hero {
+  padding: 140px 0 100px;
+  background: linear-gradient(145deg, #020617, #0f172a);
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+}
+
+.highlight {
+  color: #38bdf8;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #38bdf8;
+  color: #020617;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #38bdf8;
+  color: #38bdf8;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* ================= ABOUT ================= */
+.about {
+  padding: 80px 0;
+  background: #020617;
+}
+
+.about h2 {
+  font-size: 2.2rem;
+  color: #38bdf8;
+  margin-bottom: 1rem;
+}
+
+/* ================= SKILLS ================= */
+.skills {
+  padding: 80px 0;
+}
+
+.skills h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.skill-card {
+  background: #020617;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ================= PROJECTS ================= */
+.projects {
+  padding: 80px 0;
+  background: #020617;
+}
+
+.projects h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  background: #0f172a;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+/* ================= CONTACT ================= */
+.contact {
+  padding: 80px 0;
+}
+
+.contact h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-box {
+  background: #020617;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  text-align: center;
+  padding: 1.5rem;
+  background: #020617;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <div class="nav-brand">
+      <a href="#home">Jampala Akhil</a>
+    </div>
+    <div class="nav-menu">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Jampala <span class="highlight">Akhil</span></h1>
+      <p class="hero-subtitle">
+        Java Full Stack Developer | Tech Trainer | Web & Cloud Enthusiast
+      </p>
+
+      <div class="hero-buttons">
+        <a class="btn btn-primary" href="#projects">View Projects</a>
+        <a class="btn btn-outline" href="#contact">Hire Me</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <span class="stat-number">20+</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div>
+          <span class="stat-number">15+</span>
+          <span class="stat-label">Technologies</span>
+        </div>
+        <div>
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Commitment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about" id="about">
+  <div class="container">
+    <h2>About Me</h2>
+    <p>
+      I am <strong>Jampala Akhil</strong>, a passionate <strong>Java Full Stack Developer and Tech Trainer</strong>.
+      I specialize in building web applications using Java, Spring Boot, MySQL, Python, HTML, CSS, and JavaScript.
+      I enjoy learning new technologies and teaching students in a simple and practical way.
+    </p>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section class="skills" id="skills">
+  <div class="container">
+    <h2>My Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-card">Java</div>
+      <div class="skill-card">Spring Boot</div>
+      <div class="skill-card">Servlets & JSP</div>
+      <div class="skill-card">MySQL</div>
+      <div class="skill-card">Python</div>
+      <div class="skill-card">HTML</div>
+      <div class="skill-card">CSS</div>
+      <div class="skill-card">JavaScript</div>
+      <div class="skill-card">Git & GitHub</div>
+      <div class="skill-card">AWS Basics</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section class="projects" id="projects">
+  <div class="container">
+    <h2>My Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>College Management System</h3>
+        <p>Java, JDBC, Servlets, MySQL based student and admin system.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Online Tutor Web App</h3>
+        <p>Pure JSP, Servlets, and MySQL based E-learning platform.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>News Website</h3>
+        <p>HTML, CSS, JavaScript multilingual digital news website.</p>
+      </div>
+
+      <div class="project-card">
+        <h3>Spring Boot E-Commerce</h3>
+        <p>Complete shopping cart with users, admin, products, orders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="container">
+    <h2>Contact Me</h2>
+    <div class="contact-box">
+      <p><strong>Email:</strong> akhil.jampala.dev@gmail.com</p>
+      <p><strong>Location:</strong> India</p>
+      <p><strong>Available for:</strong> Jobs, Freelancing, Training</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2025 Jampala Akhil | All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>
