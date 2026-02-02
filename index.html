@@ -1,37 +1,44 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Jampala Akhil | Academic Trainer & Software Developer</title>
 
-<meta name="description" content="Jampala Akhil – Academic Trainer & Software Developer with expertise in Java, Python, Web Technologies, Databases, and Computer Science education.">
-<meta name="keywords" content="Jampala Akhil, Academic Trainer, Java Developer, Computer Science Trainer, DSA, DBMS, OS, Cloud Computing">
+<!-- SEO -->
+<meta name="description" content="Jampala Akhil – Academic Trainer & Software Developer with 2+ years experience in Java, Python, DSA, SQL and Web Technologies.">
+<meta name="keywords" content="Jampala Akhil, Academic Trainer, Java Trainer, Software Developer, Computer Science Faculty">
 <meta name="author" content="Jampala Akhil">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- Open Graph -->
+<meta property="og:title" content="Jampala Akhil | Academic Trainer & Software Developer">
+<meta property="og:description" content="Java, Python & CS Academic Trainer with industry-oriented teaching experience">
+<meta property="og:type" content="website">
+
 <style>
-/* ========== RESET ========== */
+/* ================= RESET ================= */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Segoe UI',sans-serif;
-  background:#050505;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:radial-gradient(circle at top,#0b1220,#050505 65%);
   color:#eaeaea;
   overflow-x:hidden;
+  line-height:1.7;
 }
+section{scroll-margin-top:90px}
 
-/* ========== THREE BG ========== */
+/* ================= BACKGROUND ================= */
 #bg{position:fixed;inset:0;z-index:-2}
 
-/* ========== NAVBAR ========== */
+/* ================= NAVBAR ================= */
 nav{
   position:fixed;
   top:0;width:100%;
   z-index:1000;
-  backdrop-filter:blur(16px);
-  background:linear-gradient(90deg,rgba(0,247,255,.15),rgba(127,92,255,.15));
-  border-bottom:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(18px);
+  background:rgba(10,10,25,.65);
+  border-bottom:1px solid rgba(255,255,255,.1);
 }
 .nav-inner{
   max-width:1200px;
@@ -42,115 +49,136 @@ nav{
   align-items:center;
 }
 nav h1{
-  font-size:1.1rem;
+  font-size:1rem;
+  letter-spacing:2px;
   color:#00f7ff;
-  letter-spacing:1px;
 }
 nav a{
-  color:#fff;
+  color:#eaeaea;
   text-decoration:none;
-  margin-left:18px;
-  font-size:.9rem;
+  margin-left:22px;
+  font-size:.85rem;
+  position:relative;
 }
+nav a.active,
 nav a:hover{color:#00f7ff}
-
-/* ========== GLOBAL ========== */
-main{max-width:1200px;margin:auto}
-section{
-  padding:110px 6%;
-  perspective:1400px;
+nav a::after{
+  content:'';
+  position:absolute;
+  left:0;bottom:-6px;
+  width:0;height:2px;
+  background:#00f7ff;
+  transition:.3s;
 }
+nav a:hover::after,
+nav a.active::after{width:100%}
+
+/* ================= GLOBAL ================= */
+main{max-width:1200px;margin:auto}
+section{padding:100px 6%}
 h2{
   text-align:center;
-  margin-bottom:60px;
-  font-size:2.3rem;
+  margin-bottom:50px;
+  font-size:2.1rem;
   background:linear-gradient(90deg,#00f7ff,#7f5cff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
-/* ========== GLASS ========== */
+/* ================= GLASS ================= */
 .glass{
-  background:rgba(255,255,255,.06);
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
   backdrop-filter:blur(14px);
   border-radius:18px;
   border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 30px 60px rgba(0,0,0,.45);
+  box-shadow:0 25px 60px rgba(0,0,0,.5);
 }
 
-/* ========== HERO ========== */
+/* ================= HERO ================= */
 header{
-  height:100vh;
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
+  padding:0 6%;
 }
+.hero{max-width:820px}
 .hero h1{
-  font-size:4.5rem;
+  font-size:3.6rem;
   background:linear-gradient(90deg,#00f7ff,#7f5cff);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 .hero p{
   margin-top:20px;
-  font-size:1.1rem;
-  color:#dcdcdc;
+  font-size:1.05rem;
+  color:#cfcfcf;
 }
 .hero a{
   display:inline-block;
-  margin-top:30px;
-  padding:14px 36px;
+  margin-top:34px;
+  padding:14px 42px;
   border-radius:30px;
   border:1px solid #00f7ff;
   color:#00f7ff;
   text-decoration:none;
+  font-weight:600;
+  transition:.3s;
 }
-.hero a:hover{background:#00f7ff;color:#000}
+.hero a.secondary{
+  border-color:#7f5cff;
+  color:#7f5cff;
+  margin-left:14px;
+}
+.hero a:hover{
+  background:#00f7ff;
+  color:#000;
+  box-shadow:0 0 25px rgba(0,247,255,.6);
+}
 
-/* ========== GRID ========== */
+/* ================= GRID ================= */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
 }
 
-/* ========== 3D CARD ========== */
+/* ================= CARD ================= */
 .card{
-  padding:30px;
-  transform-style:preserve-3d;
-  transition:.4s ease;
+  padding:28px;
+  transition:.35s ease;
+}
+.card h3{
+  color:#00f7ff;
+  margin-bottom:10px;
+}
+.card a{
+  color:#7f5cff;
+  text-decoration:none;
+  font-size:.85rem;
 }
 .card:hover{
-  box-shadow:0 25px 80px rgba(0,247,255,.2);
+  transform:translateY(-6px);
+  box-shadow:0 30px 90px rgba(0,247,255,.25);
 }
 
-/* ========== TIMELINE ========== */
+/* ================= TIMELINE ================= */
 .timeline{
-  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:30px;
   max-width:900px;
   margin:auto;
 }
-.timeline::before{
-  content:'';
-  position:absolute;
-  left:50%;
-  top:0;
-  width:3px;
-  height:100%;
-  background:linear-gradient(#00f7ff,#7f5cff);
-}
-.t-item{
-  width:50%;
-  padding:30px;
-}
-.left{margin-left:0;text-align:right}
-.right{margin-left:50%}
 
-/* ========== REVEAL ========== */
+/* ================= CONTACT ================= */
+.contact{text-align:center}
+
+/* ================= REVEAL ================= */
 .reveal{
   opacity:0;
-  transform:translateY(60px) rotateX(15deg);
+  transform:translateY(50px);
   transition:1s ease;
 }
 .reveal.show{
@@ -158,11 +186,20 @@ header{
   transform:none;
 }
 
-/* ========== CONTACT ========== */
-.contact{text-align:center;padding:40px}
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:30px;
+  font-size:.85rem;
+  opacity:.8;
+}
 
-/* ATS */
-.ats{position:absolute;left:-9999px}
+/* ================= MOBILE ================= */
+@media(max-width:768px){
+  nav h1{font-size:.9rem}
+  nav a{margin-left:14px;font-size:.8rem}
+  .hero h1{font-size:2.6rem}
+}
 </style>
 </head>
 
@@ -170,7 +207,7 @@ header{
 
 <canvas id="bg"></canvas>
 
-<nav>
+<nav aria-label="Primary Navigation">
   <div class="nav-inner">
     <h1>JAMPALA AKHIL</h1>
     <div>
@@ -183,7 +220,7 @@ header{
   </div>
 </nav>
 
-<header>
+<header role="banner">
   <div class="hero reveal">
     <h1>Jampala Akhil</h1>
     <p>
@@ -192,85 +229,213 @@ header{
       🌐 GitHub: Akhil4738 | ✍️ Blog: theceoakhil
     </p>
     <a href="#projects">Explore Work</a>
+    <a href="Akhil_Resume.pdf" class="secondary" download>Download Resume</a>
   </div>
 </header>
 
-<main>
+<main role="main">
 
 <section id="summary">
 <h2>Professional Summary</h2>
 <div class="glass card reveal">
-Dedicated Computer Science Academic Trainer & Software Developer with 2+ years of experience
-in teaching and application development. Proven expertise in mentoring students,
-curriculum design, and industry-oriented training.
-</div>
-</section>
-
-<section id="expertise">
-<h2>Areas of Expertise</h2>
-<div class="grid">
-<div class="glass card reveal">DSA • Computer Organization • OOP</div>
-<div class="glass card reveal">DBMS • Operating Systems • Cryptography</div>
-<div class="glass card reveal">Data Mining • Cloud Computing</div>
-<div class="glass card reveal">Java • Python • SQL • Web Technologies</div>
-</div>
-</section>
-
-<section id="experience">
-<h2>Teaching & Professional Experience</h2>
-<div class="timeline">
-
-<div class="glass card t-item left reveal">
-<h3>RV Educational Institute</h3>
-<p>Academic Trainer (2024 – 2025)</p>
-<p>Delivered core CS subjects training and mentored academic projects.</p>
-</div>
-
-<div class="glass card t-item right reveal">
-<h3>HIET Software Solutions</h3>
-<p>Software Trainer (2023 – Present)</p>
-<p>Trained 200+ students in programming, DSA, and web technologies.</p>
-</div>
-
-</div>
-</section>
-
-<section id="projects">
-<h2>Projects</h2>
-<div class="grid">
-<div class="glass card reveal">Rosy – E-Commerce (Java, JSP, MySQL)</div>
-<div class="glass card reveal">Osmaniacs4U – M.Sc Notes Portal</div>
-<div class="glass card reveal">KonectaX – Global Assistance</div>
-<div class="glass card reveal">Syntax Circuit – Learning Platform</div>
-<div class="glass card reveal">TCWC News – Live Streaming Portal</div>
+Dedicated Computer Science Academic Trainer & Software Developer with 2+ years of experience.
+Successfully trained 200+ students, delivered industry-ready curriculum in Java, DSA, SQL,
+and Web Technologies, and mentored academic & real-time projects.
 </div>
 </section>
 
 <section>
-<h2>Education & Achievements</h2>
-<div class="grid">
+<h2>Why Hire Me?</h2>
 <div class="glass card reveal">
-M.Sc CS – Osmania University (2024) – 85%<br>
-B.Sc CS – Kakatiya University (2022) – 82%
-</div>
-<div class="glass card reveal">
-TS-SET 2024 Qualified<br>
-CPGET Rank 63<br>
-200+ Students Trained
-</div>
+✔ Strong academic foundation<br>
+✔ Industry-oriented teaching approach<br>
+✔ Hands-on project mentoring<br>
+✔ Excellent student feedback
 </div>
 </section>
 
-<section id="contact">
-<h2>Contact</h2>
-<div class="glass contact reveal">
-<p>📧 akhiljampala1@gmail.com</p>
-<p>📱 +91-6302204738</p>
-<p>📍 Hyderabad, India</p>
-</div>
+<!--Area of Expert -->
+<section id="expertise">
+  <h2>Areas of Expertise</h2>
+
+  <div class="grid">
+
+    <!-- Core Subjects -->
+    <div class="glass card reveal">
+      <h3>📚 Core Subjects</h3>
+      <p>
+        DSA • OOP • COA<br>
+        DBMS • Operating Systems<br>
+        Cryptography • Data Mining<br>
+        Cloud Computing  • DAA
+      </p>
+    </div>
+
+    <!-- Programming Languages -->
+    <div class="glass card reveal">
+      <h3>💻 Programming Languages</h3>
+      <p>
+        Java • C • C++<br>
+        Python • SQL
+      </p>
+    </div>
+
+    <!-- Web Technologies -->
+    <div class="glass card reveal">
+      <h3>🌐 Web Technologies</h3>
+      <p>
+        HTML • CSS • JavaScript<br>
+        JSP • Servlets • Bootstrap
+      </p>
+    </div>
+
+    <!-- Tools & Practices -->
+    <div class="glass card reveal">
+      <h3>🛠️ Tools & Practices</h3>
+      <p>
+        Git • GitHub<br>
+        MySQL • Project Mentoring<br>
+        Academic & Real-Time Projects
+      </p>
+    </div>
+
+  </div>
 </section>
+<!--Experiance -->
+<section id="experience">
+  <h2>Experience</h2>
+
+  <div class="timeline">
+
+    <!-- HIET -->
+    <div class="glass card reveal">
+      <h3>🏢 HIET Software Solutions</h3>
+      <p><strong>Software Trainer | 2023 – Present</strong></p>
+      <p>
+        • Trained 200+ students in Java, SQL, DSA, and Web Technologies<br>
+        • Delivered industry-oriented curriculum with hands-on labs<br>
+        • Guided students in academic and real-time project development
+      </p>
+    </div>
+
+    <!-- RV -->
+    <div class="glass card reveal">
+      <h3>🏫 RV Educational Institute</h3>
+      <p><strong>Academic Trainer | 2024 – Present</strong></p>
+      <p>
+        • Taught core Computer Science subjects for UG & PG students<br>
+        • Mentored final-year academic projects and assignments<br>
+        • Helped students improve exam performance and technical confidence
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!--projects-->
+<section id="projects">
+  <h2>Projects</h2>
+
+  <div class="grid">
+
+    <!-- Rosy E-Commerce -->
+    <div class="glass card reveal">
+  <h3>Rosy – E-Commerce</h3>
+  <p><strong>Tech Stack:</strong> Java • JSP • MySQL</p>
+  <p>
+    A full-stack e-commerce web application featuring user authentication,
+    product catalog, cart management, order processing, and admin-side
+    product management built using Java and JSP.
+  </p>
+</div>
+
+
+    <!-- Syntax Circuit -->
+    <div class="glass card reveal"
+         onclick="window.open('https://syntaxcircuit.fun','_blank')"
+         style="cursor:pointer;">
+      <h3>Syntax Circuit</h3>
+      <p>Online learning platform for computer science courses and academic training.</p>
+      <span class="visit-link">Visit Website →</span>
+    </div>
+
+    <!-- Osmaniacs4U -->
+    <div class="glass card reveal"
+         onclick="window.open('https://sites.google.com/view/osmaniacs4u/home','_blank')"
+         style="cursor:pointer;">
+      <h3>Osmaniacs4U</h3>
+      <p>
+        Academic resource portal for M.Sc Computer Science students featuring notes,
+        projects, syllabus, and previous question papers.
+      </p>
+      <span class="visit-link">Visit Website →</span>
+    </div>
+
+    <!-- TCWC -->
+    <div class="glass card reveal"
+         onclick="window.open('https://tccwc.com','_blank')"
+         style="cursor:pointer;">
+      <h3>TCWC</h3>
+      <p>Live news and media streaming portal with real-time updates.</p>
+      <span class="visit-link">Visit Website →</span>
+    </div>
+
+    <!-- Konectax -->
+    <div class="glass card reveal"
+         onclick="window.open('https://www.konectax.com','_blank')"
+         style="cursor:pointer;">
+      <h3>Konectax</h3>
+      <p>Professional tax and financial services platform.</p>
+      <span class="visit-link">Visit Website →</span>
+    </div>
+
+    <!-- The CEO Akhil Blog -->
+    <div class="glass card reveal"
+         onclick="window.open('https://theceoakhil.blogspot.com','_blank')"
+         style="cursor:pointer;">
+      <h3>The CEO Akhil</h3>
+      <p>Personal blog sharing insights on technology, careers, startups, and learning.</p>
+      <span class="visit-link">Read Blog →</span>
+    </div>
+
+  </div>
+</section>
+<!--Contact -->
+
+<section id="contact" aria-labelledby="contact-title">
+  <h2 id="contact-title">Contact</h2>
+
+  <div class="glass contact reveal">
+    <p>
+      📧 
+      <a href="mailto:akhiljampala1@gmail.com">
+        akhiljampala1@gmail.com
+      </a>
+    </p>
+
+    <p>
+      📱 
+      <a href="tel:+916302204738">
+        +91 6302204738
+      </a>
+    </p>
+
+    <p>📍 Hyderabad, India</p>
+
+    <div class="contact-links">
+      <a href="https://github.com/Akhil4738" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+      <a href="https://theceoakhil" target="_blank">Blog</a>
+    </div>
+  </div>
+</section>
+
 
 </main>
+
+<footer class="glass">
+© 2026 Jampala Akhil • Built with HTML, CSS & Three.js
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 <script>
@@ -282,75 +447,39 @@ const show=()=>reveals.forEach(el=>{
 });
 addEventListener("scroll",show);show();
 
-/* 3D Card Tilt */
-document.querySelectorAll(".card").forEach(card=>{
-  card.addEventListener("mousemove",e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-0.5;
-    const y=(e.clientY-r.top)/r.height-0.5;
-    card.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+/* Active Nav */
+const links=document.querySelectorAll("nav a");
+addEventListener("scroll",()=>{
+  links.forEach(l=>{
+    const sec=document.querySelector(l.getAttribute("href"));
+    if(sec && sec.getBoundingClientRect().top<=120 && sec.getBoundingClientRect().bottom>120)
+      l.classList.add("active");
+    else l.classList.remove("active");
   });
-  card.addEventListener("mouseleave",()=>card.style.transform="");
 });
 
-/* Three.js */
+/* Three.js Background */
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
 const renderer=new THREE.WebGLRenderer({canvas:bg,alpha:true});
 renderer.setSize(innerWidth,innerHeight);
-camera.position.z=5;
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+camera.position.z=6;
 
 const geo=new THREE.BufferGeometry();
-const count=1200;
+const count=900;
 const pos=new Float32Array(count*3);
-for(let i=0;i<count*3;i++)pos[i]=(Math.random()-0.5)*20;
+for(let i=0;i<count*3;i++)pos[i]=(Math.random()-0.5)*18;
 geo.setAttribute("position",new THREE.BufferAttribute(pos,3));
 scene.add(new THREE.Points(geo,new THREE.PointsMaterial({color:0x00f7ff,size:.03})));
 
-(function animate(){
-  scene.rotation.y+=0.0003;
+function animate(){
+  scene.rotation.y+=0.00025;
   renderer.render(scene,camera);
   requestAnimationFrame(animate);
-})();
+}
+animate();
 </script>
 
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
 </body>
 </html>
