@@ -1,360 +1,356 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
+<meta charset="UTF-8">
+<title>Jampala Akhil | Academic Trainer & Software Developer</title>
 
-<title>Jampala Akhil | Java Full Stack Developer & Tech Educator</title>
+<meta name="description" content="Jampala Akhil – Academic Trainer & Software Developer with expertise in Java, Python, Web Technologies, Databases, and Computer Science education.">
+<meta name="keywords" content="Jampala Akhil, Academic Trainer, Java Developer, Computer Science Trainer, DSA, DBMS, OS, Cloud Computing">
+<meta name="author" content="Jampala Akhil">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Jampala Akhil is a Java Full Stack Developer, Trainer, and Tech Enthusiast specializing in Java, Spring Boot, Python, Web Development, and Cloud.">
-<meta name="keywords" content="Jampala Akhil, Java Developer, Spring Boot, Full Stack Developer, Python, Web Development, AWS">
-
-<meta property="og:title" content="Jampala Akhil | Java Full Stack Developer & Tech Educator">
-<meta property="og:description" content="Java Full Stack Developer, Trainer & Tech Enthusiast from India.">
-<meta property="og:type" content="website">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"/>
-
-<!-- ================= INTERNAL CSS ================= -->
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+/* ========== RESET ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:#050505;
+  color:#eaeaea;
+  overflow-x:hidden;
 }
 
-html {
-  scroll-behavior: smooth;
+/* ========== THREE BG ========== */
+#bg{position:fixed;inset:0;z-index:-2}
+
+/* ========== NAVBAR ========== */
+nav{
+  position:fixed;
+  top:0;width:100%;
+  z-index:1000;
+  backdrop-filter:blur(16px);
+  background:linear-gradient(90deg,rgba(0,247,255,.15),rgba(127,92,255,.15));
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.nav-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:14px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+nav h1{
+  font-size:1.1rem;
+  color:#00f7ff;
+  letter-spacing:1px;
+}
+nav a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:.9rem;
+}
+nav a:hover{color:#00f7ff}
+
+/* ========== GLOBAL ========== */
+main{max-width:1200px;margin:auto}
+section{
+  padding:110px 6%;
+  perspective:1400px;
+}
+h2{
+  text-align:center;
+  margin-bottom:60px;
+  font-size:2.3rem;
+  background:linear-gradient(90deg,#00f7ff,#7f5cff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
-body {
-  background: #0f172a;
-  color: #e5e7eb;
-  line-height: 1.6;
+/* ========== GLASS ========== */
+.glass{
+  background:rgba(255,255,255,.06);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 30px 60px rgba(0,0,0,.45);
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
+/* ========== HERO ========== */
+header{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+.hero h1{
+  font-size:4.5rem;
+  background:linear-gradient(90deg,#00f7ff,#7f5cff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero p{
+  margin-top:20px;
+  font-size:1.1rem;
+  color:#dcdcdc;
+}
+.hero a{
+  display:inline-block;
+  margin-top:30px;
+  padding:14px 36px;
+  border-radius:30px;
+  border:1px solid #00f7ff;
+  color:#00f7ff;
+  text-decoration:none;
+}
+.hero a:hover{background:#00f7ff;color:#000}
+
+/* ========== GRID ========== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
 }
 
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: auto;
+/* ========== 3D CARD ========== */
+.card{
+  padding:30px;
+  transform-style:preserve-3d;
+  transition:.4s ease;
+}
+.card:hover{
+  box-shadow:0 25px 80px rgba(0,247,255,.2);
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-  background: rgba(15, 23, 42, 0.95);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  padding: 1rem 0;
+/* ========== TIMELINE ========== */
+.timeline{
+  position:relative;
+  max-width:900px;
+  margin:auto;
+}
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:0;
+  width:3px;
+  height:100%;
+  background:linear-gradient(#00f7ff,#7f5cff);
+}
+.t-item{
+  width:50%;
+  padding:30px;
+}
+.left{margin-left:0;text-align:right}
+.right{margin-left:50%}
+
+/* ========== REVEAL ========== */
+.reveal{
+  opacity:0;
+  transform:translateY(60px) rotateX(15deg);
+  transition:1s ease;
+}
+.reveal.show{
+  opacity:1;
+  transform:none;
 }
 
-.nav-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+/* ========== CONTACT ========== */
+.contact{text-align:center;padding:40px}
 
-.nav-brand a {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #38bdf8;
-}
-
-.nav-menu a {
-  margin-left: 1.5rem;
-  font-weight: 500;
-}
-
-.nav-menu a:hover {
-  color: #38bdf8;
-}
-
-/* ================= HERO ================= */
-.hero {
-  padding: 140px 0 100px;
-  background: linear-gradient(145deg, #020617, #0f172a);
-}
-
-.hero-content {
-  max-width: 600px;
-}
-
-.hero h1 {
-  font-size: 3.2rem;
-  margin-bottom: 1rem;
-}
-
-.highlight {
-  color: #38bdf8;
-}
-
-.hero-subtitle {
-  font-size: 1.1rem;
-  opacity: 0.85;
-  margin-bottom: 2rem;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.btn {
-  padding: 0.7rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: #38bdf8;
-  color: #020617;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid #38bdf8;
-  color: #38bdf8;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 2rem;
-}
-
-.stat-number {
-  font-size: 1.5rem;
-  font-weight: 700;
-  display: block;
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-/* ================= ABOUT ================= */
-.about {
-  padding: 80px 0;
-  background: #020617;
-}
-
-.about h2 {
-  font-size: 2.2rem;
-  color: #38bdf8;
-  margin-bottom: 1rem;
-}
-
-/* ================= SKILLS ================= */
-.skills {
-  padding: 80px 0;
-}
-
-.skills h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-}
-
-.skill-card {
-  background: #020617;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 600;
-}
-
-/* ================= PROJECTS ================= */
-.projects {
-  padding: 80px 0;
-  background: #020617;
-}
-
-.projects h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-}
-
-.project-card {
-  background: #0f172a;
-  padding: 1.5rem;
-  border-radius: 12px;
-}
-
-/* ================= CONTACT ================= */
-.contact {
-  padding: 80px 0;
-}
-
-.contact h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.contact-box {
-  background: #020617;
-  padding: 1.5rem;
-  border-radius: 12px;
-}
-
-/* ================= FOOTER ================= */
-.footer {
-  text-align: center;
-  padding: 1.5rem;
-  background: #020617;
-  font-size: 0.9rem;
-  margin-top: 2rem;
-}
+/* ATS */
+.ats{position:absolute;left:-9999px}
 </style>
 </head>
 
 <body>
 
-<!-- ================= NAVIGATION ================= -->
-<nav class="navbar">
-  <div class="container nav-container">
-    <div class="nav-brand">
-      <a href="#home">Jampala Akhil</a>
-    </div>
-    <div class="nav-menu">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
+<canvas id="bg"></canvas>
+
+<nav>
+  <div class="nav-inner">
+    <h1>JAMPALA AKHIL</h1>
+    <div>
+      <a href="#summary">Summary</a>
+      <a href="#expertise">Expertise</a>
+      <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
 </nav>
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="home">
-  <div class="container">
-    <div class="hero-content">
-      <h1>Jampala <span class="highlight">Akhil</span></h1>
-      <p class="hero-subtitle">
-        Java Full Stack Developer | Tech Trainer | Web & Cloud Enthusiast
-      </p>
-
-      <div class="hero-buttons">
-        <a class="btn btn-primary" href="#projects">View Projects</a>
-        <a class="btn btn-outline" href="#contact">Hire Me</a>
-      </div>
-
-      <div class="hero-stats">
-        <div>
-          <span class="stat-number">20+</span>
-          <span class="stat-label">Projects</span>
-        </div>
-        <div>
-          <span class="stat-number">15+</span>
-          <span class="stat-label">Technologies</span>
-        </div>
-        <div>
-          <span class="stat-number">100%</span>
-          <span class="stat-label">Commitment</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ABOUT ================= -->
-<section class="about" id="about">
-  <div class="container">
-    <h2>About Me</h2>
+<header>
+  <div class="hero reveal">
+    <h1>Jampala Akhil</h1>
     <p>
-      I am <strong>Jampala Akhil</strong>, a passionate <strong>Java Full Stack Developer and Tech Trainer</strong>.
-      I specialize in building web applications using Java, Spring Boot, MySQL, Python, HTML, CSS, and JavaScript.
-      I enjoy learning new technologies and teaching students in a simple and practical way.
+      📍 Hyderabad, India<br>
+      📧 akhiljampala1@gmail.com | 📱 +91-6302204738<br>
+      🌐 GitHub: Akhil4738 | ✍️ Blog: theceoakhil
     </p>
+    <a href="#projects">Explore Work</a>
   </div>
+</header>
+
+<main>
+
+<section id="summary">
+<h2>Professional Summary</h2>
+<div class="glass card reveal">
+Dedicated Computer Science Academic Trainer & Software Developer with 2+ years of experience
+in teaching and application development. Proven expertise in mentoring students,
+curriculum design, and industry-oriented training.
+</div>
 </section>
 
-<!-- ================= SKILLS ================= -->
-<section class="skills" id="skills">
-  <div class="container">
-    <h2>My Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-card">Java</div>
-      <div class="skill-card">Spring Boot</div>
-      <div class="skill-card">Servlets & JSP</div>
-      <div class="skill-card">MySQL</div>
-      <div class="skill-card">Python</div>
-      <div class="skill-card">HTML</div>
-      <div class="skill-card">CSS</div>
-      <div class="skill-card">JavaScript</div>
-      <div class="skill-card">Git & GitHub</div>
-      <div class="skill-card">AWS Basics</div>
-    </div>
-  </div>
+<section id="expertise">
+<h2>Areas of Expertise</h2>
+<div class="grid">
+<div class="glass card reveal">DSA • Computer Organization • OOP</div>
+<div class="glass card reveal">DBMS • Operating Systems • Cryptography</div>
+<div class="glass card reveal">Data Mining • Cloud Computing</div>
+<div class="glass card reveal">Java • Python • SQL • Web Technologies</div>
+</div>
 </section>
 
-<!-- ================= PROJECTS ================= -->
-<section class="projects" id="projects">
-  <div class="container">
-    <h2>My Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card">
-        <h3>College Management System</h3>
-        <p>Java, JDBC, Servlets, MySQL based student and admin system.</p>
-      </div>
+<section id="experience">
+<h2>Teaching & Professional Experience</h2>
+<div class="timeline">
 
-      <div class="project-card">
-        <h3>Online Tutor Web App</h3>
-        <p>Pure JSP, Servlets, and MySQL based E-learning platform.</p>
-      </div>
+<div class="glass card t-item left reveal">
+<h3>RV Educational Institute</h3>
+<p>Academic Trainer (2024 – 2025)</p>
+<p>Delivered core CS subjects training and mentored academic projects.</p>
+</div>
 
-      <div class="project-card">
-        <h3>News Website</h3>
-        <p>HTML, CSS, JavaScript multilingual digital news website.</p>
-      </div>
+<div class="glass card t-item right reveal">
+<h3>HIET Software Solutions</h3>
+<p>Software Trainer (2023 – Present)</p>
+<p>Trained 200+ students in programming, DSA, and web technologies.</p>
+</div>
 
-      <div class="project-card">
-        <h3>Spring Boot E-Commerce</h3>
-        <p>Complete shopping cart with users, admin, products, orders.</p>
-      </div>
-    </div>
-  </div>
+</div>
 </section>
 
-<!-- ================= CONTACT ================= -->
-<section class="contact" id="contact">
-  <div class="container">
-    <h2>Contact Me</h2>
-    <div class="contact-box">
-      <p><strong>Email:</strong> akhil.jampala.dev@gmail.com</p>
-      <p><strong>Location:</strong> India</p>
-      <p><strong>Available for:</strong> Jobs, Freelancing, Training</p>
-    </div>
-  </div>
+<section id="projects">
+<h2>Projects</h2>
+<div class="grid">
+<div class="glass card reveal">Rosy – E-Commerce (Java, JSP, MySQL)</div>
+<div class="glass card reveal">Osmaniacs4U – M.Sc Notes Portal</div>
+<div class="glass card reveal">KonectaX – Global Assistance</div>
+<div class="glass card reveal">Syntax Circuit – Learning Platform</div>
+<div class="glass card reveal">TCWC News – Live Streaming Portal</div>
+</div>
 </section>
 
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="container">
-    <p>© 2025 Jampala Akhil | All Rights Reserved</p>
-  </div>
-</footer>
+<section>
+<h2>Education & Achievements</h2>
+<div class="grid">
+<div class="glass card reveal">
+M.Sc CS – Osmania University (2024) – 85%<br>
+B.Sc CS – Kakatiya University (2022) – 82%
+</div>
+<div class="glass card reveal">
+TS-SET 2024 Qualified<br>
+CPGET Rank 63<br>
+200+ Students Trained
+</div>
+</div>
+</section>
 
+<section id="contact">
+<h2>Contact</h2>
+<div class="glass contact reveal">
+<p>📧 akhiljampala1@gmail.com</p>
+<p>📱 +91-6302204738</p>
+<p>📍 Hyderabad, India</p>
+</div>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script>
+/* Scroll Reveal */
+const reveals=document.querySelectorAll(".reveal");
+const show=()=>reveals.forEach(el=>{
+  if(el.getBoundingClientRect().top < innerHeight-120)
+    el.classList.add("show");
+});
+addEventListener("scroll",show);show();
+
+/* 3D Card Tilt */
+document.querySelectorAll(".card").forEach(card=>{
+  card.addEventListener("mousemove",e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-0.5;
+    const y=(e.clientY-r.top)/r.height-0.5;
+    card.style.transform=`rotateY(${x*10}deg) rotateX(${-y*10}deg)`;
+  });
+  card.addEventListener("mouseleave",()=>card.style.transform="");
+});
+
+/* Three.js */
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:bg,alpha:true});
+renderer.setSize(innerWidth,innerHeight);
+camera.position.z=5;
+
+const geo=new THREE.BufferGeometry();
+const count=1200;
+const pos=new Float32Array(count*3);
+for(let i=0;i<count*3;i++)pos[i]=(Math.random()-0.5)*20;
+geo.setAttribute("position",new THREE.BufferAttribute(pos,3));
+scene.add(new THREE.Points(geo,new THREE.PointsMaterial({color:0x00f7ff,size:.03})));
+
+(function animate(){
+  scene.rotation.y+=0.0003;
+  renderer.render(scene,camera);
+  requestAnimationFrame(animate);
+})();
+</script>
+
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
