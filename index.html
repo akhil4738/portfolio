@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,23 +6,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Akhil.dev | Portfolio</title>
+<title>Akhil.in | Portfolio</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
+
+/* GLOBAL */
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:Poppins;
+scroll-behavior:smooth;
+}
+
+img{
+max-width:100%;
+height:auto;
 }
 
 body{
-background:#0f172a;
-color:#fff;
-scroll-behavior:smooth;
+background:#ffffff;
+color:#1e293b;
+transition:0.3s;
+padding-top:80px;
 }
 
 /* NAVBAR */
@@ -30,75 +42,108 @@ nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:18px 8%;
-background:rgba(0,0,0,.4);
-backdrop-filter:blur(10px);
+padding:16px 8%;
+background:white;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
 position:fixed;
+top:0;
 width:100%;
-z-index:999;
+z-index:1000;
+flex-wrap:wrap;
+gap:10px;
 }
 
 .logo{
 font-size:22px;
 font-weight:600;
-color:#38bdf8;
+color:#0ea5e9;
 }
 
 nav ul{
 display:flex;
 list-style:none;
-gap:30px;
+gap:25px;
+flex-wrap:wrap;
 }
 
 nav ul li a{
 text-decoration:none;
-color:white;
-font-size:14px;
-transition:.3s;
-}
-
-nav ul li a:hover{
-color:#38bdf8;
+color:#1e293b;
+font-size:15px;
+font-weight:500;
 }
 
 /* HERO */
 
 .hero{
-height:100vh;
+min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-text-align:center;
 padding:0 10%;
-background:linear-gradient(135deg,#020617,#0f172a,#020617);
+background:linear-gradient(135deg,#f8fafc,#ffffff);
+}
+
+.hero-content{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:40px;
+flex-wrap:wrap;
+width:90%;
 }
 
 .hero h1{
-font-size:60px;
+font-size:48px;
 }
 
 .hero span{
-color:#38bdf8;
+color:#0ea5e9;
 }
 
 .hero p{
-margin-top:15px;
-opacity:.8;
-font-size:18px;
+margin-top:10px;
+color:#64748b;
 }
 
-.hero button{
-margin-top:30px;
-padding:14px 28px;
+.gradient-btn{
+margin-top:20px;
+padding:12px 26px;
 border:none;
-background:#38bdf8;
 border-radius:8px;
-cursor:pointer;
+color:white;
 font-weight:600;
+background:linear-gradient(45deg,#0ea5e9,#6366f1);
+cursor:pointer;
 }
 
-.hero button:hover{
-background:#0ea5e9;
+/* PROFILE IMAGE */
+
+.profile-ring{
+width:300px;
+height:300px;
+border-radius:50%;
+padding:6px;
+background:linear-gradient(135deg,#0ea5e9,#6366f1,#0ea5e9);
+box-shadow:0 0 40px rgba(14,165,233,.6);
+display:flex;
+align-items:center;
+justify-content:center;
+animation:float 4s ease-in-out infinite;
+}
+
+.profile-ring img{
+width:100%;
+height:100%;
+border-radius:50%;
+object-fit:cover;
+object-position:top center;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+100%{transform:translateY(0)}
 }
 
 /* SECTIONS */
@@ -112,32 +157,281 @@ text-align:center;
 margin-bottom:60px;
 }
 
-.title h2{
-font-size:36px;
-}
-
 .title span{
-color:#38bdf8;
+color:#0ea5e9;
 }
 
-/* ABOUT */
+/* SKILLS */
 
-.about{
+#skills{
+background:#f8fafc;
+}
+
+.skills-title{
+text-align:center;
+margin-bottom:60px;
+}
+
+.skills-container{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:40px;
+}
+
+.skills-column h3{
+margin-bottom:20px;
+color:#0ea5e9;
+}
+
+.skill-card{
+background:white;
+padding:18px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.skill-card:hover{
+transform:translateY(-6px);
+}
+
+.skill-title{
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+}
+
+.skill-bar{
+height:8px;
+background:#e2e8f0;
+border-radius:10px;
+overflow:hidden;
+}
+
+.skill-fill{
+height:100%;
+border-radius:10px;
+background:linear-gradient(90deg,#0ea5e9,#6366f1);
+animation:load 2s forwards;
+}
+
+@keyframes load{
+0%{width:0}
+}
+
+/* SKILL WIDTHS */
+
+.python{width:95%}
+.java{width:90%}
+.c{width:90%}
+.cpp{width:88%}
+.web{width:92%}
+.flask{width:85%}
+.sql{width:90%}
+.cloud{width:80%}
+.c{width:90%;}
+.cpp{width:88%;}
+.flask{width:85%;}
+.cloud{width:80%;}
+
+.toc{width:88%;}
+.coa{width:90%;}
+.crypto{width:85%;}
+.security{width:85%;}
+.mining{width:85%;}
+.discrete{width:88%;}
+.os{width:92%}
+.networks{width:90%}
+.toc{width:88%}
+.compiler{width:85%}
+.coa{width:90%}
+.crypto{width:85%}
+.security{width:85%}
+.mining{width:85%}
+.discrete{width:88%}
+
+/* PROJECTS */
+
+.projects{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+.project{
+background:white;
+padding:20px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+transition:0.3s;
+}
+
+.project:hover{
+transform:translateY(-10px);
+}
+
+.project a{
+color:#0ea5e9;
+text-decoration:none;
+font-weight:500;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:30px;
+background:#f1f5f9;
+color:#64748b;
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.hero-content{
+flex-direction:column;
+text-align:center;
+}
+
+.hero h1{
+font-size:32px;
+}
+
+.profile-ring{
+width:220px;
+height:220px;
+}
+
+.skills-container{
+grid-template-columns:1fr;
+}
+
+.projects{
+grid-template-columns:1fr;
+}
+
+nav ul{
+justify-content:center;
+}
+
+}
+.project-card{
+background:var(--card);
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.35s;
+display:flex;
+flex-direction:column;
+}
+
+.project-card:hover{
+transform:translateY(-10px);
+box-shadow:0 15px 40px rgba(0,0,0,.15);
+}
+
+.project-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.project-content{
+padding:20px;
+}
+
+.project-icon{
+color:#0ea5e9;
+margin-right:6px;
+}
+
+.tech-tags{
+margin:12px 0;
+}
+
+.tech-tags span{
+display:inline-block;
+background:#0ea5e9;
+color:white;
+padding:4px 10px;
+font-size:12px;
+border-radius:20px;
+margin-right:6px;
+}
+.project-buttons{
+margin-top:12px;
+display:flex;
+gap:10px;
+}
+
+.open-btn{
+background:#0ea5e9;
+color:white;
+padding:8px 14px;
+border-radius:6px;
+text-decoration:none;
+font-size:14px;
+}
+
+.code-btn{
+background:#111827;
+color:white;
+padding:8px 14px;
+border-radius:6px;
+text-decoration:none;
+font-size:14px;
+}
+
+.project-buttons a:hover{
+opacity:.85;
+}
+
+#about{
+padding:100px 8%;
+background:#f8fafc;
+}
+
+.about-container{
+display:grid;
+grid-template-columns:1fr 1.2fr;
+gap:50px;
 align-items:center;
 }
 
-.about img{
-width:100%;
-border-radius:12px;
+
+.about-container{
+display:flex;
+justify-content:center;
 }
 
-.about p{
-line-height:1.7;
-opacity:.8;
-margin-top:15px;
+.about-content{
+max-width:850px;
+margin:auto;
+text-align:center;
+}
+
+.about-content h3{
+font-family:'Playfair Display', serif;
+font-size:32px;
+margin-bottom:15px;
+color:#0f172a;
+letter-spacing:1px;
+}
+
+.about-content p{
+font-family:'Edu NSW ACT Hand', cursive;
+font-size:16px;
+line-height:1.8;
+margin-top:14px;
+color:#475569;
+}
+
+.about-content strong{
+color:#0ea5e9;
+font-weight:600;
 }
 
 .about-cards{
@@ -147,217 +441,358 @@ grid-template-columns:1fr 1fr;
 gap:20px;
 }
 
-.card{
-background:rgba(255,255,255,.05);
-padding:20px;
-border-radius:12px;
-border:1px solid rgba(255,255,255,.08);
-}
-
-/* SKILLS */
-
-.skills{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:25px;
-}
-
-.skill{
-background:rgba(255,255,255,.05);
-padding:20px;
-border-radius:12px;
-}
-
-.skill-title{
-display:flex;
-justify-content:space-between;
-margin-bottom:10px;
-}
-
-.bar{
-height:6px;
-background:#020617;
-border-radius:10px;
-overflow:hidden;
-}
-
-.bar span{
-display:block;
-height:100%;
-background:#38bdf8;
-}
-
-/* PROJECTS */
-
-.projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:30px;
-}
-
-.project{
-background:rgba(255,255,255,.05);
-border-radius:12px;
-overflow:hidden;
-transition:.4s;
-}
-
-.project img{
-width:100%;
-height:200px;
-object-fit:cover;
-}
-
-.project-content{
-padding:20px;
-}
-
-.project:hover{
-transform:translateY(-10px);
-box-shadow:0 15px 40px rgba(0,0,0,.5);
-}
-
-.tags span{
-background:#0ea5e9;
-padding:5px 12px;
-border-radius:20px;
-font-size:12px;
-margin-right:6px;
-}
-
-/* EXPERIENCE */
-
-.timeline{
-border-left:2px solid #38bdf8;
-padding-left:30px;
-display:flex;
-flex-direction:column;
-gap:40px;
-}
-
-.timeline-item{
-background:rgba(255,255,255,.05);
+.about-card{
+background:white;
 padding:20px;
 border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+transition:.3s;
 }
 
-/* CONTACT */
-
-.contact{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:30px;
+.about-card:hover{
+transform:translateY(-5px);
 }
 
-.contact-info div{
-background:rgba(255,255,255,.05);
-padding:20px;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-form{
-background:rgba(255,255,255,.05);
-padding:25px;
-border-radius:10px;
-}
-
-input,textarea{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-background:#020617;
-border:none;
-border-radius:6px;
-color:white;
-}
-
-button{
-background:#38bdf8;
-border:none;
-padding:12px 20px;
-border-radius:6px;
-cursor:pointer;
-}
-
-/* FOOTER */
-
-footer{
-background:#020617;
-padding:40px 8%;
-margin-top:60px;
-text-align:center;
+.about-card i{
+font-size:22px;
+color:#0ea5e9;
+margin-bottom:8px;
 }
 
 /* MOBILE */
 
 @media(max-width:900px){
 
-.hero h1{
-font-size:36px;
+.about-container{
+grid-template-columns:1fr;
+text-align:center;
 }
 
-.about{
+.about-image img{
+margin:auto;
+}
+
+.about-cards{
 grid-template-columns:1fr;
 }
 
-.skills{
+}
+#experience{
+padding:100px 8%;
+background:#f8fafc;
+}
+
+/* TIMELINE */
+
+.timeline{
+position:relative;
+max-width:800px;
+margin:auto;
+}
+
+/* PATH LINE */
+
+.timeline::before{
+content:'';
+position:absolute;
+left:50%;
+top:0;
+width:4px;
+height:100%;
+background:#e2e8f0;
+transform:translateX(-50%);
+}
+
+/* ITEMS */
+
+.timeline-item{
+position:relative;
+margin:50px 0;
+width:50%;
+padding:20px;
+}
+
+/* LEFT */
+
+.timeline-item:nth-child(odd){
+left:0;
+text-align:right;
+}
+
+/* RIGHT */
+
+.timeline-item:nth-child(even){
+left:50%;
+}
+
+/* DOT */
+
+.timeline-item::before{
+content:'';
+position:absolute;
+top:25px;
+right:-10px;
+width:20px;
+height:20px;
+background:#0ea5e9;
+border-radius:50%;
+z-index:1;
+}
+
+.timeline-item:nth-child(even)::before{
+left:-10px;
+}
+
+/* CONTENT */
+
+.timeline-content{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.timeline-content h3{
+font-size:18px;
+margin-bottom:5px;
+}
+
+.exp-date{
+font-size:14px;
+color:#64748b;
+display:block;
+margin-bottom:8px;
+}
+
+/* SCROLL ANIMATION */
+
+.timeline-item{
+opacity:0;
+transform:translateY(50px);
+transition:all .6s ease;
+}
+
+.timeline-item.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.timeline::before{
+left:10px;
+}
+
+.timeline-item{
+width:100%;
+left:0!important;
+padding-left:40px;
+text-align:left;
+}
+
+.timeline-item::before{
+left:0;
+}
+
+}
+#contact{
+padding:100px 8%;
+background:#f8fafc;
+}
+
+.contact-container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+max-width:1000px;
+margin:auto;
+}
+
+/* CONTACT LINKS */
+
+.contact-links{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.contact-links a{
+text-decoration:none;
+color:#1e293b;
+font-size:16px;
+background:white;
+padding:12px;
+border-radius:8px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.contact-links a i{
+margin-right:8px;
+color:#0ea5e9;
+}
+
+.contact-links a:hover{
+transform:translateY(-3px);
+}
+
+/* FORM */
+
+.contact-form form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.contact-form input,
+.contact-form textarea{
+padding:12px;
+border:1px solid #e2e8f0;
+border-radius:6px;
+font-size:14px;
+}
+
+.contact-form button{
+background:#0ea5e9;
+color:white;
+border:none;
+padding:12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.contact-form button:hover{
+background:#0284c7;
+}
+
+/* WHATSAPP FLOAT BUTTON */
+
+.whatsapp-float{
+position:fixed;
+bottom:25px;
+right:25px;
+width:55px;
+height:55px;
+background:#25D366;
+color:white;
+font-size:26px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+z-index:999;
+}
+
+.whatsapp-float:hover{
+transform:scale(1.1);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.contact-container{
 grid-template-columns:1fr;
 }
 
-.contact{
-grid-template-columns:1fr;
 }
-
-nav ul{
-display:none;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 
+<!-- NAVBAR -->
+
+
 <nav>
 
-<div class="logo">Akhil.in</div>
+<!-- LOGO -->
+
+<div class="logo">
+<i class="fa-solid fa-code"></i> Akhil.in
+</div>
+
+
+<!-- NAVIGATION MENU -->
 
 <ul>
-<li><a href="#">Home</a></li>
-<li><a href="#about">About</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#experience">Experience</a></li>
-<li><a href="#contact">Contact</a></li>
+
+<li>
+<a href="#hero">
+<i class="fa-solid fa-house"></i> Home
+</a>
+</li>
+
+<li>
+<a href="#about">
+<i class="fa-solid fa-user"></i> About
+</a>
+</li>
+
+<li>
+<a href="#skills">
+<i class="fa-solid fa-laptop-code"></i> Skills
+</a>
+</li>
+
+<li>
+<a href="#experience">
+<i class="fa-solid fa-briefcase"></i> Experience
+</a>
+</li>
+
+<li>
+<a href="#projects">
+<i class="fa-solid fa-diagram-project"></i> Projects
+</a>
+</li>
+
+<li>
+<a href="#contact">
+<i class="fa-solid fa-envelope"></i> Contact
+</a>
+</li>
+
 </ul>
 
 </nav>
 
 
 
+
+
 <!-- HERO -->
 
-<section class="hero">
+<section class="hero" id="hero">
+
+<div class="hero-content">
 
 <div>
 
-<h1>Hello, I'm <span>Akhil</span></h1>
+<h1>Hello I'm <span>Akhil</span></h1>
 
 <p id="typing"></p>
 
-<button>View Projects</button>
+<button class="gradient-btn" onclick="scrollProjects()">View Projects</button>
+
+</div>
+
+<div class="profile-ring">
+
+<img src="https://raw.githubusercontent.com/akhil4738/portfolio/main/profile.png">
+
+</div>
 
 </div>
 
 </section>
 
-
-
-<!-- ABOUT -->
+<!--about me -->
 
 <section id="about">
 
@@ -365,45 +800,76 @@ display:none;
 <h2>About <span>Me</span></h2>
 </div>
 
-<div class="about">
 
-<img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
+<div class="about-container">
 
-<div>
 
-<h3>Akhil Jampala</h3>
+
+
+<!-- RIGHT SIDE CONTENT -->
+
+<div class="about-content">
+
+<h3>Hello! I'm Akhil Jampala</h3>
 
 <p>
-Software Instructor, Full Stack Developer and Research Enthusiast.
-I teach Computer Science subjects including Data Structures,
-Algorithms, Java Programming and Web Development.
+I am a passionate <strong>Software Developer, Computer Science Academic Trainer,
+and Technology Enthusiast</strong>. I specialize in building web applications,
+teaching programming, and mentoring students in core computer science subjects.
 </p>
+
+<p>
+I am a <strong>Qualified Assistant Professor (TG SET – Telangana State Eligibility Test)</strong>
+with strong expertise in subjects such as Operating Systems, Computer Networks,
+Theory of Computation, Compiler Design, Data Mining, and Network Security.
+</p>
+
+<p>
+I am also the <strong>Founder of Syntax Circuit</strong>, a platform dedicated to
+sharing programming knowledge, technical tutorials, and learning resources
+for students and developers.
+</p>
+
+<p>
+My technical interests include <strong>Python, Java, Web Development,
+Cloud Computing, Data Science, and Software Engineering</strong>. I enjoy
+building scalable systems, designing educational platforms,
+and contributing to innovative technology solutions.
+</p>
+
+
+<!-- INFO CARDS -->
 
 <div class="about-cards">
 
-<div class="card">
-<h4>Full Stack Development</h4>
-<p>Building scalable applications</p>
+<div class="about-card">
+<i class="fa-solid fa-code"></i>
+<h4>Software Development</h4>
+<p>Building scalable web applications and software systems.</p>
 </div>
 
-<div class="card">
-<h4>Teaching Excellence</h4>
-<p>Mentoring future developers</p>
+<div class="about-card">
+<i class="fa-solid fa-chalkboard-user"></i>
+<h4>Academic Training</h4>
+<p>Teaching Computer Science and mentoring future developers.</p>
 </div>
 
-<div class="card">
-<h4>Research</h4>
-<p>Computer science publications</p>
+<div class="about-card">
+<i class="fa-solid fa-award"></i>
+<h4>Qualified Assistant Professor</h4>
+<p>TG SET (Telangana) Qualified in Computer Science.</p>
 </div>
 
-<div class="card">
-<h4>Academic Recognition</h4>
-<p>TG SET Certified</p>
+<div class="about-card">
+<i class="fa-solid fa-lightbulb"></i>
+<h4>Founder</h4>
+<p>Founder of Syntax Circuit – Programming learning platform.</p>
 </div>
 
 </div>
 
 </div>
+
 </div>
 
 </section>
@@ -414,40 +880,242 @@ Algorithms, Java Programming and Web Development.
 
 <section id="skills">
 
+<div class="skills-title">
+
+<h2>Technical & Academic <span>Skills</span></h2>
+
+<p>Software Development Expertise & Computer Science Academic Subjects</p>
+
+</div>
+
+
+<div class="skills-container">
+
+
+<!-- ================= LEFT COLUMN ================= -->
+
+<div class="skills-column">
+
+<h3><i class="fa-solid fa-code"></i> Programming & Technologies</h3>
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-brands fa-python"></i> Python</span>
+<span>95%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill python"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-brands fa-java"></i> Java</span>
+<span>90%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill java"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-c"></i> C Programming</span>
+<span>90%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill c"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-code"></i> C++</span>
+<span>88%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill cpp"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-globe"></i> Web Development</span>
+<span>92%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill web"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-flask"></i> Flask Framework</span>
+<span>85%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill flask"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-database"></i> SQL / Databases</span>
+<span>90%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill sql"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-cloud"></i> Cloud Computing</span>
+<span>80%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill cloud"></div></div>
+</div>
+
+</div>
+
+
+
+<!-- ================= RIGHT COLUMN ================= -->
+
+<div class="skills-column">
+
+<h3><i class="fa-solid fa-graduation-cap"></i> Computer Science Subjects</h3>
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-desktop"></i> Operating Systems</span>
+<span>92%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill os"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-network-wired"></i> Computer Networks</span>
+<span>90%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill networks"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-diagram-project"></i> Theory of Computation</span>
+<span>88%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill toc"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-gears"></i> Compiler Design</span>
+<span>85%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill compiler"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-microchip"></i> Computer Organization & Architecture</span>
+<span>90%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill coa"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-lock"></i> Cryptography</span>
+<span>85%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill crypto"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-shield-halved"></i> Network Security</span>
+<span>85%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill security"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-chart-line"></i> Data Mining</span>
+<span>85%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill mining"></div></div>
+</div>
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-desktop"></i> Software Engineering</span>
+<span>92%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill os"></div></div>
+</div>
+
+
+<div class="skill-card">
+<div class="skill-title">
+<span><i class="fa-solid fa-square-root-variable"></i> Discrete Mathematics</span>
+<span>88%</span>
+</div>
+<div class="skill-bar"><div class="skill-fill discrete"></div></div>
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+<!-- Experiance -->
+<section id="experience">
+
 <div class="title">
-<h2>Technical <span>Skills</span></h2>
+<h2>Professional <span>Experience</span></h2>
+<p style="margin-top:10px;color:#64748b;">
+Academic and Software Development Journey
+</p>
 </div>
 
-<div class="skills">
+<div class="timeline">
 
-<div class="skill">
-<div class="skill-title"><span>Python</span><span>95%</span></div>
-<div class="bar"><span style="width:95%"></span></div>
+<div class="timeline-item">
+<div class="timeline-content">
+<h3><i class="fa-solid fa-laptop-code"></i> HIET Software Solutions</h3>
+<span class="exp-date">2023 – Present</span>
+<p>
+Working on software development projects and providing technical training.
+</p>
+</div>
 </div>
 
-<div class="skill">
-<div class="skill-title"><span>Java</span><span>90%</span></div>
-<div class="bar"><span style="width:90%"></span></div>
+<div class="timeline-item">
+<div class="timeline-content">
+<h3><i class="fa-solid fa-chalkboard-user"></i> RV Technical Academy</h3>
+<span class="exp-date">2024 – Present</span>
+<p>
+Teaching programming, data structures and core computer science subjects.
+</p>
+</div>
 </div>
 
-<div class="skill">
-<div class="skill-title"><span>Spring Boot</span><span>88%</span></div>
-<div class="bar"><span style="width:88%"></span></div>
+<div class="timeline-item">
+<div class="timeline-content">
+<h3><i class="fa-solid fa-graduation-cap"></i>
+MVS Govt Degree Arts & Science College, Mahabubnagar
+</h3>
+<span class="exp-date">2025 – Present</span>
+<p>
+Teaching Computer Science subjects and mentoring students in programming and research.
+</p>
 </div>
-
-<div class="skill">
-<div class="skill-title"><span>Web Development</span><span>92%</span></div>
-<div class="bar"><span style="width:92%"></span></div>
-</div>
-
-<div class="skill">
-<div class="skill-title"><span>DSA</span><span>90%</span></div>
-<div class="bar"><span style="width:90%"></span></div>
-</div>
-
-<div class="skill">
-<div class="skill-title"><span>Machine Learning</span><span>85%</span></div>
-<div class="bar"><span style="width:85%"></span></div>
 </div>
 
 </div>
@@ -462,140 +1130,322 @@ Algorithms, Java Programming and Web Development.
 
 <div class="title">
 <h2>Featured <span>Projects</span></h2>
+
+<p style="margin-top:10px; color:#64748b;">
+Software systems, web platforms and developer tools built by me.
+</p>
+
 </div>
+
 
 <div class="projects">
 
-<div class="project">
 
-<img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c">
+<!-- PROJECT 1 -->
 
-<div class="project-content">
-
-<h3>College Management System</h3>
-
-<p>Student enrollment, attendance and academic management.</p>
-
-<div class="tags">
-<span>Java</span>
-<span>MySQL</span>
-</div>
-
-</div>
-</div>
-
-<div class="project">
-
-<img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd">
-
-<div class="project-content">
-
-<h3>E-Commerce Web App</h3>
-
-<p>Full online store with cart and authentication.</p>
-
-<div class="tags">
-<span>Spring Boot</span>
-<span>Thymeleaf</span>
-</div>
-
-</div>
-</div>
-
-<div class="project">
+<div class="project-card">
 
 <img src="https://images.unsplash.com/photo-1518770660439-4636190af475">
 
 <div class="project-content">
 
-<h3>Multilingual News Portal</h3>
+<h3>
+<i class="fa-solid fa-school"></i>
+College Management System
+</h3>
 
-<p>News website supporting multiple languages.</p>
+<p>
+Python based system to manage student records, enrollment,
+attendance and academic administration.
+</p>
 
-<div class="tags">
-<span>React</span>
-<span>Node</span>
+<div class="tech-tags">
+<span>Python</span>
+<span>Flask</span>
+<span>MYSQL</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://github.com/akhil4738/college-management-system" target="_blank" class="open-btn">Open Project</a>
+<a href="https://github.com/akhil4738/college-management-system" target="_blank" class="code-btn">View Source</a>
 </div>
 
 </div>
+
 </div>
+
+
+<!-- PROJECT 2 -->
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1557821552-17105176677c">
+
+<div class="project-content">
+
+<h3>
+<i class="fa-solid fa-cart-shopping"></i>
+ROSY E-Commerce
+</h3>
+
+<p>
+Full stack PHP e-commerce platform with authentication,
+product catalog and shopping cart system.
+</p>
+
+<div class="tech-tags">
+<span>PHP</span>
+<span>MySQL</span>
+<span>HTML</span>
+<span>CSS</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://github.com/akhil4738/ROSY" class="open-btn">Open Project</a>
+<a href="https://github.com/akhil4738/ROSY" target="_blank" class="code-btn">View Source</a>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PROJECT 3 -->
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1495020689067-958852a7765e">
+
+<div class="project-content">
+
+<h3>
+<i class="fa-solid fa-newspaper"></i>
+TCCWC News Portal
+</h3>
+
+<p>
+Multilingual news portal supporting Telugu, Hindi and English
+with categorized regional news content.
+</p>
+
+<div class="tech-tags">
+<span>HTML</span>
+<span>CSS</span>
+<span>JavaScript</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://tccwcnews.github.io/TCCWC" target="_blank" class="open-btn">Open Project</a>
+<a href="https://github.com/TCCWCnews/TCCWC" target="_blank" class="code-btn">View Source</a>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PROJECT 4 -->
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1553877522-43269d4ea984">
+
+<div class="project-content">
+
+<h3>
+<i class="fa-solid fa-globe"></i>
+Konectax Website
+</h3>
+
+<p>
+Professional responsive website for digital services
+and platform solutions.
+</p>
+
+<div class="tech-tags">
+<span>HTML</span>
+<span>CSS</span>
+<span>JavaScript</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://akhil4738.github.io/Konectax/" target="_blank" class="open-btn">Open Project</a>
+<a href="https://github.com/akhil4738/Konectax" target="_blank" class="code-btn">View Source</a>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PROJECT 5 -->
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd">
+
+<div class="project-content">
+
+<h3>
+<i class="fa-solid fa-building"></i>
+OSMANIACS4U
+</h3>
+
+<p>Osmaniacs4u is an online platform dedicated to providing academic resources, updates, and support for students associated with Osmania University.</p>
+
+<div class="tech-tags">
+<span>HTML</span>
+<span>CSS</span>
+<span>JavaScript</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://akhil4738.github.io/rvea/" target="_blank" class="open-btn">Open Project</a>
+<a href="https://github.com/akhil4738/rvea" target="_blank" class="code-btn">View Source</a>
+</div>
+
+</div>
+
+</div>
+<!-- PROJECT 5 -->
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd">
+
+<div class="project-content">
+
+<h3>
+<i class="fa-solid fa-building"></i>
+RVEA Website
+</h3>
+
+<p>
+Modern responsive organization website built
+for presenting services and information.
+</p>
+
+<div class="tech-tags">
+<span>HTML</span>
+<span>CSS</span>
+<span>JavaScript</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://akhil4738.github.io/rvea/" target="_blank" class="open-btn">Open Project</a>
+<a href="https://github.com/akhil4738/rvea" target="_blank" class="code-btn">View Source</a>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PROJECT 6 -->
+
+<div class="project-card">
+
+<img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c">
+
+<div class="project-content">
+
+<h3>
+<i class="fa-solid fa-code"></i>
+Syntax Circuit
+</h3>
+
+<p>
+Developer focused website for programming tutorials,
+technical resources and learning materials.
+</p>
+
+<div class="tech-tags">
+<span>HTML</span>
+<span>CSS</span>
+<span>JavaScript</span>
+</div>
+
+<div class="project-buttons">
+<a href="https://akhil4738.github.io/syntaxcircuit/" target="_blank" class="open-btn">Open Project</a>
+<a href="https://github.com/akhil4738/syntaxcircuit" target="_blank" class="code-btn">View Source</a>
+</div>
+
+</div>
+
+</div>
+
 
 </div>
 
 </section>
 
 
-
-<!-- EXPERIENCE -->
-
-<section id="experience">
-
-<div class="title">
-<h2>Experience & <span>Achievements</span></h2>
-</div>
-
-<div class="timeline">
-
-<div class="timeline-item">
-<h3>Software Instructor</h3>
-<p>Teaching programming and guiding students.</p>
-</div>
-
-<div class="timeline-item">
-<h3>Qualified Assistant Professor</h3>
-<p>Academic recognition in Computer Science.</p>
-</div>
-
-<div class="timeline-item">
-<h3>TG SET Certified</h3>
-<p>Telangana State Eligibility Test.</p>
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- CONTACT -->
+<!--Contact Me-->
 
 <section id="contact">
 
 <div class="title">
-<h2>Get In <span>Touch</span></h2>
+<h2>Contact <span>Me</span></h2>
+<p style="margin-top:10px;color:#64748b;">
+Let's collaborate, build projects or discuss technology.
+</p>
 </div>
 
-<div class="contact">
+
+<div class="contact-container">
+
+<!-- CONTACT INFO -->
 
 <div class="contact-info">
 
-<div>
-<h4>Email</h4>
-<p>contact@akhil.in</p>
+<h3>Get In Touch</h3>
+
+<p>
+Feel free to reach out for collaborations, academic discussions,
+software projects or technical mentoring.
+</p>
+
+<div class="contact-links">
+
+<a href="mailto:akhiljampala1@gmail.com">
+<i class="fa-solid fa-envelope"></i> Gmail
+</a>
+
+<a href="https://www.linkedin.com/in/jampalaakhil/" target="_blank">
+<i class="fa-brands fa-linkedin"></i> LinkedIn
+</a>
+
+<a href="https://github.com/akhil4738" target="_blank">
+<i class="fa-brands fa-github"></i> GitHub
+</a>
+
+<a href="https://wa.me/916302204738" target="_blank">
+<i class="fa-brands fa-whatsapp"></i> WhatsApp
+</a>
+
 </div>
 
-<div>
-<h4>Phone</h4>
-<p>+91 98765 43210</p>
 </div>
 
-<div>
-<h4>Website</h4>
-<p>akhil.in</p>
-</div>
 
-</div>
+
+<!-- CONTACT FORM -->
+
+<div class="contact-form">
 
 <form>
 
-<input type="text" placeholder="Name">
-<input type="email" placeholder="Email">
-<input type="text" placeholder="Subject">
-<textarea rows="5" placeholder="Message"></textarea>
+<input type="text" placeholder="Your Name" required>
 
-<button>Send Message</button>
+<input type="email" placeholder="Your Email" required>
+
+<textarea rows="5" placeholder="Your Message"></textarea>
+
+<button type="submit">Send Message</button>
 
 </form>
+
+</div>
 
 </div>
 
@@ -605,34 +1455,66 @@ Algorithms, Java Programming and Web Development.
 
 <footer>
 
-<p>© 2026 Akhil.dev | All Rights Reserved</p>
+<p>© 2026 Akhil.in | Portfolio</p>
 
 </footer>
 
 
+
 <script>
 
-const text="Software Instructor | Full Stack Developer | Research Enthusiast";
+/* TYPING EFFECT */
 
-let i=0;
+const text="Software Instructor | Full Stack Developer | Research Enthusiast"
+
+let i=0
 
 function typing(){
 
 if(i<text.length){
 
-document.getElementById("typing").innerHTML+=text.charAt(i);
+document.getElementById("typing").innerHTML+=text.charAt(i)
 
-i++;
+i++
 
-setTimeout(typing,50);
-
-}
+setTimeout(typing,50)
 
 }
 
-typing();
+}
 
+typing()
+
+
+function scrollProjects(){
+
+document.getElementById("projects").scrollIntoView({behavior:"smooth"})
+
+}
+const timelineItems=document.querySelectorAll(".timeline-item");
+
+function revealTimeline(){
+
+const trigger=window.innerHeight*0.85;
+
+timelineItems.forEach(item=>{
+
+const top=item.getBoundingClientRect().top;
+
+if(top<trigger){
+item.classList.add("show");
+}
+
+});
+
+}
+
+window.addEventListener("scroll",revealTimeline);
 </script>
 
+<a href="https://wa.me/916302204738" class="whatsapp-float" target="_blank">
+<i class="fa-brands fa-whatsapp"></i>
+</a>
 </body>
 </html>
+
