@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Job Books — Akhil Jampala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --bg:       #050810;
+  --bg2:      #080c18;
+  --surface:  rgba(255,255,255,0.03);
+  --surface2: rgba(255,255,255,0.06);
+  --border:   rgba(255,255,255,0.07);
+  --border-glow: rgba(56,189,248,0.25);
+
+  --neon:  #38bdf8;
+  --neon2: #818cf8;
+  --neon3: #f472b6;
+  --gold:  #fbbf24;
+
+  --text:      #f0f4ff;
+  --text-dim:  #8b9ab5;
+  --text-muted:#556070;
+
+  --font-display: 'Cinzel', serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --radius: 16px;
+  --transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  --neon-glow: 0 0 40px rgba(56,189,248,0.3), 0 0 80px rgba(56,189,248,0.1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+.bg-ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.12; }
+.bg-orb-1 { width: 600px; height: 600px; background: var(--neon);  top: -150px; right: -100px; }
+.bg-orb-2 { width: 500px; height: 500px; background: var(--neon2); bottom: 10%; left: -100px; }
+
+/* ── NAV ── */
+#navbar {
+  position: sticky; top: 0; z-index: 100;
+  padding: 18px 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(5,8,16,0.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text); text-decoration: none;
+}
+.logo .logo-bracket { color: var(--neon); }
+.logo .logo-dot { color: var(--neon3); }
+.nav-back {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+.nav-back:hover { color: var(--neon); border-color: var(--border-glow); }
+
+/* ── PAGE HEADER ── */
+main { position: relative; z-index: 1; max-width: 1280px; margin: auto; padding: 70px 6% 130px; }
+
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--neon);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+  opacity: 0.85;
+}
+.page-eyebrow::before { content:''; width: 28px; height: 1px; background: var(--neon); }
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.page-title .accent {
+  background: linear-gradient(135deg, var(--neon), var(--neon2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.page-sub {
+  font-size: 15px;
+  color: var(--text-dim);
+  max-width: 620px;
+  line-height: 1.75;
+  margin-bottom: 56px;
+}
+
+/* ── FILTER TABS ── */
+.filter-tabs { display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+.tab-btn {
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.06em;
+}
+.tab-btn:hover, .tab-btn.active {
+  border-color: var(--neon); color: var(--neon); background: rgba(56,189,248,0.06);
+}
+
+/* ── BOOK GRID ── */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+.project-card:hover {
+  border-color: rgba(56,189,248,0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.08);
+}
+
+.project-img { position: relative; height: 190px; overflow: hidden; }
+.project-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.6) saturate(0.75);
+  transition: transform 0.7s ease;
+}
+.project-card:hover .project-img img { transform: scale(1.06); filter: brightness(0.75) saturate(0.9); }
+.project-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 35%, rgba(8,12,24,0.98));
+}
+.project-num {
+  position: absolute; top: 14px; right: 14px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--neon), var(--neon2));
+  padding: 5px 13px; border-radius: 50px; z-index: 2;
+}
+.badge-left {
+  position: absolute; top: 14px; left: 14px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
+  padding: 4px 10px; border-radius: 6px;
+  background: rgba(5,8,16,0.75); backdrop-filter: blur(10px);
+  border: 1px solid rgba(251,191,36,0.2); color: var(--gold); z-index: 2;
+}
+
+.project-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.project-title {
+  font-family: var(--font-display); font-size: 18px; font-weight: 700;
+  margin-bottom: 10px; line-height: 1.3;
+}
+.project-desc { font-size: 13.5px; color: var(--text-dim); line-height: 1.65; margin-bottom: 16px; flex: 1; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.tag {
+  font-family: var(--font-mono); font-size: 10.5px; padding: 3px 10px; border-radius: 5px;
+  background: rgba(56,189,248,0.08); color: var(--neon); border: 1px solid rgba(56,189,248,0.15);
+}
+.project-links { display: flex; gap: 10px; }
+.project-link {
+  flex: 1; padding: 10px; border-radius: 9px; text-align: center; text-decoration: none;
+  font-size: 11.5px; font-weight: 600; font-family: var(--font-mono); letter-spacing: 0.06em;
+  transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.project-link.primary {
+  background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.15));
+  color: var(--neon); border: 1px solid rgba(56,189,248,0.25);
+}
+.project-link.primary:hover { background: linear-gradient(135deg, rgba(56,189,248,0.35), rgba(129,140,248,0.25)); }
+
+/* ── FOOTER NOTE ── */
+.page-note {
+  margin-top: 48px; padding: 22px 26px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  font-size: 13.5px; color: var(--text-dim);
+  display: flex; align-items: center; gap: 14px;
+}
+.page-note i { color: var(--neon); font-size: 18px; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 30px 6%;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  position: relative; z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .books-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-ambient">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav id="navbar">
+  <a href="index.html" class="logo">
+    <span class="logo-bracket">[</span>AKHIL<span class="logo-dot">.</span>IN<span class="logo-bracket">]</span>
+  </a>
+  <a href="index.html#books" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Back to Books</a>
+</nav>
+
+<main>
+  <div class="page-eyebrow">// career preparation</div>
+  <h1 class="page-title">Tech Job <span class="accent">Books</span></h1>
+  <p class="page-sub">Interview prep, data structures &amp; algorithms, and system design guides — everything you need to crack software engineering and IT job interviews.</p>
+
+  <div class="filter-tabs">
+    <button class="tab-btn active" data-tab="all">All</button>
+    <button class="tab-btn" data-tab="dsa">DSA</button>
+    <button class="tab-btn" data-tab="interview">Interview Prep</button>
+    <button class="tab-btn" data-tab="design">System Design</button>
+  </div>
+
+  <div class="books-grid" id="books-grid">
+
+    <!-- Book 1 -->
+    <div class="project-card" data-tab="dsa">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" loading="lazy" alt="DSA Interview Cracker">
+        <div class="project-img-overlay"></div>
+        <div class="badge-left">BESTSELLER</div>
+        <div class="project-num">₹249</div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">DSA Interview Cracker</h3>
+        <p class="project-desc">Arrays, linked lists, trees, graphs, dynamic programming — patterns and solved problems curated from real interview rounds at product companies.</p>
+        <div class="project-tags"><span class="tag">DSA</span><span class="tag">Patterns</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book 2 -->
+    <div class="project-card" data-tab="design">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" loading="lazy" alt="System Design Primer">
+        <div class="project-img-overlay"></div>
+        <div class="badge-left" style="color:var(--neon2);border-color:rgba(129,140,248,0.2)">POPULAR</div>
+        <div class="project-num">₹299</div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">System Design Primer</h3>
+        <p class="project-desc">Scalability, load balancing, caching, database sharding and real-world architecture case studies for SDE-2 and above interviews.</p>
+        <div class="project-tags"><span class="tag">System Design</span><span class="tag">Architecture</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book 3 -->
+    <div class="project-card" data-tab="interview">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" loading="lazy" alt="HR and Behavioral Round Guide">
+        <div class="project-img-overlay"></div>
+        <div class="project-num">₹149</div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">HR &amp; Behavioral Round Guide</h3>
+        <p class="project-desc">STAR-method answers, common HR questions, negotiation tips and resume review checklist for the final interview rounds.</p>
+        <div class="project-tags"><span class="tag">Interview Prep</span><span class="tag">Soft Skills</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book 4 -->
+    <div class="project-card" data-tab="interview">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80" loading="lazy" alt="Java and Python Interview Q&A">
+        <div class="project-img-overlay"></div>
+        <div class="badge-left" style="color:var(--neon3);border-color:rgba(244,114,182,0.2)">NEW</div>
+        <div class="project-num">₹199</div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Java &amp; Python Interview Q&amp;A</h3>
+        <p class="project-desc">400+ frequently asked language-specific interview questions with clear answers — covering OOP, collections, memory management and more.</p>
+        <div class="project-tags"><span class="tag">Java</span><span class="tag">Python</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book 5 -->
+    <div class="project-card" data-tab="dsa">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600&q=80" loading="lazy" alt="Competitive Programming Handbook">
+        <div class="project-img-overlay"></div>
+        <div class="project-num">₹229</div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Competitive Programming Handbook</h3>
+        <p class="project-desc">Time complexity tricks, greedy algorithms, graph theory and contest-style problems to sharpen your problem-solving speed.</p>
+        <div class="project-tags"><span class="tag">DSA</span><span class="tag">Competitive</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book 6 -->
+    <div class="project-card" data-tab="design">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=600&q=80" loading="lazy" alt="Low Level Design Guide">
+        <div class="project-img-overlay"></div>
+        <div class="project-num">₹279</div>
+      </div>
+      <div class="project-body">
+        <h3 class="project-title">Low-Level Design Guide</h3>
+        <p class="project-desc">OOP design principles, SOLID, common design patterns and machine coding round problems with clean, extensible solutions.</p>
+        <div class="project-tags"><span class="tag">LLD</span><span class="tag">Design Patterns</span></div>
+        <div class="project-links">
+          <a href="#" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-note">
+    <i class="fa-solid fa-circle-info"></i>
+    <span>Payments via UPI / PayPal — books are delivered directly to your email as PDF. For bulk orders or custom requests, use the <a href="index.html#contact" style="color:var(--neon)">Contact</a> section.</span>
+  </div>
+</main>
+
+<footer>© 2026 Akhil Jampala — All Rights Reserved</footer>
+
+<script>
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.querySelectorAll('#books-grid .project-card').forEach(card => {
+      card.style.display = (tab === 'all' || card.dataset.tab === tab) ? 'flex' : 'none';
+    });
+  });
+});
+</script>
+
+</body>
+</html>
