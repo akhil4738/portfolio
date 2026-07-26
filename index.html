@@ -1601,64 +1601,79 @@ footer {
    <div class="section-divider"></div>
 
 <!-- ── BOOKS & NOTES ─────────────────────────────────────────────────── -->
+<!-- ── BOOKS & NOTES ─────────────────────────────────────────────────── -->
 <section id="books">
   <div class="section-inner">
     <div class="section-label gsap-reveal">// study materials</div>
     <h2 class="section-title gsap-reveal">Books &amp; <span class="accent">Notes</span></h2>
-    <p class="section-sub gsap-reveal">Handwritten &amp; digital notes, exam guides and reference material for Computer Science subjects — crafted from my own teaching and TG SET preparation.</p>
+    <p class="section-sub gsap-reveal">Handwritten &amp; digital notes, exam guides and reference material for Computer Science — organized by category.</p>
 
-    <div class="projects-grid">
+    <div class="projects-grid" style="grid-template-columns:repeat(auto-fill, minmax(270px, 1fr))">
 
-      <!-- Note 1 -->
+      <!-- Category 1: Tech Job Books -->
       <div class="project-card gsap-reveal">
         <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" loading="lazy" alt="Operating Systems Notes">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" loading="lazy" alt="Tech Job Books">
           <div class="project-img-overlay"></div>
-          <div class="project-num" style="left:14px;right:auto;color:var(--gold);border-color:rgba(251,191,36,0.2)">BESTSELLER</div>
-          <div class="project-num">₹199</div>
+          <div class="project-num" style="left:14px;right:auto;color:var(--gold);border-color:rgba(251,191,36,0.2)">CAREER</div>
         </div>
         <div class="project-body">
-          <h3 class="project-title">Operating Systems — Complete Notes</h3>
-          <p class="project-desc">Concept-first notes covering process management, scheduling, memory management, deadlocks and file systems — with solved university-style long answers. PDF · 120 Pages</p>
-          <div class="project-tags"><span class="tag">OS</span><span class="tag">Exam Ready</span></div>
+          <h3 class="project-title">Tech Job Books</h3>
+          <p class="project-desc">Interview prep, DSA, system design and placement-focused guides to help you crack software engineering and IT job interviews.</p>
+          <div class="project-tags"><span class="tag">DSA</span><span class="tag">Interview Prep</span><span class="tag">System Design</span></div>
           <div class="project-links">
-            <a href="books.html" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+            <a href="tech-job-books.html" class="project-link primary"><i class="fa-solid fa-briefcase"></i> View Books</a>
           </div>
         </div>
       </div>
 
-      <!-- Note 2 -->
+      <!-- Category 2: Academic Books -->
       <div class="project-card gsap-reveal">
         <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" loading="lazy" alt="Computer Networks Notes">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" loading="lazy" alt="Academic Books">
           <div class="project-img-overlay"></div>
-          <div class="project-num" style="left:14px;right:auto;color:var(--neon2);border-color:rgba(129,140,248,0.2)">UPDATED</div>
-          <div class="project-num">₹249</div>
+          <div class="project-num" style="left:14px;right:auto;color:var(--neon2);border-color:rgba(129,140,248,0.2)">SEMESTER</div>
         </div>
         <div class="project-body">
-          <h3 class="project-title">Computer Networks — Notes &amp; Diagrams</h3>
-          <p class="project-desc">OSI &amp; TCP/IP layers, routing algorithms, and network security explained with clean diagrams and previous-year question patterns. PDF · 95 Pages</p>
-          <div class="project-tags"><span class="tag">CN</span><span class="tag">Diagrams Included</span></div>
+          <h3 class="project-title">Academic Books</h3>
+          <p class="project-desc">Semester-wise notes for core CS subjects — Operating Systems, Computer Networks, DBMS, Theory of Computation, Compiler Design and more.</p>
+          <div class="project-tags"><span class="tag">Semester Notes</span><span class="tag">Core CS</span></div>
           <div class="project-links">
-            <a href="books.html" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+            <a href="academic-books.html" class="project-link primary"><i class="fa-solid fa-book"></i> View Books</a>
           </div>
         </div>
       </div>
 
-      <!-- Note 3 -->
+      <!-- Category 3: GATE + UGC NET Books (combined) -->
       <div class="project-card gsap-reveal">
         <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" loading="lazy" alt="Theory of Computation Notes">
+          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" loading="lazy" alt="GATE and UGC NET Books">
           <div class="project-img-overlay"></div>
-          <div class="project-num" style="left:14px;right:auto;color:var(--neon3);border-color:rgba(244,114,182,0.2)">NEW</div>
-          <div class="project-num">₹179</div>
+          <div class="project-num" style="left:14px;right:auto;color:var(--neon3);border-color:rgba(244,114,182,0.2)">GATE / NET</div>
         </div>
         <div class="project-body">
-          <h3 class="project-title">Theory of Computation — Quick Notes</h3>
-          <p class="project-desc">Automata, grammars, Turing machines and decidability broken down with step-by-step derivations and practice problems. PDF · 70 Pages</p>
-          <div class="project-tags"><span class="tag">TOC</span><span class="tag">Solved Problems</span></div>
+          <h3 class="project-title">GATE &amp; UGC NET Books</h3>
+          <p class="project-desc">Topic-wise GATE and UGC NET Computer Science preparation material with previous-year questions, formula sheets and mock test strategy.</p>
+          <div class="project-tags"><span class="tag">GATE CS</span><span class="tag">UGC NET</span><span class="tag">PYQs</span></div>
           <div class="project-links">
-            <a href="books.html" class="project-link primary"><i class="fa-solid fa-cart-shopping"></i> Buy Now</a>
+            <a href="gate-ugc-net-books.html" class="project-link primary"><i class="fa-solid fa-graduation-cap"></i> View Books</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4: CPGET Books -->
+      <div class="project-card gsap-reveal">
+        <div class="project-img">
+          <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80" loading="lazy" alt="CPGET Computer Science Books">
+          <div class="project-img-overlay"></div>
+          <div class="project-num">CPGET</div>
+        </div>
+        <div class="project-body">
+          <h3 class="project-title">CPGET (Computer Science) Books</h3>
+          <p class="project-desc">Focused preparation material for CPGET / TG SET Computer Science — built from my own qualifying experience.</p>
+          <div class="project-tags"><span class="tag">CPGET</span><span class="tag">TG SET</span></div>
+          <div class="project-links">
+            <a href="cpget-books.html" class="project-link primary"><i class="fa-solid fa-award"></i> View Books</a>
           </div>
         </div>
       </div>
@@ -1667,7 +1682,7 @@ footer {
 
     <p class="section-sub gsap-reveal" style="margin-top:32px">
       <i class="fa-solid fa-circle-info" style="color:var(--neon);margin-right:8px"></i>
-      More books &amp; notes available on the full store page. Payments via UPI / PayPal — notes are delivered directly to your email.
+      Each category opens its own page with the full book list, previews and pricing. Payments via UPI / PayPal — notes delivered directly to your email.
     </p>
 
   </div>
