@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed — Akhil Jampala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root {
+  --bg:       #050810;
+  --surface:  rgba(255,255,255,0.03);
+  --border:   rgba(255,255,255,0.07);
+  --border-glow: rgba(56,189,248,0.25);
+
+  --neon:  #38bdf8;
+  --neon2: #818cf8;
+  --neon3: #f472b6;
+  --gold:  #fbbf24;
+
+  --text:      #f0f4ff;
+  --text-dim:  #8b9ab5;
+  --text-muted:#556070;
+
+  --font-display: 'Cinzel', serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bg-ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.14; }
+.bg-orb-1 { width: 600px; height: 600px; background: #22c55e; top: -150px; right: -100px; }
+.bg-orb-2 { width: 500px; height: 500px; background: var(--neon2); bottom: 10%; left: -100px; }
+
+#navbar {
+  position: relative; z-index: 2;
+  padding: 18px 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text); text-decoration: none;
+}
+.logo .logo-bracket { color: var(--neon); }
+.logo .logo-dot { color: var(--neon3); }
+
+main {
+  flex: 1;
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 60px 6%;
+}
+
+.confirm-card {
+  max-width: 560px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 56px 44px;
+  text-align: center;
+}
+
+.confirm-icon {
+  width: 84px; height: 84px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  color: #22c55e;
+  box-shadow: 0 0 40px rgba(34,197,94,0.15);
+}
+
+.confirm-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #22c55e;
+  margin-bottom: 14px;
+}
+
+.confirm-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.confirm-title .accent {
+  background: linear-gradient(135deg, var(--neon), var(--neon2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+.confirm-desc {
+  font-size: 14.5px;
+  color: var(--text-dim);
+  line-height: 1.75;
+  margin-bottom: 36px;
+}
+.confirm-desc strong { color: var(--text); font-weight: 600; }
+
+.confirm-steps {
+  text-align: left;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 24px;
+  margin-bottom: 36px;
+}
+.confirm-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+}
+.confirm-step:last-child { margin-bottom: 0; }
+.confirm-step i { color: var(--neon); margin-top: 2px; flex-shrink: 0; }
+
+.confirm-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn-primary, .btn-ghost {
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  transition: var(--transition);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--neon), var(--neon2));
+  color: #050810;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(56,189,248,0.25); }
+.btn-ghost {
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.btn-ghost:hover { border-color: var(--border-glow); color: var(--neon); }
+
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 24px 6%;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+</style>
+</head>
+<body>
+
+<div class="bg-ambient">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+</div>
+
+<nav id="navbar">
+  <a href="index.html" class="logo">
+    <span class="logo-bracket">[</span>AKHIL<span class="logo-dot">.</span>IN<span class="logo-bracket">]</span>
+  </a>
+</nav>
+
+<main>
+  <div class="confirm-card">
+    <div class="confirm-icon"><i class="fa-solid fa-check"></i></div>
+    <div class="confirm-eyebrow">Payment Successful</div>
+    <h1 class="confirm-title">Thank You for Your <span class="accent">Order!</span></h1>
+    <p class="confirm-desc">
+      Your payment has been received. <strong>Your notes/books will be emailed to you within a few hours</strong> at the address you provided during checkout.
+    </p>
+
+    <div class="confirm-steps">
+      <div class="confirm-step"><i class="fa-solid fa-envelope-circle-check"></i> Check your inbox (and spam folder) for the delivery email.</div>
+      <div class="confirm-step"><i class="fa-solid fa-clock"></i> Delivery usually takes 1–6 hours during working hours.</div>
+      <div class="confirm-step"><i class="fa-brands fa-whatsapp"></i> Didn't get it in time? Message on WhatsApp with your payment ID.</div>
+    </div>
+
+    <div class="confirm-actions">
+      <a href="index.html" class="btn-primary"><i class="fa-solid fa-house"></i> Back to Home</a>
+      <a href="index.html#books" class="btn-ghost"><i class="fa-solid fa-book"></i> Browse More Books</a>
+      <a href="https://wa.me/916302204738" target="_blank" class="btn-ghost"><i class="fa-brands fa-whatsapp"></i> Contact on WhatsApp</a>
+    </div>
+  </div>
+</main>
+
+<footer>© 2026 Akhil Jampala — All Rights Reserved</footer>
+
+</body>
+</html>
