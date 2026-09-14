@@ -1,2492 +1,4103 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Akhil Jampala — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-<style>
-/* ============================================================
-   CSS VARIABLES & RESET
-   ============================================================ */
-:root {
-  --bg:       #050810;
-  --bg2:      #080c18;
-  --bg3:      #0b1020;
-  --surface:  rgba(255,255,255,0.03);
-  --surface2: rgba(255,255,255,0.06);
-  --border:   rgba(255,255,255,0.07);
-  --border-glow: rgba(56,189,248,0.25);
-
-  --neon:  #38bdf8;
-  --neon2: #818cf8;
-  --neon3: #f472b6;
-  --neon4: #fb923c;
-  --gold:  #fbbf24;
-
-  --text:      #f0f4ff;
-  --text-dim:  #8b9ab5;
-  --text-muted:#556070;
-
-  --font-display: 'Cinzel', serif;
-  --font-body:    'DM Sans', sans-serif;
-  --font-mono:    'JetBrains Mono', monospace;
-
-  --radius: 16px;
-  --transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-
-  --neon-glow:  0 0 40px rgba(56,189,248,0.3), 0 0 80px rgba(56,189,248,0.1);
-  --neon2-glow: 0 0 40px rgba(129,140,248,0.3);
-  --gold-glow:  0 0 30px rgba(251,191,36,0.4);
-}
-
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; font-size: 16px; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
-  overflow-x: hidden;
-  cursor: none;
-  line-height: 1.6;
-}
-
-::selection { background: rgba(56,189,248,0.2); color: var(--neon); }
-
-/* ============================================================
-   CUSTOM CURSOR
-   ============================================================ */
-#cursor {
-  position: fixed;
-  width: 10px; height: 10px;
-  border-radius: 50%;
-  background: var(--neon);
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background 0.2s, opacity 0.2s;
-  mix-blend-mode: screen;
-  box-shadow: 0 0 10px var(--neon), 0 0 20px rgba(56,189,248,0.5);
-}
-#cursor-ring {
-  position: fixed;
-  width: 38px; height: 38px;
-  border: 1px solid rgba(56,189,248,0.5);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99998;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, border-color 0.3s;
-}
-#cursor.hover { width: 22px; height: 22px; background: var(--neon3); }
-#cursor-ring.hover { width: 64px; height: 64px; border-color: rgba(244,114,182,0.4); }
-
-/* ============================================================
-   SCROLL PROGRESS
-   ============================================================ */
-#scroll-progress {
-  position: fixed;
-  top: 0; left: 0;
-  height: 2px;
-  width: 0%;
-  background: linear-gradient(90deg, var(--neon), var(--neon2), var(--neon3));
-  z-index: 10001;
-  box-shadow: 0 0 8px var(--neon);
-  transition: width 0.08s linear;
-}
-
-/* ============================================================
-   THREE.JS CANVAS
-   ============================================================ */
-#three-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.85;
-}
-
-/* ============================================================
-   BACKGROUND AMBIENT
-   ============================================================ */
-.bg-ambient {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.bg-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.12;
-  animation: drift 18s ease-in-out infinite;
-}
-.bg-orb-1 { width: 600px; height: 600px; background: var(--neon);  top: -150px; right: -100px; animation-delay: 0s; }
-.bg-orb-2 { width: 500px; height: 500px; background: var(--neon2); bottom: 10%;  left: -100px; animation-delay: 6s; }
-.bg-orb-3 { width: 400px; height: 400px; background: var(--neon4); top: 40%; right: 20%; animation-delay: 12s; opacity: 0.07; }
-
-@keyframes drift {
-  0%,100% { transform: translate(0,0) scale(1); }
-  33%      { transform: translate(30px, -40px) scale(1.08); }
-  66%      { transform: translate(-20px, 30px) scale(0.95); }
-}
-
-/* Noise grain */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9997;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.03;
-}
-
-/* Scanlines */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 9996;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.03) 2px,
-    rgba(0,0,0,0.03) 4px
-  );
-}
-
-/* ============================================================
-   NAVBAR
-   ============================================================ */
-#navbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-  padding: 22px 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: padding 0.3s ease, background 0.3s, backdrop-filter 0.3s;
-}
-#navbar.scrolled {
-  padding: 14px 6%;
-  background: rgba(5,8,16,0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--border);
-}
-
-.logo {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--text);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.logo .logo-bracket { color: var(--neon); }
-.logo .logo-dot { color: var(--neon3); }
-
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 2px;
-  align-items: center;
-}
-nav ul li a {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  letter-spacing: 0.06em;
-  transition: var(--transition);
-  position: relative;
-}
-nav ul li a:hover { color: var(--neon); }
-nav ul li a.nav-active { color: var(--neon); }
-
-.nav-contact-btn {
-  padding: 8px 18px !important;
-  border: 1px solid rgba(56,189,248,0.3) !important;
-  border-radius: 8px !important;
-  color: var(--neon) !important;
-  background: rgba(56,189,248,0.05) !important;
-  transition: var(--transition) !important;
-}
-.nav-contact-btn:hover {
-  background: rgba(56,189,248,0.12) !important;
-  box-shadow: 0 0 20px rgba(56,189,248,0.15) !important;
-}
-
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 4px;
-}
-.hamburger span {
-  width: 22px; height: 1.5px;
-  background: var(--neon);
-  border-radius: 2px;
-  transition: 0.3s;
-  display: block;
-}
-.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
-.hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
-
-/* ============================================================
-   HERO SECTION
-   ============================================================ */
-#hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 0 6%;
-  padding-top: 80px;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 80px;
-  align-items: center;
-  width: 100%;
-  max-width: 1280px;
-  margin: auto;
-}
-
-.hero-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--neon);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  opacity: 0;
-}
-.hero-eyebrow .status-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
-  animation: pulse-green 2s infinite;
-}
-@keyframes pulse-green {
-  0%,100% { box-shadow: 0 0 4px #22c55e; opacity: 1; }
-  50%      { box-shadow: 0 0 12px #22c55e, 0 0 20px rgba(34,197,94,0.4); opacity: 0.8; }
-}
-
-.hero-name-line {
-  font-family: var(--font-display);
-  font-size: clamp(14px, 1.6vw, 20px);
-  font-weight: 400;
-  letter-spacing: 0.28em;
-  color: var(--text-dim);
-  margin-bottom: 10px;
-  opacity: 0;
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: clamp(52px, 7vw, 96px);
-  font-weight: 900;
-  line-height: 0.92;
-  letter-spacing: -1px;
-  margin-bottom: 28px;
-  color: var(--text);
-  overflow: hidden;
-}
-.hero-title .name-first { display: block; opacity: 0; transform: translateY(80px); }
-.hero-title .name-last  { display: block; opacity: 0; transform: translateY(80px); }
-.hero-title .name-last  {
-  background: linear-gradient(135deg, var(--neon) 0%, var(--neon2) 60%, var(--neon3) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-role {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--neon);
-  min-height: 22px;
-  margin-bottom: 20px;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.hero-role::before { content: '>'; color: var(--neon2); }
-#typing-text::after {
-  content: '█';
-  animation: blink 0.8s step-end infinite;
-  opacity: 0.8;
-  font-size: 12px;
-}
-@keyframes blink { 0%,100%{opacity:0.8}50%{opacity:0} }
-
-.hero-desc {
-  font-size: 15px;
-  color: var(--text-dim);
-  line-height: 1.78;
-  max-width: 500px;
-  margin-bottom: 44px;
-  opacity: 0;
-}
-
-.hero-ctas {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  opacity: 0;
-}
-
-.btn-primary {
-  padding: 14px 30px;
-  background: linear-gradient(135deg, var(--neon), var(--neon2));
-  color: #050810;
-  border: none;
-  border-radius: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--neon-glow);
-}
-
-.btn-ghost {
-  padding: 14px 30px;
-  background: transparent;
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  transition: var(--transition);
-}
-.btn-ghost:hover {
-  border-color: var(--neon);
-  color: var(--neon);
-  transform: translateY(-3px);
-  box-shadow: 0 0 20px rgba(56,189,248,0.1);
-}
-
-.hero-stats {
-  display: flex;
-  gap: 40px;
-  margin-top: 56px;
-  padding-top: 40px;
-  border-top: 1px solid var(--border);
-  opacity: 0;
-}
-.stat-num {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--neon), var(--neon2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-  letter-spacing: 0.05em;
-}
-.stat-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  margin-top: 5px;
-  text-transform: uppercase;
-}
-
-/* HERO VISUAL */
-.hero-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  opacity: 0;
-}
-
-.hero-frame-outer {
-  position: relative;
-  width: 360px;
-  height: 440px;
-}
-
-/* Cinematic frame borders */
-.cinematic-frame {
-  position: absolute;
-  inset: 0;
-  border-radius: 200px 200px 180px 180px;
-  background: linear-gradient(145deg, rgba(56,189,248,0.15), rgba(129,140,248,0.08), rgba(244,114,182,0.06));
-  border: 1px solid rgba(56,189,248,0.15);
-  animation: frame-pulse 4s ease-in-out infinite;
-  z-index: 0;
-}
-@keyframes frame-pulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(56,189,248,0), inset 0 0 60px rgba(56,189,248,0.05); }
-  50%      { box-shadow: 0 0 60px rgba(56,189,248,0.1), inset 0 0 60px rgba(56,189,248,0.1); }
-}
-
-.hero-img-wrap {
-  position: absolute;
-  width: 300px; height: 370px;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  border-radius: 200px 200px 160px 160px;
-  overflow: hidden;
-  z-index: 1;
-  border: 1.5px solid rgba(56,189,248,0.2);
-  box-shadow: 0 0 60px rgba(56,189,248,0.08), 0 40px 80px rgba(0,0,0,0.6);
-  animation: hero-float 5s ease-in-out infinite;
-}
-@keyframes hero-float {
-  0%,100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(-16px); }
-}
-.hero-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  filter: contrast(1.05) saturate(0.9) brightness(0.95);
-}
-.img-placeholder {
-  width: 100%; height: 100%;
-  background: linear-gradient(160deg, rgba(56,189,248,0.12), rgba(129,140,248,0.08));
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display);
-  font-size: 80px;
-  color: var(--neon);
-  opacity: 0.6;
-}
-
-/* Rotating orbital rings */
-.orbital {
-  position: absolute;
-  top: 50%; left: 50%;
-  border: 1px solid rgba(56,189,248,0.1);
-  border-radius: 50%;
-  transform-style: preserve-3d;
-  pointer-events: none;
-  z-index: 0;
-}
-.orbital-1 {
-  width: 420px; height: 420px;
-  margin: -210px 0 0 -210px;
-  animation: spin1 20s linear infinite;
-  border-color: rgba(56,189,248,0.08);
-}
-.orbital-2 {
-  width: 500px; height: 320px;
-  margin: -160px 0 0 -250px;
-  animation: spin2 28s linear infinite reverse;
-  border-color: rgba(129,140,248,0.06);
-  border-radius: 50%;
-}
-@keyframes spin1 { to { transform: rotate(360deg); } }
-@keyframes spin2 { to { transform: rotate(360deg) rotateX(60deg); } }
-
-/* Floating info badges */
-.info-badge {
-  position: absolute;
-  background: rgba(8,12,24,0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text);
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 2;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-}
-.info-badge i { color: var(--neon); }
-.badge-1 { top: 12%; left: -20%; animation: badge-float 4s ease-in-out infinite 0s; }
-.badge-2 { bottom: 20%; right: -18%; animation: badge-float 4s ease-in-out infinite 1.5s; }
-.badge-3 { top: 54%; left: -22%; animation: badge-float 4s ease-in-out infinite 0.8s; }
-@keyframes badge-float {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-9px); }
-}
-
-/* Scroll indicator */
-.scroll-indicator {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  z-index: 2;
-  opacity: 0;
-  animation: fade-in-up 1s ease 2.5s forwards;
-}
-@keyframes fade-in-up {
-  to { opacity: 0.5; transform: translateX(-50%) translateY(0); }
-  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-}
-.scroll-line {
-  width: 1px; height: 50px;
-  background: linear-gradient(to bottom, transparent, var(--neon));
-  animation: scroll-pulse 2s ease-in-out infinite;
-}
-@keyframes scroll-pulse {
-  0%,100% { scaleY: 0; opacity: 0.3; }
-  50%      { opacity: 1; }
-}
-.scroll-indicator span {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-/* ============================================================
-   SECTION COMMON
-   ============================================================ */
-main { position: relative; z-index: 1; }
-section { padding: 130px 6%; position: relative; }
-
-.section-inner { max-width: 1280px; margin: auto; }
-
-.section-label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  color: var(--neon);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  opacity: 0.75;
-}
-.section-label::before {
-  content: '';
-  width: 28px; height: 1px;
-  background: var(--neon);
-  display: block;
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 5vw, 60px);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: 0.02em;
-  margin-bottom: 14px;
-  color: var(--text);
-}
-.section-title .accent {
-  background: linear-gradient(135deg, var(--neon), var(--neon2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.section-sub {
-  font-size: 15px;
-  color: var(--text-dim);
-  max-width: 520px;
-  line-height: 1.72;
-}
-
-/* Horizontal rule divider */
-.section-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-  margin: 0;
-  position: relative;
-  z-index: 1;
-}
-
-/* ============================================================
-   GSAP REVEAL HELPERS
-   ============================================================ */
-.gsap-reveal {
-  opacity: 0;
-  transform: translateY(40px);
-}
-.gsap-reveal-left {
-  opacity: 0;
-  transform: translateX(-40px);
-}
-.gsap-reveal-right {
-  opacity: 0;
-  transform: translateX(40px);
-}
-
-/* ============================================================
-   ABOUT SECTION
-   ============================================================ */
-#about { background: var(--bg2); }
-
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.45fr;
-  gap: 90px;
-  align-items: start;
-}
-
-.about-sticky { position: sticky; top: 130px; }
-
-.about-highlight {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 30px;
-  margin-bottom: 16px;
-  backdrop-filter: blur(10px);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.about-highlight::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--neon), transparent);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.about-highlight:hover { border-color: var(--border-glow); }
-.about-highlight:hover::before { opacity: 1; }
-
-.ahl-icon {
-  width: 42px; height: 42px;
-  border-radius: 10px;
-  background: rgba(56,189,248,0.1);
-  border: 1px solid rgba(56,189,248,0.15);
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
-  font-size: 16px;
-  color: var(--neon);
-  transition: var(--transition);
-}
-.about-highlight:hover .ahl-icon { background: rgba(56,189,248,0.18); box-shadow: 0 0 20px rgba(56,189,248,0.15); }
-.ahl-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; color: var(--text); letter-spacing: 0.02em; }
-.ahl-desc  { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
-
-.about-body p {
-  color: var(--text-dim);
-  line-height: 1.82;
-  font-size: 15.5px;
-  margin-bottom: 20px;
-}
-.about-body p strong { color: var(--neon); font-weight: 500; }
-
-.about-mini-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 32px;
-}
-.mini-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  transition: var(--transition);
-}
-.mini-card:hover { border-color: var(--border-glow); background: var(--surface2); }
-.mini-card i { color: var(--neon2); font-size: 17px; margin-bottom: 10px; display: block; }
-.mini-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.mini-card p  { font-size: 11.5px; color: var(--text-muted); }
-
-/* ============================================================
-   SKILLS SECTION
-   ============================================================ */
-#skills { background: var(--bg); }
-
-.skills-tabs {
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 40px;
-  flex-wrap: wrap;
-}
-.tab-btn {
-  padding: 8px 20px;
-  border-radius: 50px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  cursor: pointer;
-  transition: var(--transition);
-  letter-spacing: 0.06em;
-}
-.tab-btn:hover, .tab-btn.active {
-  border-color: var(--neon);
-  color: var(--neon);
-  background: rgba(56,189,248,0.06);
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
-}
-
-.skill-chip {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px 22px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-  cursor: default;
-}
-.skill-chip::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--neon), var(--neon2));
-  width: 0%;
-  transition: width 1.4s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 0 8px rgba(56,189,248,0.5);
-}
-.skill-chip.animated::after { width: var(--pct); }
-.skill-chip:hover {
-  border-color: var(--border-glow);
-  background: var(--surface2);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-}
-.skill-icon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  background: rgba(56,189,248,0.08);
-  border: 1px solid rgba(56,189,248,0.12);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
-  color: var(--neon);
-  flex-shrink: 0;
-  transition: var(--transition);
-}
-.skill-chip:hover .skill-icon { background: rgba(56,189,248,0.15); box-shadow: 0 0 16px rgba(56,189,248,0.2); }
-.skill-info { flex: 1; }
-.skill-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; color: var(--text); }
-.skill-cat  { font-size: 10.5px; color: var(--text-muted); font-family: var(--font-mono); }
-.skill-pct  { font-family: var(--font-mono); font-size: 13px; color: var(--neon); font-weight: 600; }
-
-/* ============================================================
-   PROJECTS SECTION
-   ============================================================ */
-#projects { background: var(--bg2); }
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
-  gap: 22px;
-  margin-top: 60px;
-}
-
-.project-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: var(--transition);
-  position: relative;
-}
-.project-card:hover {
-  border-color: rgba(56,189,248,0.2);
-  transform: translateY(-8px);
-  box-shadow: 0 32px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.08);
-}
-.project-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(56,189,248,0.03), transparent 50%);
-  opacity: 0;
-  transition: opacity 0.4s;
-  pointer-events: none;
-  z-index: 1;
-}
-.project-card:hover::before { opacity: 1; }
-
-.project-img {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-.project-img img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s ease;
-  filter: brightness(0.6) saturate(0.75);
-}
-.project-card:hover .project-img img { transform: scale(1.06); filter: brightness(0.75) saturate(0.9); }
-.project-img-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to bottom, transparent 35%, rgba(8,12,24,0.98));
-}
-.project-num {
-  position: absolute;
-  top: 14px; right: 14px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--neon);
-  background: rgba(5,8,16,0.75);
-  backdrop-filter: blur(10px);
-  padding: 4px 10px;
-  border-radius: 6px;
-  border: 1px solid rgba(56,189,248,0.15);
-  letter-spacing: 0.12em;
-  z-index: 2;
-}
-
-.project-body {
-  padding: 24px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  z-index: 2;
-}
-.project-title {
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  line-height: 1.25;
-  color: var(--text);
-  letter-spacing: 0.03em;
-}
-.project-desc {
-  font-size: 13.5px;
-  color: var(--text-dim);
-  line-height: 1.65;
-  margin-bottom: 16px;
-  flex: 1;
-}
-.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-.tag {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  padding: 3px 10px;
-  border-radius: 5px;
-  background: rgba(56,189,248,0.08);
-  color: var(--neon);
-  border: 1px solid rgba(56,189,248,0.15);
-  letter-spacing: 0.04em;
-}
-.project-links { display: flex; gap: 10px; }
-.project-link {
-  flex: 1;
-  padding: 10px;
-  border-radius: 9px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 11.5px;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  letter-spacing: 0.06em;
-  transition: var(--transition);
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-}
-.project-link.primary {
-  background: linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.15));
-  color: var(--neon);
-  border: 1px solid rgba(56,189,248,0.25);
-}
-.project-link.primary:hover { background: linear-gradient(135deg, rgba(56,189,248,0.35), rgba(129,140,248,0.25)); }
-.project-link.ghost {
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-}
-.project-link.ghost:hover { border-color: var(--border-glow); color: var(--neon); }
-
-/* ============================================================
-   EXPERIENCE SECTION
-   ============================================================ */
-#experience { background: var(--bg); }
-
-.timeline {
-  position: relative;
-  padding-left: 44px;
-  max-width: 820px;
-  margin: 60px auto 0;
-}
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 6px; top: 8px;
-  width: 1.5px;
-  height: calc(100% - 8px);
-  background: linear-gradient(to bottom, var(--neon), var(--neon2), rgba(129,140,248,0.1));
-}
-
-.tl-item {
-  position: relative;
-  margin-bottom: 48px;
-}
-.tl-item:last-child { margin-bottom: 0; }
-
-.tl-dot {
-  position: absolute;
-  left: -44px;
-  top: 8px;
-  width: 14px; height: 14px;
-  border-radius: 50%;
-  background: var(--neon);
-  border: 2px solid var(--bg);
-  box-shadow: 0 0 0 3px rgba(56,189,248,0.2), 0 0 14px rgba(56,189,248,0.6);
-  transition: var(--transition);
-}
-.tl-item:hover .tl-dot {
-  transform: scale(1.3);
-  box-shadow: 0 0 0 5px rgba(56,189,248,0.15), 0 0 20px rgba(56,189,248,0.8);
-}
-
-.tl-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.tl-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--neon), var(--neon2));
-  border-radius: 2px 0 0 2px;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.tl-item:hover .tl-card { border-color: var(--border-glow); transform: translateX(8px); }
-.tl-item:hover .tl-card::before { opacity: 1; }
-
-.tl-date {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--neon);
-  letter-spacing: 0.1em;
-  margin-bottom: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: rgba(56,189,248,0.07);
-  padding: 3px 12px;
-  border-radius: 50px;
-  border: 1px solid rgba(56,189,248,0.12);
-}
-.tl-title {
-  font-family: var(--font-display);
-  font-size: 19px;
-  font-weight: 700;
-  margin: 10px 0 10px;
-  line-height: 1.3;
-  letter-spacing: 0.04em;
-}
-.tl-desc { font-size: 14px; color: var(--text-dim); line-height: 1.75; }
-
-/* ============================================================
-   EDUCATION SECTION
-   ============================================================ */
-#education { background: var(--bg2); }
-
-.education-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 60px;
-}
-
-.edu-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 30px;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.edu-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top right, rgba(56,189,248,0.06), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
-.edu-card:hover { border-color: var(--border-glow); transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-.edu-card:hover::after { opacity: 1; }
-.edu-icon {
-  width: 44px; height: 44px;
-  border-radius: 12px;
-  background: rgba(56,189,248,0.08);
-  border: 1px solid rgba(56,189,248,0.15);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  color: var(--neon);
-  margin-bottom: 18px;
-}
-.edu-degree {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: var(--text);
-  letter-spacing: 0.04em;
-}
-.edu-uni {
-  font-size: 13px;
-  color: var(--neon);
-  margin-bottom: 4px;
-  font-family: var(--font-mono);
-}
-.edu-year {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
-  margin-bottom: 14px;
-}
-.edu-score {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--gold);
-  background: rgba(251,191,36,0.08);
-  border: 1px solid rgba(251,191,36,0.15);
-  padding: 4px 12px;
-  border-radius: 50px;
-  letter-spacing: 0.06em;
-}
-
-/* ============================================================
-   CERTIFICATES SECTION
-   ============================================================ */
-#certificates { background: var(--bg); }
-
-.certs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
-  margin-top: 60px;
-}
-
-.cert-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: var(--transition);
-  cursor: pointer;
-}
-.cert-card:hover {
-  border-color: rgba(129,140,248,0.3);
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-.cert-img {
-  height: 150px;
-  background: linear-gradient(135deg, rgba(56,189,248,0.06) 0%, rgba(129,140,248,0.06) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  color: var(--neon2);
-  border-bottom: 1px solid var(--border);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.cert-img::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(129,140,248,0.12), transparent 70%);
-}
-.cert-card:hover .cert-img { background: linear-gradient(135deg, rgba(56,189,248,0.1) 0%, rgba(129,140,248,0.1) 100%); }
-.cert-body { padding: 18px; }
-.cert-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--text);
-}
-.cert-org {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--neon2);
-  margin-bottom: 14px;
-}
-.cert-btn {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  border: 1px solid var(--border);
-  background: transparent;
-  padding: 6px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: var(--transition);
-  letter-spacing: 0.06em;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.cert-btn:hover { border-color: var(--neon2); color: var(--neon2); }
-
-/* ============================================================
-   CONTACT SECTION
-   ============================================================ */
-#contact { background: var(--bg2); }
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 70px;
-  align-items: start;
-  margin-top: 60px;
-}
-
-.contact-left h3 {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: 0.04em;
-}
-.contact-left > p {
-  font-size: 14px;
-  color: var(--text-dim);
-  line-height: 1.78;
-  margin-bottom: 36px;
-}
-
-.social-links { display: flex; flex-direction: column; gap: 10px; }
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--text);
-  font-size: 13px;
-  font-family: var(--font-mono);
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.social-link i { color: var(--neon); width: 18px; text-align: center; flex-shrink: 0; }
-.social-link span { flex: 1; }
-.social-link .arrow { color: var(--text-muted); font-size: 11px; }
-.social-link:hover { border-color: var(--border-glow); color: var(--neon); transform: translateX(5px); }
-
-.contact-form {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 38px;
-}
-
-.form-row { margin-bottom: 22px; }
-.form-row label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--text-muted);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 9px;
-}
-.form-row input,
-.form-row textarea {
-  width: 100%;
-  padding: 14px 18px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--text);
-  font-family: var(--font-body);
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  resize: none;
-}
-.form-row input:focus,
-.form-row textarea:focus {
-  border-color: rgba(56,189,248,0.4);
-  box-shadow: 0 0 0 3px rgba(56,189,248,0.07);
-}
-.form-row textarea { min-height: 130px; }
-
-.form-submit {
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(135deg, var(--neon), var(--neon2));
-  color: #050810;
-  border: none;
-  border-radius: 10px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-.form-submit:hover { transform: translateY(-2px); box-shadow: var(--neon-glow); }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer {
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  padding: 44px 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-  position: relative;
-  z-index: 1;
-}
-.footer-logo {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--neon), var(--neon2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: 0.1em;
-}
-.footer-copy {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
-}
-.back-top {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: color 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  text-decoration: none;
-  letter-spacing: 0.08em;
-}
-.back-top:hover { color: var(--neon); }
-
-/* WhatsApp float */
-.wa-float {
-  position: fixed;
-  bottom: 28px; right: 28px;
-  width: 52px; height: 52px;
-  background: #25D366;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  color: white;
-  z-index: 9000;
-  box-shadow: 0 6px 24px rgba(37,211,102,0.45);
-  transition: var(--transition);
-  text-decoration: none;
-}
-.wa-float:hover { transform: scale(1.1) translateY(-4px); box-shadow: 0 12px 32px rgba(37,211,102,0.5); }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 1024px) {
-  .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .about-sticky { position: static; }
-  .hero-visual { order: -1; }
-  .hero-frame-outer { width: 260px; height: 320px; }
-  .hero-img-wrap { width: 220px; height: 270px; }
-  .orbital-1 { width: 320px; height: 320px; margin: -160px 0 0 -160px; }
-  .orbital-2 { width: 380px; height: 240px; margin: -120px 0 0 -190px; }
-  .badge-1, .badge-2, .badge-3 { display: none; }
-  .contact-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 768px) {
-  section { padding: 90px 5%; }
-  nav ul { display: none; }
-  nav ul.open {
-    display: flex; flex-direction: column;
-    position: absolute; top: 100%; left: 0; right: 0;
-    background: rgba(5,8,16,0.97);
-    backdrop-filter: blur(20px);
-    padding: 20px;
-    border-bottom: 1px solid var(--border);
-  }
-  .hamburger { display: flex; }
-  .skills-grid { grid-template-columns: 1fr; }
-  .projects-grid { grid-template-columns: 1fr; }
-  .hero-stats { gap: 24px; }
-  .education-grid { grid-template-columns: 1fr; }
-  .certs-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 480px) {
-  .certs-grid { grid-template-columns: 1fr; }
-  .hero-ctas { flex-direction: column; }
-  .about-mini-grid { grid-template-columns: 1fr; }
-}
-</style>
+
+    <!-- =====================================================
+         CORE
+    ====================================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#030303"
+    >
+
+    <meta
+        name="color-scheme"
+        content="dark"
+    >
+
+    <meta
+        name="author"
+        content="Akhil Jampala"
+    >
+
+    <meta
+        name="description"
+        content="Akhil Jampala — Software Developer, Python Full Stack Developer, Java Full Stack Developer, Technical Trainer and Computer Science Academic Professional."
+    >
+
+    <meta
+        name="keywords"
+        content="Akhil Jampala, Software Developer, Python Full Stack Developer, Java Full Stack Developer, Technical Trainer, Assistant Professor, TG SET, UGC NET, Computer Science, Full Stack Developer"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+
+    <!-- =====================================================
+         OPEN GRAPH
+    ====================================================== -->
+
+    <meta
+        property="og:title"
+        content="AKHIL.IN — Akhil Jampala"
+    >
+
+    <meta
+        property="og:description"
+        content="Software Developer • Full Stack Developer • Technical Trainer • Academic Professional"
+    >
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:url"
+        content="https://jakhil.in/"
+    >
+
+    <meta
+        property="og:site_name"
+        content="AKHIL.IN"
+    >
+
+    <meta
+        property="og:image"
+        content="./assets/akhil-profile.png"
+    >
+
+
+    <!-- =====================================================
+         TITLE
+    ====================================================== -->
+
+    <title>
+        AKHIL.IN — Akhil Jampala
+    </title>
+
+
+    <!-- =====================================================
+         FAVICON
+    ====================================================== -->
+
+    <link
+        rel="icon"
+        href="./assets/akhil-profile.png"
+        type="image/png"
+    >
+
+
+    <!-- =====================================================
+         FONTS
+    ====================================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         THREE.JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"
+        defer
+    ></script>
+
+
+    <!-- =====================================================
+         MAIN STYLESHEET
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
+
 <body>
 
-<!-- ============ CURSOR ============ -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
 
-<!-- ============ SCROLL PROGRESS ============ -->
-<div id="scroll-progress"></div>
+<!-- =========================================================
+     PRELOADER
+========================================================= -->
 
-<!-- ============ THREE.JS CANVAS ============ -->
-<canvas id="three-canvas"></canvas>
+<div
+    class="preloader"
+    aria-hidden="true"
+>
 
-<!-- ============ BACKGROUND AMBIENT ============ -->
-<div class="bg-ambient">
-  <div class="bg-orb bg-orb-1"></div>
-  <div class="bg-orb bg-orb-2"></div>
-  <div class="bg-orb bg-orb-3"></div>
+    <div class="preloader-inner">
+
+       
+    </div>
+
 </div>
 
-<!-- ============================================================
-     NAVBAR
-     ============================================================ -->
-<nav id="navbar">
-  <a href="#hero" class="logo">
-    <span class="logo-bracket">[</span>AKHIL<span class="logo-dot">.</span>IN<span class="logo-bracket">]</span>
-  </a>
-  <ul id="nav-menu">
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#books">Books</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#certificates">Certs</a></li>
-    <li><a href="#contact" class="nav-contact-btn">Contact</a></li>
-  </ul>
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
 
-<!-- ============================================================
-     MAIN CONTENT
-     ============================================================ -->
-<main>
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
-<section id="hero">
+<!-- =========================================================
+     CUSTOM CURSOR
+========================================================= -->
 
-  <div class="hero-grid">
-    <!-- Left Content -->
-    <div class="hero-left">
-      <div class="hero-eyebrow">
-        <span class="status-dot"></span>
-        Available for Opportunities
-      </div>
-      <p class="hero-name-line">HELLO, I'M</p>
-      <h1 class="hero-title">
-        <span class="name-first">AKHIL</span>
-        <span class="name-last">JAMPALA</span>
-      </h1>
-      <div class="hero-role"><span id="typing-text"></span></div>
-      <p class="hero-desc">
-        Software Developer, Academic Trainer &amp; Technology Enthusiast. Building scalable systems,
-        teaching the next generation, and pushing the boundaries of what's possible with code.
-      </p>
-      <div class="hero-ctas">
-        <a href="#projects" class="btn-primary">
-          <i class="fa-solid fa-diagram-project"></i> View Projects
+<div
+    id="cursor"
+    aria-hidden="true"
+></div>
+
+<div
+    id="ring"
+    aria-hidden="true"
+></div>
+
+
+
+<!-- =========================================================
+     THREE.JS BACKGROUND
+========================================================= -->
+
+<canvas
+    id="three-bg"
+    aria-hidden="true"
+></canvas>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section
+    id="hero"
+    class="hero"
+>
+
+
+    <!-- HERO VIDEO -->
+
+    <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster="./assets/akhil-profile.png"
+        aria-hidden="true"
+    >
+
+        <source
+            src="./assets/hero.mp4"
+            type="video/mp4"
+        >
+
+    </video>
+
+
+    <!-- VIDEO OVERLAY -->
+
+    <div
+        class="hero-video-overlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- HERO GRID -->
+
+    <div
+        class="hero-grid"
+        aria-hidden="true"
+    ></div>
+
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <header class="nav">
+
+
+        <!-- BRAND -->
+
+        <a
+            href="#hero"
+            class="brand magnetic"
+            aria-label="Akhil.in home"
+        >
+
+            AKHIL<span>.IN</span>
+
         </a>
-        <a href="resume.pdf" class="btn-ghost" download>
-          <i class="fa-solid fa-download"></i> Download CV
+
+
+
+        <!-- DESKTOP NAVIGATION -->
+
+        <nav
+            aria-label="Primary navigation"
+        >
+
+            <a href="#about">
+                ABOUT
+            </a>
+
+            <a href="#books">
+                RESOURCES
+            </a>
+
+            <a href="#skills">
+                SKILLS
+            </a>
+
+            <a href="#projects">
+                PROJECTS
+            </a>
+
+            <a href="#experience">
+                EXPERIENCE
+            </a>
+
+            <a href="#education">
+                EDUCATION
+            </a>
+
+            <a href="#contact">
+                CONTACT
+            </a>
+
+        </nav>
+
+
+
+        <!-- CONTACT CTA -->
+
+        <a
+            href="#contact"
+            class="talk magnetic"
+        >
+
+            LET'S TALK
+
+            <span>
+                ↗
+            </span>
+
         </a>
-        <a href="#contact" class="btn-ghost">
-          <i class="fa-solid fa-paper-plane"></i> Contact Me
-        </a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-num" data-count="3">0+</div>
-          <div class="stat-label">Yrs Experience</div>
+
+
+    </header>
+
+
+
+    <!-- =====================================================
+         HERO CONTENT
+    ====================================================== -->
+
+    <div class="hero-content">
+
+
+        <!-- HERO COPY -->
+
+        <div
+            class="hero-copy reveal"
+        >
+
+
+            <div class="eyebrow">
+
+                <span class="status-dot"></span>
+
+                AVAILABLE FOR PROFESSIONAL OPPORTUNITIES
+
+            </div>
+
+
+            <p class="location-line">
+
+                HYDERABAD, INDIA
+
+                <span>
+                    •
+                </span>
+
+                COMPUTER SCIENCE
+
+            </p>
+
+
+            <h1>
+
+                <span class="silver">
+                    AKHIL
+                </span>
+
+                <span class="gold">
+                    JAMPALA
+                </span>
+
+            </h1>
+
+
+            <div class="hero-role">
+
+                SOFTWARE DEVELOPER
+
+                <i>
+                    •
+                </i>
+
+                FULL STACK DEVELOPER
+
+                <i>
+                    •
+                </i>
+
+                TECHNICAL TRAINER
+
+            </div>
+
+
+            <p class="lead">
+
+                I build software, teach technology,
+                develop practical solutions, and
+                help people turn technical knowledge
+                into real-world capability.
+
+            </p>
+
+
+            <div class="actions">
+
+
+                <a
+                    href="#projects"
+                    class="primary magnetic"
+                >
+
+                    EXPLORE MY WORK
+
+                    <span>
+                        ↗
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="#about"
+                    class="secondary magnetic"
+                >
+
+                    DISCOVER MORE
+
+                    <span>
+                        ↓
+                    </span>
+
+                </a>
+
+
+            </div>
+
+
         </div>
-        <div class="stat">
-          <div class="stat-num" data-count="7">0+</div>
-          <div class="stat-label">Projects Built</div>
+
+
+
+        <!-- =================================================
+             HERO ORBIT
+        ================================================== -->
+
+        <div
+            class="hero-orbit reveal"
+            aria-label="Professional highlights"
+        >
+
+            <div class="orbit"></div>
+
+            <div class="orbit inner"></div>
+
+
+            <div class="orbit-core">
+
+
+                <div class="orbit-content">
+
+
+                    <span>
+                        PYTHON • JAVA
+                    </span>
+
+
+                    <b>
+
+                        FULL
+                        <br>
+                        STACK
+
+                    </b>
+
+
+                    <small>
+
+                        ASSISTANT PROFESSOR
+                        <br>
+
+                        TG SET • UGC NET
+                        <br>
+
+                        QUALIFIED
+
+                    </small>
+
+
+                </div>
+
+
+            </div>
+
+
         </div>
-        <div class="stat">
-          <div class="stat-num" data-count="10">0+</div>
-          <div class="stat-label">CS Subjects</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num" data-count="200">0+</div>
-          <div class="stat-label">Students Taught</div>
-        </div>
-      </div>
+
+
     </div>
 
-    <!-- Right Visual -->
-    <div class="hero-visual">
-      <div class="hero-frame-outer">
-        <div class="cinematic-frame"></div>
-        <div class="orbital orbital-1"></div>
-        <div class="orbital orbital-2"></div>
-        <div class="hero-img-wrap">
-          <img src="https://raw.githubusercontent.com/akhil4738/portfolio/main/profile.png"
-               alt="Akhil Jampala"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="img-placeholder" style="display:none"><i class="fa-solid fa-user"></i></div>
-        </div>
-        <!-- Info badges -->
-        <div class="info-badge badge-1"><i class="fa-brands fa-python"></i> Python Expert</div>
-        <div class="info-badge badge-2"><i class="fa-solid fa-award"></i> TG SET Qualified</div>
-        <div class="info-badge badge-3"><i class="fa-solid fa-code"></i> Full Stack</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Scroll indicator -->
-  <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
+
+    <!-- =====================================================
+         HERO FOOTER
+    ====================================================== -->
+
+    <div class="hero-bottom">
+
+
+        <div>
+
+            <span>
+                SCROLL TO EXPLORE
+            </span>
+
+            <i></i>
+
+        </div>
+
+
+        <span>
+            01 / 08
+        </span>
+
+
+    </div>
+
+
 </section>
 
-<div class="section-divider"></div>
 
-<!-- ── ABOUT ─────────────────────────────────────────────────── -->
-<section id="about">
-  <div class="section-inner">
-    <div class="about-grid">
-      <!-- Left sticky -->
-      <div class="about-sticky">
-        <div class="section-label gsap-reveal">// about me</div>
-        <h2 class="section-title gsap-reveal">Crafting <span class="accent">Code</span> &amp; Knowledge</h2>
 
-        <div class="about-highlight gsap-reveal">
-          <div class="ahl-icon"><i class="fa-solid fa-code"></i></div>
-          <div class="ahl-title">Software Developer</div>
-          <div class="ahl-desc">Building scalable web applications and software systems using Python, Java, Flask, and modern web stacks.</div>
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
+<section
+    id="about"
+    class="section about"
+>
+
+    <div class="container">
+
+
+        <div class="kicker reveal">
+
+            <span>
+                01
+            </span>
+
+            ABOUT ME
+
+            <i></i>
+
         </div>
 
-        <div class="about-highlight gsap-reveal">
-          <div class="ahl-icon" style="color:var(--neon2);background:rgba(129,140,248,0.1);border-color:rgba(129,140,248,0.15)"><i class="fa-solid fa-chalkboard-user"></i></div>
-          <div class="ahl-title">Academic Trainer</div>
-          <div class="ahl-desc">TG SET Qualified — teaching Computer Science and mentoring students in programming, research, and core CS concepts.</div>
+
+        <div class="about-grid">
+
+
+            <!-- ABOUT COPY -->
+
+            <div class="about-copy reveal">
+
+
+                <h2 class="title">
+
+                    <span class="silver">
+                        BUILDING
+                    </span>
+
+                    <span class="gold">
+                        WITH PURPOSE.
+                    </span>
+
+                </h2>
+
+
+                <p class="copy">
+
+                    I'm
+                    <strong>
+                        Akhil Jampala
+                    </strong>
+                    —
+                    a Software Developer,
+                    Full Stack Developer,
+                    Technical Trainer and
+                    Computer Science academic
+                    professional.
+
+                </p>
+
+
+                <p class="copy">
+
+                    My work sits at the intersection
+                    of
+                    <strong>
+                        software development,
+                        technology education and
+                        practical problem solving.
+                    </strong>
+
+                    I enjoy building applications,
+                    exploring new technologies and
+                    helping others understand complex
+                    technical concepts.
+
+                </p>
+
+
+                <p class="copy">
+
+                    My professional journey combines
+                    software development with technical
+                    training, academic teaching and
+                    project-oriented learning.
+
+                </p>
+
+
+               <div class="about-signature"
+     style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin-top:35px; padding-left:18px; border-left:1px solid #d4af37; color:#f7f1e9; font-family:'Bebas Neue',sans-serif; font-size:24px; font-weight:400; line-height:1; letter-spacing:.16em; text-transform:uppercase; text-shadow:0 2px 15px rgba(0,0,0,.45);">
+
+    AKHIL JAMPALA
+
+    <span style="display:block; color:#9f948a; font-family:'Courier New',monospace; font-size:7px; font-weight:400; line-height:1.6; letter-spacing:.22em; text-transform:uppercase;">
+        Software • Technology • Education
+    </span>
+
+</div>
+
+
+            </div>
+
+
+
+            <!-- PROFILE -->
+
+            <div class="portrait-wrap reveal">
+
+
+                <div class="portrait-card">
+
+
+                    <img
+                        src="./assets/akhil-profile.png"
+                        alt="Akhil Jampala"
+                        loading="lazy"
+                    >
+
+
+                    <div
+                        class="portrait-overlay"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div class="portrait-label">
+
+                        <span>
+                            AKHIL JAMPALA
+                        </span>
+
+                        <small>
+                            SOFTWARE • ACADEMIA • TECHNOLOGY
+                        </small>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="portrait-meta"
+     style="position:absolute; left:22px; right:22px; bottom:22px; z-index:10; display:flex; flex-direction:column; align-items:flex-start; gap:7px; pointer-events:none;">
+
+    <span style="display:inline-flex; align-items:center; min-height:25px; padding:6px 11px 6px 24px; color:#e7d7c3; background:linear-gradient(90deg,rgba(5,4,3,.92),rgba(5,4,3,.68)); border-left:1px solid #d4af37; border-top:1px solid rgba(212,175,55,.12); border-bottom:1px solid rgba(212,175,55,.12); box-shadow:0 5px 20px rgba(0,0,0,.45); font-family:'Courier New',monospace; font-size:7px; font-weight:500; line-height:1; letter-spacing:.18em; white-space:nowrap; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);">
+        SOFTWARE DEVELOPER
+    </span>
+
+    <span style="display:inline-flex; align-items:center; min-height:25px; padding:6px 11px 6px 24px; color:#e7d7c3; background:linear-gradient(90deg,rgba(5,4,3,.92),rgba(5,4,3,.68)); border-left:1px solid #d4af37; border-top:1px solid rgba(212,175,55,.12); border-bottom:1px solid rgba(212,175,55,.12); box-shadow:0 5px 20px rgba(0,0,0,.45); font-family:'Courier New',monospace; font-size:7px; font-weight:500; line-height:1; letter-spacing:.18em; white-space:nowrap; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);">
+        TECHNICAL TRAINER
+    </span>
+
+    <span style="display:inline-flex; align-items:center; min-height:25px; padding:6px 11px 6px 24px; color:#e7d7c3; background:linear-gradient(90deg,rgba(5,4,3,.92),rgba(5,4,3,.68)); border-left:1px solid #d4af37; border-top:1px solid rgba(212,175,55,.12); border-bottom:1px solid rgba(212,175,55,.12); box-shadow:0 5px 20px rgba(0,0,0,.45); font-family:'Courier New',monospace; font-size:7px; font-weight:500; line-height:1; letter-spacing:.18em; white-space:nowrap; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);">
+        ACADEMIC PROFESSIONAL
+    </span>
+
+</div>
+
+
+            </div>
+
+
         </div>
 
-        <div class="about-highlight gsap-reveal">
-          <div class="ahl-icon" style="color:var(--neon3);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.12)"><i class="fa-solid fa-lightbulb"></i></div>
-          <div class="ahl-title">Founder — Syntax Circuit</div>
-          <div class="ahl-desc">A developer-focused platform dedicated to programming tutorials, tech knowledge, and learning resources.</div>
-        </div>
-      </div>
 
-      <!-- Right body -->
-      <div class="about-right">
-        <div class="about-body gsap-reveal">
-          <p>I am a passionate <strong>Software Developer, Computer Science Academic Trainer, and Technology Enthusiast</strong> based in Hyderabad. I specialize in building production-grade web applications and teaching programming at the college level.</p>
-          <p>As a <strong>Qualified Assistant Professor (TG SET – Telangana State Eligibility Test)</strong>, I bring deep expertise in Operating Systems, Computer Networks, Theory of Computation, Compiler Design, Data Mining, and Network Security.</p>
-          <p>My technical interests span <strong>Python, Java, Web Development, Cloud Computing, Data Science, and Software Engineering</strong>. I enjoy building scalable systems that solve real-world problems and inspire the next generation of engineers.</p>
+
+        <!-- =================================================
+             ABOUT STATS
+        ================================================== -->
+
+        <div class="stats reveal">
+
+
+            <div>
+
+                <b>
+                    01
+                </b>
+
+                <span>
+                    SOFTWARE
+                    <br>
+                    DEVELOPMENT
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    02
+                </b>
+
+                <span>
+                    FULL STACK
+                    <br>
+                    DEVELOPMENT
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    03
+                </b>
+
+                <span>
+                    TECHNICAL
+                    <br>
+                    TRAINING
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <b>
+                    04
+                </b>
+
+                <span>
+                    COMPUTER
+                    <br>
+                    SCIENCE
+                </span>
+
+            </div>
+
+
         </div>
 
-        <div class="about-mini-grid gsap-reveal">
-          <div class="mini-card">
-            <i class="fa-solid fa-code"></i>
-            <h4>Software Dev</h4>
-            <p>Scalable web apps & systems</p>
-          </div>
-          <div class="mini-card">
-            <i class="fa-solid fa-chalkboard-user"></i>
-            <h4>Academic Training</h4>
-            <p>Teaching & mentoring CS students</p>
-          </div>
-          <div class="mini-card">
-            <i class="fa-solid fa-award"></i>
-            <h4>TG SET Qualified</h4>
-            <p>Telangana State Eligibility Test</p>
-          </div>
-          <div class="mini-card">
-            <i class="fa-solid fa-rocket"></i>
-            <h4>Founder</h4>
-            <p>Syntax Circuit learning platform</p>
-          </div>
-        </div>
-      </div>
+
     </div>
-  </div>
+
 </section>
 
-<div class="section-divider"></div>
-   <div class="section-divider"></div>
 
-<!-- ── BOOKS & NOTES ─────────────────────────────────────────────────── -->
-<!-- ── BOOKS & NOTES ─────────────────────────────────────────────────── -->
-<section id="books">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// study materials</div>
-    <h2 class="section-title gsap-reveal">Books &amp; <span class="accent">Notes</span></h2>
-    <p class="section-sub gsap-reveal">Handwritten &amp; digital notes, exam guides and reference material for Computer Science — organized by category.</p>
 
-    <div class="projects-grid" style="grid-template-columns:repeat(auto-fill, minmax(270px, 1fr))">
+<!-- =========================================================
+     RESOURCES
+========================================================= -->
 
-      <!-- Category 1: Tech Job Books -->
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" loading="lazy" alt="Tech Job Books">
-          <div class="project-img-overlay"></div>
-          <div class="project-num" style="left:14px;right:auto;color:var(--gold);border-color:rgba(251,191,36,0.2)">CAREER</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">Tech Job Books</h3>
-          <p class="project-desc">Interview prep, DSA, system design and placement-focused guides to help you crack software engineering and IT job interviews.</p>
-          <div class="project-tags"><span class="tag">DSA</span><span class="tag">Interview Prep</span><span class="tag">System Design</span></div>
-          <div class="project-links">
-            <a href="tech-job-books.html" class="project-link primary"><i class="fa-solid fa-briefcase"></i> View Books</a>
-          </div>
-        </div>
-      </div>
+<section
+    id="books"
+    class="section dark"
+>
 
-      <!-- Category 2: Academic Books -->
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" loading="lazy" alt="Academic Books">
-          <div class="project-img-overlay"></div>
-          <div class="project-num" style="left:14px;right:auto;color:var(--neon2);border-color:rgba(129,140,248,0.2)">SEMESTER</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">Academic Books</h3>
-          <p class="project-desc">Semester-wise notes for core CS subjects — Operating Systems, Computer Networks, DBMS, Theory of Computation, Compiler Design and more.</p>
-          <div class="project-tags"><span class="tag">Semester Notes</span><span class="tag">Core CS</span></div>
-          <div class="project-links">
-            <a href="academic-books.html" class="project-link primary"><i class="fa-solid fa-book"></i> View Books</a>
-          </div>
-        </div>
-      </div>
+    <div class="container">
 
-      <!-- Category 3: GATE + UGC NET Books (combined) -->
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" loading="lazy" alt="GATE and UGC NET Books">
-          <div class="project-img-overlay"></div>
-          <div class="project-num" style="left:14px;right:auto;color:var(--neon3);border-color:rgba(244,114,182,0.2)">GATE / NET</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">GATE &amp; UGC NET Books</h3>
-          <p class="project-desc">Topic-wise GATE and UGC NET Computer Science preparation material with previous-year questions, formula sheets and mock test strategy.</p>
-          <div class="project-tags"><span class="tag">GATE CS</span><span class="tag">UGC NET</span><span class="tag">PYQs</span></div>
-          <div class="project-links">
-            <a href="gate-ugc-net-books.html" class="project-link primary"><i class="fa-solid fa-graduation-cap"></i> View Books</a>
-          </div>
-        </div>
-      </div>
 
-      <!-- Category 4: CPGET Books -->
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80" loading="lazy" alt="CPGET Computer Science Books">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">CPGET</div>
+        <div class="kicker reveal">
+
+            <span>
+                02
+            </span>
+
+            KNOWLEDGE HUB
+
+            <i></i>
+
         </div>
-        <div class="project-body">
-          <h3 class="project-title">CPGET (Computer Science) Books</h3>
-          <p class="project-desc">Focused preparation material for CPGET / TG SET Computer Science — built from my own qualifying experience.</p>
-          <div class="project-tags"><span class="tag">CPGET</span><span class="tag">TG SET</span></div>
-          <div class="project-links">
-            <a href="cpget-books.html" class="project-link primary"><i class="fa-solid fa-award"></i> View Books</a>
-          </div>
+
+
+        <div class="heading-row">
+
+
+            <h2 class="title reveal">
+
+                <span class="silver">
+                    LEARN.
+                </span>
+
+                <span class="gold">
+                    BUILD. GROW.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                Structured technical resources
+                and Computer Science preparation
+                material designed for learners,
+                developers and competitive-exam
+                aspirants.
+
+            </p>
+
+
         </div>
-      </div>
+
+
+
+        <div class="cards four">
+
+
+            <!-- RESOURCE 01 -->
+
+            <article class="glass reveal">
+
+                <span class="num">
+                    01
+                </span>
+
+                <small>
+                    CAREER
+                </small>
+
+                <h3>
+                    TECH JOB BOOKS
+                </h3>
+
+                <p>
+
+                    Practical resources for software
+                    development, programming,
+                    interviews, DSA and technical
+                    career preparation.
+
+                </p>
+
+                <div class="chips">
+
+                    <i>
+                        DSA
+                    </i>
+
+                    <i>
+                        INTERVIEWS
+                    </i>
+
+                    <i>
+                        CAREER
+                    </i>
+
+                </div>
+
+                <a href="#contact">
+
+                    EXPLORE
+
+                    <span>
+                        ↗
+                    </span>
+
+                </a>
+
+            </article>
+
+
+
+            <!-- RESOURCE 02 -->
+
+            <article class="glass reveal">
+
+                <span class="num">
+                    02
+                </span>
+
+                <small>
+                    ACADEMICS
+                </small>
+
+                <h3>
+                    ACADEMIC BOOKS
+                </h3>
+
+                <p>
+
+                    Computer Science learning
+                    material covering core subjects,
+                    concepts, examinations and
+                    academic preparation.
+
+                </p>
+
+                <div class="chips">
+
+                    <i>
+                        CORE CS
+                    </i>
+
+                    <i>
+                        NOTES
+                    </i>
+
+                    <i>
+                        EXAMS
+                    </i>
+
+                </div>
+
+                <a href="#contact">
+
+                    EXPLORE
+
+                    <span>
+                        ↗
+                    </span>
+
+                </a>
+
+            </article>
+
+
+
+            <!-- RESOURCE 03 -->
+
+            <article class="glass reveal">
+
+                <span class="num">
+                    03
+                </span>
+
+                <small>
+                    COMPETITIVE EXAMS
+                </small>
+
+                <h3>
+                    GATE & UGC NET
+                </h3>
+
+                <p>
+
+                    Focused Computer Science
+                    preparation resources covering
+                    concepts, previous questions and
+                    competitive examination strategy.
+
+                </p>
+
+                <div class="chips">
+
+                    <i>
+                        GATE CS
+                    </i>
+
+                    <i>
+                        UGC NET
+                    </i>
+
+                    <i>
+                        PYQs
+                    </i>
+
+                </div>
+
+                <a href="#contact">
+
+                    EXPLORE
+
+                    <span>
+                        ↗
+                    </span>
+
+                </a>
+
+            </article>
+
+
+
+            <!-- RESOURCE 04 -->
+
+            <article class="glass reveal">
+
+                <span class="num">
+                    04
+                </span>
+
+                <small>
+                    TELANGANA
+                </small>
+
+                <h3>
+                    CPGET COMPUTER SCIENCE
+                </h3>
+
+                <p>
+
+                    Computer Science preparation
+                    resources for CPGET and related
+                    academic entrance examinations.
+
+                </p>
+
+                <div class="chips">
+
+                    <i>
+                        CPGET
+                    </i>
+
+                    <i>
+                        COMPUTER SCIENCE
+                    </i>
+
+                </div>
+
+                <a href="#contact">
+
+                    EXPLORE
+
+                    <span>
+                        ↗
+                    </span>
+
+                </a>
+
+            </article>
+
+
+        </div>
+
 
     </div>
 
-    <p class="section-sub gsap-reveal" style="margin-top:32px">
-      <i class="fa-solid fa-circle-info" style="color:var(--neon);margin-right:8px"></i>
-      Each category opens its own page with the full book list, previews and pricing. Payments via UPI / PayPal — notes delivered directly to your email.
+</section>
+
+
+
+<!-- =========================================================
+     SKILLS
+========================================================= -->
+
+<section
+    id="skills"
+    class="section skills"
+>
+
+    <div class="container">
+
+
+        <div class="kicker reveal">
+
+            <span>
+                03
+            </span>
+
+            EXPERTISE
+
+            <i></i>
+
+        </div>
+
+
+        <div class="heading-row">
+
+
+            <h2 class="title reveal">
+
+                <span class="silver">
+                    TECHNICAL
+                </span>
+
+                <span class="gold">
+                    ARSENAL.
+                </span>
+
+            </h2>
+
+
+            <p>
+
+                A combination of programming,
+                full stack development, databases,
+                systems and core Computer Science.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- SKILL FILTER -->
+
+        <div class="skill-filter reveal">
+
+
+            <button
+                type="button"
+                class="active"
+                data-filter="all"
+            >
+                ALL
+            </button>
+
+
+            <button
+                type="button"
+                data-filter="programming"
+            >
+                PROGRAMMING
+            </button>
+
+
+            <button
+                type="button"
+                data-filter="academic"
+            >
+                COMPUTER SCIENCE
+            </button>
+
+
+            <button
+                type="button"
+                data-filter="tools"
+            >
+                TOOLS & SYSTEMS
+            </button>
+
+
+        </div>
+
+
+
+        <!-- SKILL GRID -->
+
+        <div class="skill-grid">
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        Python
+                    </span>
+
+                    <b>
+                        95%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:95%"></i>
+                </div>
+
+                <small>
+                    PROGRAMMING
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        Java
+                    </span>
+
+                    <b>
+                        90%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:90%"></i>
+                </div>
+
+                <small>
+                    PROGRAMMING
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        C / C++
+                    </span>
+
+                    <b>
+                        90%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:90%"></i>
+                </div>
+
+                <small>
+                    PROGRAMMING
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        HTML / CSS / JavaScript
+                    </span>
+
+                    <b>
+                        92%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:92%"></i>
+                </div>
+
+                <small>
+                    FRONTEND
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        Flask
+                    </span>
+
+                    <b>
+                        85%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:85%"></i>
+                </div>
+
+                <small>
+                    BACKEND
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        PHP
+                    </span>
+
+                    <b>
+                        88%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:88%"></i>
+                </div>
+
+                <small>
+                    BACKEND
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="programming"
+            >
+
+                <div>
+
+                    <span>
+                        SQL / MySQL
+                    </span>
+
+                    <b>
+                        90%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:90%"></i>
+                </div>
+
+                <small>
+                    DATABASE
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Operating Systems
+                    </span>
+
+                    <b>
+                        92%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:92%"></i>
+                </div>
+
+                <small>
+                    CORE CS
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Computer Networks
+                    </span>
+
+                    <b>
+                        90%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:90%"></i>
+                </div>
+
+                <small>
+                    CORE CS
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Theory of Computation
+                    </span>
+
+                    <b>
+                        88%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:88%"></i>
+                </div>
+
+                <small>
+                    CORE CS
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Compiler Design
+                    </span>
+
+                    <b>
+                        86%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:86%"></i>
+                </div>
+
+                <small>
+                    CORE CS
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Discrete Mathematics
+                    </span>
+
+                    <b>
+                        88%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:88%"></i>
+                </div>
+
+                <small>
+                    COMPUTER SCIENCE
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Cryptography
+                    </span>
+
+                    <b>
+                        85%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:85%"></i>
+                </div>
+
+                <small>
+                    SECURITY
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Data Mining
+                    </span>
+
+                    <b>
+                        85%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:85%"></i>
+                </div>
+
+                <small>
+                    DATA
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="academic"
+            >
+
+                <div>
+
+                    <span>
+                        Computer Organization
+                    </span>
+
+                    <b>
+                        90%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:90%"></i>
+                </div>
+
+                <small>
+                    SYSTEMS
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="tools"
+            >
+
+                <div>
+
+                    <span>
+                        Cloud Computing
+                    </span>
+
+                    <b>
+                        80%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:80%"></i>
+                </div>
+
+                <small>
+                    CLOUD
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="tools"
+            >
+
+                <div>
+
+                    <span>
+                        Git / GitHub
+                    </span>
+
+                    <b>
+                        88%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:88%"></i>
+                </div>
+
+                <small>
+                    VERSION CONTROL
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="tools"
+            >
+
+                <div>
+
+                    <span>
+                        Linux / CLI
+                    </span>
+
+                    <b>
+                        82%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:82%"></i>
+                </div>
+
+                <small>
+                    SYSTEMS
+                </small>
+
+            </div>
+
+
+            <div
+                class="skill reveal"
+                data-cat="tools"
+            >
+
+                <div>
+
+                    <span>
+                        Software Engineering
+                    </span>
+
+                    <b>
+                        84%
+                    </b>
+
+                </div>
+
+                <div class="bar">
+                    <i style="width:84%"></i>
+                </div>
+
+                <small>
+                    ENGINEERING
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROJECTS
+========================================================= -->
+<!-- ============================================================
+     SELECTED PROJECTS
+============================================================ -->
+
+<section id="projects" class="section dark projects">
+
+    <div class="container">
+
+        <!-- SECTION KICKER -->
+        <div class="kicker reveal">
+            <span>04</span>
+            SELECTED WORK
+            <i></i>
+        </div>
+
+
+        <!-- SECTION HEADING -->
+        <div class="heading-row">
+
+            <h2 class="title reveal">
+
+                <span class="silver">
+                    SELECTED
+                </span>
+
+                <span class="gold">
+                    PROJECTS.
+                </span>
+
+            </h2>
+
+            <p>
+                From management systems to education platforms,
+                AI solutions, cybersecurity tools and web
+                applications — practical software built around
+                real requirements.
+            </p>
+
+        </div>
+
+
+        <!-- PROJECT STACK -->
+        <div class="project-stack">
+
+
+            <!-- ==================================================
+                 PROJECT 01
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">
+                    01
+                </div>
+
+                <div class="project-main">
+
+                    <small>
+                        PYTHON / BACKEND
+                    </small>
+
+                    <h3>
+                        COLLEGE MANAGEMENT SYSTEM
+                    </h3>
+
+                    <p>
+                        A Python-based management system designed
+                        for institutional workflows, student records
+                        and academic administration.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>Flask</i>
+                        <i>MySQL</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/akhil4738/college-management-system"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View College Management System"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 02
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">
+                    02
+                </div>
+
+                <div class="project-main">
+
+                    <small>
+                        PHP / E-COMMERCE
+                    </small>
+
+                    <h3>
+                        ROSY E-COMMERCE PLATFORM
+                    </h3>
+
+                    <p>
+                        A web-based e-commerce platform built around
+                        product management, customer interaction and
+                        database-driven workflows.
+                    </p>
+
+                    <div class="chips">
+                        <i>PHP</i>
+                        <i>MySQL</i>
+                        <i>HTML/CSS</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://github.com/akhil4738/ROSY"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Rosy E-Commerce Platform"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 03
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">
+                    03
+                </div>
+
+                <div class="project-main">
+
+                    <small>
+                        WEB / NEWS
+                    </small>
+
+                    <h3>
+                        TCCWC NEWS PORTAL
+                    </h3>
+
+                    <p>
+                        A responsive news platform developed for
+                        publishing and organizing regional and
+                        multilingual news content.
+                    </p>
+
+                    <div class="chips">
+                        <i>HTML</i>
+                        <i>CSS</i>
+                        <i>JavaScript</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://tccwcnews.github.io/TCCWC"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit TCCWC News Portal"
+                >
+                    LIVE PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 04
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">
+                    04
+                </div>
+
+                <div class="project-main">
+
+                    <small>
+                        WEB / SERVICES
+                    </small>
+
+                    <h3>
+                        KONECTAX WEBSITE
+                    </h3>
+
+                    <p>
+                        A responsive digital services website focused
+                        on a clean, modern interface and clear service
+                        presentation.
+                    </p>
+
+                    <div class="chips">
+                        <i>HTML</i>
+                        <i>CSS</i>
+                        <i>JavaScript</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://akhil4738.github.io/Konectax/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Konectax Website"
+                >
+                    LIVE PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 05
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">
+                    05
+                </div>
+
+                <div class="project-main">
+
+                    <small>
+                        ACADEMIC / RESOURCES
+                    </small>
+
+                    <h3>
+                        OSMANIACS4U
+                    </h3>
+
+                    <p>
+                        An academic resource platform focused on useful
+                        information, learning material and student support.
+                    </p>
+
+                    <div class="chips">
+                        <i>HTML</i>
+                        <i>CSS</i>
+                        <i>JavaScript</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://akhil4738.github.io/rvea/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Osmaniacs4u"
+                >
+                    LIVE PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 06
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">
+                    06
+                </div>
+
+                <div class="project-main">
+
+                    <small>
+                        EDUCATION / TECHNOLOGY
+                    </small>
+
+                    <h3>
+                        SYNTAX CIRCUIT
+                    </h3>
+
+                    <p>
+                        A developer-oriented educational platform focused
+                        on programming, Computer Science and technology
+                        learning resources.
+                    </p>
+
+                    <div class="chips">
+                        <i>HTML</i>
+                        <i>CSS</i>
+                        <i>JavaScript</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://syntax-circuit.github.io/app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit Syntax Circuit"
+                >
+                    LIVE PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 07
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">07</div>
+
+                <div class="project-main">
+
+                    <small>
+                        AI / AUTOMATION
+                    </small>
+
+                    <h3>
+                        AUTOMATION OF RESUME SCREENING
+                    </h3>
+
+                    <p>
+                        An automated resume screening project designed
+                        to streamline candidate evaluation and recruitment
+                        workflows.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>AI</i>
+                        <i>Automation</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1ABe-UDO_Ck49hDiWM9Y-7N0CXbZtykz5&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Automation of Resume Screening"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 08
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">08</div>
+
+                <div class="project-main">
+
+                    <small>
+                        BLOCKCHAIN / SECURITY
+                    </small>
+
+                    <h3>
+                        BLOCKCHAIN BASED VOTING APP
+                    </h3>
+
+                    <p>
+                        A blockchain-based voting application focused
+                        on secure, transparent and reliable digital
+                        voting workflows.
+                    </p>
+
+                    <div class="chips">
+                        <i>Blockchain</i>
+                        <i>Security</i>
+                        <i>Voting</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1uFK02USJeirJY2kDipVIfOBuneKKcNKX&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Blockchain Based Voting App"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 09
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">09</div>
+
+                <div class="project-main">
+
+                    <small>
+                        CLOUD / COMPUTER VISION
+                    </small>
+
+                    <h3>
+                        CLOUD BASED ATTENDANCE USING FACE RECOGNITION
+                    </h3>
+
+                    <p>
+                        A cloud-oriented attendance system using face
+                        recognition technology for automated attendance
+                        workflows.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>Cloud</i>
+                        <i>Face Recognition</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1v65qeLeLFXseJtd17u3FHH4BTZoxfE1e&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Cloud Based Attendance Using Face Recognition"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 10
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">10</div>
+
+                <div class="project-main">
+
+                    <small>
+                        WEB / EDUCATION
+                    </small>
+
+                    <h3>
+                        COLLEGE RESULT PORTAL
+                    </h3>
+
+                    <p>
+                        A web-based academic result portal designed
+                        for managing and presenting student examination
+                        results.
+                    </p>
+
+                    <div class="chips">
+                        <i>HTML</i>
+                        <i>CSS</i>
+                        <i>JavaScript</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1mQCIA-Sn8EZDe_TGg3yi8bFuR6bg18uW&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View College Result Portal"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 11
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">11</div>
+
+                <div class="project-main">
+
+                    <small>
+                        DATA / ANALYTICS
+                    </small>
+
+                    <h3>
+                        CRIME DATA ANALYSIS
+                    </h3>
+
+                    <p>
+                        A data analysis project focused on examining
+                        crime-related information and extracting
+                        meaningful analytical insights.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>Data Analysis</i>
+                        <i>Analytics</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1edt-xiZWoowYTbG1jGM_vOSfSYLEQSJs&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Crime Data Analysis"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 12
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">12</div>
+
+                <div class="project-main">
+
+                    <small>
+                        SECURITY / CRYPTOGRAPHY
+                    </small>
+
+                    <h3>
+                        CRYPTOGRAPHIC KEY MANAGEMENT
+                    </h3>
+
+                    <p>
+                        A security-focused project addressing
+                        cryptographic key management and secure
+                        key handling concepts.
+                    </p>
+
+                    <div class="chips">
+                        <i>Cryptography</i>
+                        <i>Security</i>
+                        <i>Encryption</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1jsUKYX9JPoahVpswFfJC8nD_4FupWTp3&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Cryptographic Key Management"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 13
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">13</div>
+
+                <div class="project-main">
+
+                    <small>
+                        AI / MACHINE LEARNING
+                    </small>
+
+                    <h3>
+                        FAKE NEWS DETECTION
+                    </h3>
+
+                    <p>
+                        A machine-learning-oriented project designed
+                        to identify potentially misleading or fake
+                        news content.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>Machine Learning</i>
+                        <i>NLP</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1Kr2cv99aZ6owV5HfbQZKixu5IuUHQi8d&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Fake News Detection"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 14
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">14</div>
+
+                <div class="project-main">
+
+                    <small>
+                        AI / COMPUTER VISION
+                    </small>
+
+                    <h3>
+                        HAND GESTURE CONTROL
+                    </h3>
+
+                    <p>
+                        A computer vision project exploring hand gesture
+                        recognition for intuitive digital control and
+                        interaction.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>Computer Vision</i>
+                        <i>AI</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1dC7KEch1JVQ4giA5Av_noqPNsRE_4kS0&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Hand Gesture Control"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 15
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">15</div>
+
+                <div class="project-main">
+
+                    <small>
+                        WEB / MANAGEMENT
+                    </small>
+
+                    <h3>
+                        HOSPITAL MANAGEMENT SYSTEM
+                    </h3>
+
+                    <p>
+                        A management system designed to support
+                        hospital workflows, administrative operations
+                        and information management.
+                    </p>
+
+                    <div class="chips">
+                        <i>Web</i>
+                        <i>Database</i>
+                        <i>Management</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=177wM_Dzm2P_G6K6k1ngxi-mekElvEydl&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Hospital Management System"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 16
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">16</div>
+
+                <div class="project-main">
+
+                    <small>
+                        CYBERSECURITY / NETWORK
+                    </small>
+
+                    <h3>
+                        INTRUSION DETECTION
+                    </h3>
+
+                    <p>
+                        A cybersecurity project focused on detecting
+                        potentially unauthorized or suspicious
+                        network activity.
+                    </p>
+
+                    <div class="chips">
+                        <i>Cybersecurity</i>
+                        <i>Network</i>
+                        <i>IDS</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1vLfL-1GFeWF3xEBFKlWpvmNtavbo9T1O&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Intrusion Detection"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 17
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">17</div>
+
+                <div class="project-main">
+
+                    <small>
+                        SECURITY / BIOMETRICS
+                    </small>
+
+                    <h3>
+                        MFA BIOMETRIC
+                    </h3>
+
+                    <p>
+                        A multi-factor authentication project
+                        incorporating biometric security for stronger
+                        identity verification.
+                    </p>
+
+                    <div class="chips">
+                        <i>MFA</i>
+                        <i>Biometric</i>
+                        <i>Security</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1aqv1yCbLewKx3-Ig2WbdnPgyTcQwgsX7&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View MFA Biometric"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 18
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">18</div>
+
+                <div class="project-main">
+
+                    <small>
+                        CYBERSECURITY / PASSWORDS
+                    </small>
+
+                    <h3>
+                        PASSWORD STRENGTH ANALYZER
+                    </h3>
+
+                    <p>
+                        A security utility designed to analyse
+                        password strength and evaluate basic
+                        password security characteristics.
+                    </p>
+
+                    <div class="chips">
+                        <i>Security</i>
+                        <i>Password</i>
+                        <i>Analysis</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1sd_WtqrcZzTJ4WdQ2F0fTJATovw4fzy4&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Password Strength Analyzer"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 19
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">19</div>
+
+                <div class="project-main">
+
+                    <small>
+                        CYBERSECURITY / WEB
+                    </small>
+
+                    <h3>
+                        PHISHING WEB DETECTION
+                    </h3>
+
+                    <p>
+                        A cybersecurity project focused on identifying
+                        potentially malicious and phishing-oriented
+                        websites.
+                    </p>
+
+                    <div class="chips">
+                        <i>Cybersecurity</i>
+                        <i>Web</i>
+                        <i>Detection</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1-YqdwRTvD902l-ogHHdmT5HgqCorN9a9&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Phishing Web Detection"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 20
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">20</div>
+
+                <div class="project-main">
+
+                    <small>
+                        AI / AGRICULTURE
+                    </small>
+
+                    <h3>
+                        PLANT DISEASE DETECTION
+                    </h3>
+
+                    <p>
+                        An AI-oriented project focused on identifying
+                        plant diseases through image-based detection
+                        and classification.
+                    </p>
+
+                    <div class="chips">
+                        <i>AI</i>
+                        <i>Computer Vision</i>
+                        <i>Python</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1aHweDJVpYLQbbKbe7yAWqpcP097UmJ3t&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Plant Disease Detection"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 21
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">21</div>
+
+                <div class="project-main">
+
+                    <small>
+                        AI / RESUME ANALYSIS
+                    </small>
+
+                    <h3>
+                        RESUME ANALYZER
+                    </h3>
+
+                    <p>
+                        A resume analysis project designed to extract
+                        and evaluate relevant candidate information.
+                    </p>
+
+                    <div class="chips">
+                        <i>Python</i>
+                        <i>Analysis</i>
+                        <i>Resume</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1jo80VW5iXYyTXg27l2fGkgQPcMcmCjb8&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Resume Analyzer"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 22
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">22</div>
+
+                <div class="project-main">
+
+                    <small>
+                        SECURITY / CRYPTOGRAPHY
+                    </small>
+
+                    <h3>
+                        SECURE DATA SHARING USING CRYPTOGRAPHY
+                    </h3>
+
+                    <p>
+                        A cryptography-focused project designed around
+                        secure data sharing and information protection.
+                    </p>
+
+                    <div class="chips">
+                        <i>Cryptography</i>
+                        <i>Security</i>
+                        <i>Data</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1pcP0QN8VMlp1jUtOYnMo0oyJsfQd-Szm&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Secure Data Sharing Using Cryptography"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 23
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">23</div>
+
+                <div class="project-main">
+
+                    <small>
+                        ANALYTICS / CAREER
+                    </small>
+
+                    <h3>
+                        SKILL GAP ANALYSIS
+                    </h3>
+
+                    <p>
+                        An analytical project focused on identifying
+                        skill gaps and highlighting areas for improvement
+                        and development.
+                    </p>
+
+                    <div class="chips">
+                        <i>Analysis</i>
+                        <i>Skills</i>
+                        <i>Career</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1DiyQBGPOi7XmK9pvG_9aoiQXyt21UIz9&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Skill Gap Analysis"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 24
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">24</div>
+
+                <div class="project-main">
+
+                    <small>
+                        WEB / TRANSPORTATION
+                    </small>
+
+                    <h3>
+                        SMART BUS PASS
+                    </h3>
+
+                    <p>
+                        A smart transportation-oriented application
+                        designed around digital bus-pass management
+                        workflows.
+                    </p>
+
+                    <div class="chips">
+                        <i>Web</i>
+                        <i>Smart System</i>
+                        <i>Transport</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=1Ml7NpQ1Ea9XkX54HX1Zcr3ohzQiKDdxl&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View Smart Bus Pass"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+            <!-- ==================================================
+                 PROJECT 25
+            =================================================== -->
+
+            <article class="project reveal">
+
+                <div class="pnum">25</div>
+
+                <div class="project-main">
+
+                    <small>
+                        WEB / DIGITAL LIBRARY
+                    </small>
+
+                    <h3>
+                        SMUGSHELF
+                    </h3>
+
+                    <p>
+                        A digital bookshelf and library-oriented
+                        application designed around organized access
+                        to book resources.
+                    </p>
+
+                    <div class="chips">
+                        <i>HTML</i>
+                        <i>CSS</i>
+                        <i>JavaScript</i>
+                    </div>
+
+                </div>
+
+                <a
+                    class="project-link"
+                    href="https://drive.google.com/open?id=13d1EHlm9ap4fgbdPVqeTdopjdn2VBf4n&usp=drive_copy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="View SmugShelf"
+                >
+                    VIEW PROJECT
+                    <span>↗</span>
+                </a>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+<!-- ============================================================
+     END SELECTED PROJECTS
+============================================================ -->
+
+
+<!-- =========================================================
+     EXPERIENCE
+========================================================= -->
+
+<section
+    id="experience"
+    class="section experience"
+>
+
+    <div class="container narrow">
+
+
+        <div class="kicker reveal">
+
+            <span>
+                05
+            </span>
+
+            PROFESSIONAL JOURNEY
+
+            <i></i>
+
+        </div>
+
+
+        <h2 class="title reveal">
+
+            <span class="silver">
+                PROFESSIONAL
+            </span>
+
+            <span class="gold">
+                EXPERIENCE.
+            </span>
+
+        </h2>
+
+
+        <p class="section-intro reveal">
+
+            A journey combining software
+            development, technical training,
+            project support and academic
+            teaching.
+
+        </p>
+
+
+        <div class="timeline">
+
+
+            <!-- =================================================
+                 TECHFLICKSOFT SOLUTIONS
+            ================================================== -->
+
+            <article class="time reveal">
+
+
+                <time>
+                    2026 — PRESENT
+                </time>
+
+
+                <div>
+
+                    <span class="role-tag">
+                        TECHNICAL TRAINING • PROJECT SUPPORT
+                    </span>
+
+
+                    <h3>
+                        TECHFLICKSOFT SOLUTIONS
+                    </h3>
+
+
+                    <p>
+
+                        <strong>
+                            Technical Trainer &
+                            Project Support Specialist
+                        </strong>
+
+                        — providing technical training
+                        to employees, supporting their
+                        technical development and assisting
+                        teams with project implementation,
+                        troubleshooting and technical
+                        problem-solving.
+
+                    </p>
+
+
+                </div>
+
+
+            </article>
+
+
+
+            <!-- =================================================
+                 HIET SOFTWARE SOLUTIONS
+            ================================================== -->
+
+            <article class="time reveal">
+
+
+                <time>
+                    2023 — PRESENT
+                </time>
+
+
+                <div>
+
+                    <span class="role-tag">
+                        SOFTWARE DEVELOPMENT
+                    </span>
+
+
+                    <h3>
+                        HIET SOFTWARE SOLUTIONS
+                    </h3>
+
+
+                    <p>
+
+                        Software development,
+                        technical training and
+                        project development
+                        across web, backend and
+                        database technologies.
+
+                    </p>
+
+
+                </div>
+
+
+            </article>
+
+
+
+            <!-- =================================================
+                 RV TECHNICAL ACADEMY
+            ================================================== -->
+
+            <article class="time reveal">
+
+
+                <time>
+                    2024 — 2026
+                </time>
+
+
+                <div>
+
+                    <span class="role-tag">
+                        TECHNICAL TRAINING
+                    </span>
+
+
+                    <h3>
+                        RV TECHNICAL ACADEMY
+                    </h3>
+
+
+                    <p>
+
+                        Technical training and academic
+                        instruction in programming,
+                        data structures and core
+                        Computer Science subjects.
+
+                    </p>
+
+
+                    <small class="ended">
+                        RESIGNED — 2026
+                    </small>
+
+
+                </div>
+
+
+            </article>
+
+
+
+            <!-- =================================================
+                 MVS GOVT DEGREE ARTS & SCIENCE COLLEGE
+            ================================================== -->
+
+            <article class="time reveal">
+
+
+                <time>
+                    2025 — PRESENT
+                </time>
+
+
+                <div>
+
+                    <span class="role-tag">
+                        ACADEMIC • COMPUTER SCIENCE
+                    </span>
+
+
+                    <h3>
+                        MVS GOVT DEGREE ARTS & SCIENCE COLLEGE
+                    </h3>
+
+
+                    <p>
+
+                        Teaching Computer Science
+                        subjects and mentoring students
+                        in programming, technical skills
+                        and academic development.
+
+                    </p>
+
+
+                </div>
+
+
+            </article>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     EDUCATION & QUALIFICATIONS
+========================================================= -->
+
+<section
+    id="education"
+    class="section dark"
+>
+
+    <div class="container">
+
+
+        <div class="kicker reveal">
+
+            <span>
+                06
+            </span>
+
+            ACADEMIC FOUNDATION
+
+            <i></i>
+
+        </div>
+
+
+        <h2 class="title reveal">
+
+            <span class="silver">
+                EDUCATION &
+            </span>
+
+            <span class="gold">
+                QUALIFICATIONS.
+            </span>
+
+        </h2>
+
+
+        <div class="edu-grid">
+
+
+            <!-- M.SC -->
+
+            <article class="edu glass reveal">
+
+                <small>
+                    2021 — 2023
+                </small>
+
+                <h3>
+                    M.Sc. COMPUTER SCIENCE
+                </h3>
+
+                <p>
+                    Osmania University
+                </p>
+
+                <span>
+                    Hyderabad
+                </span>
+
+            </article>
+
+
+
+            <!-- B.SC -->
+
+            <article class="edu glass reveal">
+
+                <small>
+                    2018 — 2021
+                </small>
+
+                <h3>
+                    B.Sc. COMPUTER SCIENCE
+                </h3>
+
+                <p>
+                    Kakatiya University
+                </p>
+
+            </article>
+
+
+
+            <!-- TG SET -->
+
+            <article class="edu glass reveal">
+
+                <small>
+                    QUALIFICATION
+                </small>
+
+                <h3>
+                    TG SET
+                </h3>
+
+                <p>
+                    Telangana State Eligibility Test
+                </p>
+
+                <b>
+                    QUALIFIED
+                </b>
+
+            </article>
+
+
+
+            <!-- UGC NET -->
+
+            <article class="edu glass reveal">
+
+                <small>
+                    QUALIFICATION
+                </small>
+
+                <h3>
+                    UGC NET
+                </h3>
+
+                <p>
+                    University Grants Commission
+                    National Eligibility Test
+                </p>
+
+                <b>
+                    QUALIFIED
+                </b>
+
+            </article>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROFESSIONAL IDENTITY
+========================================================= -->
+
+<section
+    class="section identity"
+    style="
+        width:100%;
+        padding:110px 0;
+        background:#0a0a0a;
+        color:#f5f5f5;
+    "
+>
+
+    <div
+        class="container"
+        style="
+            width:min(1200px,92%);
+            margin:0 auto;
+        "
+    >
+
+        <div
+            class="identity-panel reveal"
+            style="
+                display:grid;
+                grid-template-columns:1.2fr 1fr;
+                gap:70px;
+                align-items:stretch;
+                padding:55px;
+                border:1px solid rgba(255,255,255,0.12);
+                background:linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.035),
+                    rgba(255,255,255,0.01)
+                );
+                box-shadow:0 25px 70px rgba(0,0,0,0.35);
+            "
+        >
+
+            <div
+                class="identity-main"
+                style="
+                    display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                "
+            >
+
+                <span
+                    style="
+                        display:block;
+                        margin-bottom:25px;
+                        color:#d4af37;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.25em;
+                    "
+                >
+                    PROFESSIONAL IDENTITY
+                </span>
+
+
+                <h2
+                    style="
+                        margin:0;
+                        font-size:clamp(42px,6vw,82px);
+                        line-height:0.94;
+                        font-weight:800;
+                        letter-spacing:-0.055em;
+                        text-transform:uppercase;
+                    "
+                >
+
+                    SOFTWARE.
+
+                    <br>
+
+                    <em
+                        style="
+                            color:#d4af37;
+                            font-style:normal;
+                        "
+                    >
+                        EDUCATION.
+                    </em>
+
+                    <br>
+
+                    TECHNOLOGY.
+
+                </h2>
+
+            </div>
+
+
+            <div
+                class="identity-list"
+                style="
+                    display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                    border-left:1px solid rgba(255,255,255,0.10);
+                    padding-left:45px;
+                "
+            >
+
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:22px;
+                        min-height:58px;
+                        border-bottom:1px solid rgba(255,255,255,0.10);
+                        color:#eee;
+                        font-size:13px;
+                        font-weight:600;
+                        letter-spacing:0.08em;
+                    "
+                >
+
+                    <span
+                        style="
+                            min-width:28px;
+                            color:#d4af37;
+                            font-size:10px;
+                            font-weight:700;
+                            letter-spacing:0.12em;
+                        "
+                    >
+                        01
+                    </span>
+
+                    PYTHON FULL STACK
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:22px;
+                        min-height:58px;
+                        border-bottom:1px solid rgba(255,255,255,0.10);
+                        color:#eee;
+                        font-size:13px;
+                        font-weight:600;
+                        letter-spacing:0.08em;
+                    "
+                >
+
+                    <span
+                        style="
+                            min-width:28px;
+                            color:#d4af37;
+                            font-size:10px;
+                            font-weight:700;
+                            letter-spacing:0.12em;
+                        "
+                    >
+                        02
+                    </span>
+
+                    JAVA FULL STACK
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:22px;
+                        min-height:58px;
+                        border-bottom:1px solid rgba(255,255,255,0.10);
+                        color:#eee;
+                        font-size:13px;
+                        font-weight:600;
+                        letter-spacing:0.08em;
+                    "
+                >
+
+                    <span
+                        style="
+                            min-width:28px;
+                            color:#d4af37;
+                            font-size:10px;
+                            font-weight:700;
+                            letter-spacing:0.12em;
+                        "
+                    >
+                        03
+                    </span>
+
+                    ASSISTANT PROFESSOR
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:22px;
+                        min-height:58px;
+                        border-bottom:1px solid rgba(255,255,255,0.10);
+                        color:#eee;
+                        font-size:13px;
+                        font-weight:600;
+                        letter-spacing:0.08em;
+                    "
+                >
+
+                    <span
+                        style="
+                            min-width:28px;
+                            color:#d4af37;
+                            font-size:10px;
+                            font-weight:700;
+                            letter-spacing:0.12em;
+                        "
+                    >
+                        04
+                    </span>
+
+                    TG SET QUALIFIED
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        align-items:center;
+                        gap:22px;
+                        min-height:58px;
+                        border-bottom:1px solid rgba(255,255,255,0.10);
+                        color:#eee;
+                        font-size:13px;
+                        font-weight:600;
+                        letter-spacing:0.08em;
+                    "
+                >
+
+                    <span
+                        style="
+                            min-width:28px;
+                            color:#d4af37;
+                            font-size:10px;
+                            font-weight:700;
+                            letter-spacing:0.12em;
+                        "
+                    >
+                        05
+                    </span>
+
+                    UGC NET QUALIFIED
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section
+    id="contact"
+    class="section contact dark"
+>
+
+    <div class="container">
+
+
+        <div class="kicker reveal">
+
+            <span>
+                07
+            </span>
+
+            START A CONVERSATION
+
+            <i></i>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+
+            <!-- CONTACT COPY -->
+
+            <div class="contact-copy reveal">
+
+
+                <h2 class="title">
+
+                    <span class="silver">
+                        HAVE AN IDEA?
+                    </span>
+
+                    <span class="gold">
+                        LET'S BUILD IT.
+                    </span>
+
+                </h2>
+
+
+                <p class="copy">
+
+                    Open to meaningful conversations
+                    around software development,
+                    technical training, academic
+                    collaboration and technology.
+
+                </p>
+
+
+                <div
+    class="contact-lines"
+    style="
+        display:flex;
+        flex-direction:column;
+        gap:0;
+        width:100%;
+        margin-top:24px;
+    "
+>
+
+    <a
+        href="mailto:akhiljampala1@gmail.com"
+        style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:30px;
+            padding:18px 0;
+            border-top:1px solid rgba(255,255,255,0.12);
+            border-bottom:1px solid rgba(255,255,255,0.12);
+            color:inherit;
+            text-decoration:none;
+        "
+    >
+
+        <small
+            style="
+                flex:0 0 100px;
+                font-size:10px;
+                font-weight:700;
+                letter-spacing:0.22em;
+                color:#999;
+            "
+        >
+            EMAIL
+        </small>
+
+        <span
+            style="
+                flex:1;
+                text-align:right;
+                font-size:16px;
+                font-weight:500;
+                letter-spacing:0.02em;
+                color:#f5f5f5;
+            "
+        >
+            akhiljampala1@gmail.com
+        </span>
+
+    </a>
+
+
+    <a
+        href="https://jakhil.in/"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:30px;
+            padding:18px 0;
+            border-bottom:1px solid rgba(255,255,255,0.12);
+            color:inherit;
+            text-decoration:none;
+        "
+    >
+
+        <small
+            style="
+                flex:0 0 100px;
+                font-size:10px;
+                font-weight:700;
+                letter-spacing:0.22em;
+                color:#999;
+            "
+        >
+            WEBSITE
+        </small>
+
+        <span
+            style="
+                flex:1;
+                text-align:right;
+                font-size:16px;
+                font-weight:500;
+                letter-spacing:0.02em;
+                color:#f5f5f5;
+            "
+        >
+            jakhil.in
+        </span>
+
+    </a>
+
+</div>
+
+
+            </div>
+
+
+
+            <!-- CONTACT FORM -->
+
+            <form
+    id="contactForm"
+    class="terminal reveal"
+    action="https://formsubmit.co/akhiljampala1@gmail.com"
+    method="POST"
+    novalidate
+>
+
+    <!-- FormSubmit Configuration -->
+    <input
+        type="hidden"
+        name="_subject"
+        value="New Contact Message — AKHIL.IN"
+    >
+
+    <input
+        type="hidden"
+        name="_template"
+        value="table"
+    >
+
+    <input
+        type="hidden"
+        name="_captcha"
+        value="true"
+    >
+
+    <input
+        type="hidden"
+        name="_next"
+        value="https://jakhil.in/#contact"
+    >
+
+
+    <div class="terminal-head">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+        <small>
+            CONTACT_PROTOCOL
+        </small>
+
+    </div>
+
+
+    <label>
+
+        YOUR NAME
+
+        <input
+            type="text"
+            name="name"
+            autocomplete="name"
+            placeholder="Your name"
+            required
+        >
+
+    </label>
+
+
+    <label>
+
+        EMAIL ADDRESS
+
+        <input
+            type="email"
+            name="email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            required
+        >
+
+    </label>
+
+
+    <label>
+
+        SUBJECT
+
+        <input
+            type="text"
+            name="message_subject"
+            placeholder="How can we work together?"
+            required
+        >
+
+    </label>
+
+
+    <label>
+
+        MESSAGE
+
+        <textarea
+            name="message"
+            rows="5"
+            placeholder="Tell me about your idea..."
+            required
+        ></textarea>
+
+    </label>
+
+
+    <button
+        type="submit"
+        class="magnetic"
+    >
+
+        TRANSMIT MESSAGE
+
+        <span>
+            ↗
+        </span>
+
+    </button>
+
+
+    <p
+        id="formStatus"
+        hidden
+        aria-live="polite"
+    >
+        TRANSMISSION REGISTERED ✓
     </p>
 
-  </div>
-</section>
-   <!-- ── SKILLS ─────────────────────────────────────────────────── -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// expertise</div>
-    <h2 class="section-title gsap-reveal">Technical <span class="accent">Skills</span></h2>
-    <p class="section-sub gsap-reveal">Programming languages, frameworks, tools, and academic CS subjects I work with daily.</p>
+</form>
 
-    <div class="skills-tabs gsap-reveal">
-      <button class="tab-btn active" data-tab="all">All</button>
-      <button class="tab-btn" data-tab="programming">Programming</button>
-      <button class="tab-btn" data-tab="academic">Academic CS</button>
-      <button class="tab-btn" data-tab="tools">Tools &amp; Cloud</button>
+        </div>
+
+
     </div>
 
-    <div class="skills-grid" id="skills-grid">
-      <!-- Programming -->
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:95%">
-        <div class="skill-icon"><i class="fa-brands fa-python"></i></div>
-        <div class="skill-info"><div class="skill-name">Python</div><div class="skill-cat">Programming</div></div>
-        <div class="skill-pct">95%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:90%">
-        <div class="skill-icon"><i class="fa-brands fa-java"></i></div>
-        <div class="skill-info"><div class="skill-name">Java</div><div class="skill-cat">Programming</div></div>
-        <div class="skill-pct">90%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:90%">
-        <div class="skill-icon"><i class="fa-solid fa-c"></i></div>
-        <div class="skill-info"><div class="skill-name">C / C++</div><div class="skill-cat">Programming</div></div>
-        <div class="skill-pct">90%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:92%">
-        <div class="skill-icon"><i class="fa-brands fa-html5"></i></div>
-        <div class="skill-info"><div class="skill-name">HTML / CSS / JS</div><div class="skill-cat">Frontend</div></div>
-        <div class="skill-pct">92%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:85%">
-        <div class="skill-icon"><i class="fa-solid fa-flask"></i></div>
-        <div class="skill-info"><div class="skill-name">Flask Framework</div><div class="skill-cat">Backend</div></div>
-        <div class="skill-pct">85%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:88%">
-        <div class="skill-icon"><i class="fa-brands fa-php"></i></div>
-        <div class="skill-info"><div class="skill-name">PHP</div><div class="skill-cat">Backend</div></div>
-        <div class="skill-pct">88%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="programming" style="--pct:90%">
-        <div class="skill-icon"><i class="fa-solid fa-database"></i></div>
-        <div class="skill-info"><div class="skill-name">SQL / MySQL</div><div class="skill-cat">Database</div></div>
-        <div class="skill-pct">90%</div>
-      </div>
-      <!-- Academic -->
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:92%">
-        <div class="skill-icon"><i class="fa-solid fa-desktop"></i></div>
-        <div class="skill-info"><div class="skill-name">Operating Systems</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">92%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:90%">
-        <div class="skill-icon"><i class="fa-solid fa-network-wired"></i></div>
-        <div class="skill-info"><div class="skill-name">Computer Networks</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">90%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:88%">
-        <div class="skill-icon"><i class="fa-solid fa-diagram-project"></i></div>
-        <div class="skill-info"><div class="skill-name">Theory of Computation</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">88%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:86%">
-        <div class="skill-icon"><i class="fa-solid fa-gears"></i></div>
-        <div class="skill-info"><div class="skill-name">Compiler Design</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">86%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:88%">
-        <div class="skill-icon"><i class="fa-solid fa-square-root-variable"></i></div>
-        <div class="skill-info"><div class="skill-name">Discrete Mathematics</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">88%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:85%">
-        <div class="skill-icon"><i class="fa-solid fa-lock"></i></div>
-        <div class="skill-info"><div class="skill-name">Cryptography</div><div class="skill-cat">Security</div></div>
-        <div class="skill-pct">85%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:85%">
-        <div class="skill-icon"><i class="fa-solid fa-chart-line"></i></div>
-        <div class="skill-info"><div class="skill-name">Data Mining</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">85%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="academic" style="--pct:90%">
-        <div class="skill-icon"><i class="fa-solid fa-microchip"></i></div>
-        <div class="skill-info"><div class="skill-name">COA</div><div class="skill-cat">Academic CS</div></div>
-        <div class="skill-pct">90%</div>
-      </div>
-      <!-- Tools -->
-      <div class="skill-chip gsap-reveal" data-tab="tools" style="--pct:80%">
-        <div class="skill-icon"><i class="fa-solid fa-cloud"></i></div>
-        <div class="skill-info"><div class="skill-name">Cloud Computing</div><div class="skill-cat">Infrastructure</div></div>
-        <div class="skill-pct">80%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="tools" style="--pct:88%">
-        <div class="skill-icon"><i class="fa-brands fa-git-alt"></i></div>
-        <div class="skill-info"><div class="skill-name">Git / GitHub</div><div class="skill-cat">Version Control</div></div>
-        <div class="skill-pct">88%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="tools" style="--pct:82%">
-        <div class="skill-icon"><i class="fa-brands fa-linux"></i></div>
-        <div class="skill-info"><div class="skill-name">Linux / CLI</div><div class="skill-cat">Systems</div></div>
-        <div class="skill-pct">82%</div>
-      </div>
-      <div class="skill-chip gsap-reveal" data-tab="tools" style="--pct:84%">
-        <div class="skill-icon"><i class="fa-solid fa-layer-group"></i></div>
-        <div class="skill-info"><div class="skill-name">Software Engineering</div><div class="skill-cat">Methodology</div></div>
-        <div class="skill-pct">84%</div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<div class="section-divider"></div>
 
-<!-- ── PROJECTS ─────────────────────────────────────────────────── -->
-<section id="projects">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// featured work</div>
-    <h2 class="section-title gsap-reveal">Selected <span class="accent">Projects</span></h2>
-    <p class="section-sub gsap-reveal">Software systems, web platforms and developer tools crafted with precision.</p>
 
-    <div class="projects-grid">
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" loading="lazy" alt="College Management System">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">01</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">College Management System</h3>
-          <p class="project-desc">Python-based system to manage student records, enrollment, attendance, and academic administration at institutional scale.</p>
-          <div class="project-tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">MySQL</span></div>
-          <div class="project-links">
-            <a href="https://github.com/akhil4738/college-management-system" target="_blank" class="project-link primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live</a>
-            <a href="https://github.com/akhil4738/college-management-system" target="_blank" class="project-link ghost"><i class="fa-brands fa-github"></i> Source</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=600&q=80" loading="lazy" alt="ROSY E-Commerce">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">02</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">ROSY E-Commerce Platform</h3>
-          <p class="project-desc">Full-stack PHP e-commerce platform with authentication, product catalog, and a complete shopping cart and order management system.</p>
-          <div class="project-tags"><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">HTML/CSS</span></div>
-          <div class="project-links">
-            <a href="https://github.com/akhil4738/ROSY" target="_blank" class="project-link primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live</a>
-            <a href="https://github.com/akhil4738/ROSY" target="_blank" class="project-link ghost"><i class="fa-brands fa-github"></i> Source</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=600&q=80" loading="lazy" alt="TCCWC News Portal">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">03</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">TCCWC News Portal</h3>
-          <p class="project-desc">Multilingual news portal supporting Telugu, Hindi and English with categorized regional news content and a modern, clean UI.</p>
-          <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-          <div class="project-links">
-            <a href="https://tccwcnews.github.io/TCCWC" target="_blank" class="project-link primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live</a>
-            <a href="https://github.com/TCCWCnews/TCCWC" target="_blank" class="project-link ghost"><i class="fa-brands fa-github"></i> Source</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" loading="lazy" alt="Konectax">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">04</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">Konectax Website</h3>
-          <p class="project-desc">Professional responsive website for a digital services platform with a polished, modern UI and seamless user experience.</p>
-          <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-          <div class="project-links">
-            <a href="https://akhil4738.github.io/Konectax/" target="_blank" class="project-link primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live</a>
-            <a href="https://github.com/akhil4738/Konectax" target="_blank" class="project-link ghost"><i class="fa-brands fa-github"></i> Source</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&q=80" loading="lazy" alt="OSMANIACS4U">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">05</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">OSMANIACS4U</h3>
-          <p class="project-desc">Academic resource platform providing updates, study materials, and student support for Osmania University students.</p>
-          <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-          <div class="project-links">
-            <a href="https://akhil4738.github.io/rvea/" target="_blank" class="project-link primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live</a>
-            <a href="https://github.com/akhil4738/rvea" target="_blank" class="project-link ghost"><i class="fa-brands fa-github"></i> Source</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card gsap-reveal">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" loading="lazy" alt="Syntax Circuit">
-          <div class="project-img-overlay"></div>
-          <div class="project-num">06</div>
-        </div>
-        <div class="project-body">
-          <h3 class="project-title">Syntax Circuit</h3>
-          <p class="project-desc">Developer-focused platform for programming tutorials, CS resources, and comprehensive learning materials built by Akhil.</p>
-          <div class="project-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
-          <div class="project-links">
-            <a href="https://syntax-circuit.github.io/app/" target="_blank" class="project-link primary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Live</a>
-            <a href="https://github.com/SYNTAX-CIRCUIT/app" target="_blank" class="project-link ghost"><i class="fa-brands fa-github"></i> Source</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ── EXPERIENCE ─────────────────────────────────────────────────── -->
-<section id="experience">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// journey</div>
-    <h2 class="section-title gsap-reveal">Professional <span class="accent">Experience</span></h2>
-    <p class="section-sub gsap-reveal">Academic and software development milestones that shaped my expertise.</p>
-
-    <div class="timeline">
-      <div class="tl-item gsap-reveal-left">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-date"><i class="fa-regular fa-calendar"></i> 2023 – Present</div>
-          <h3 class="tl-title"><i class="fa-solid fa-laptop-code" style="color:var(--neon);margin-right:10px;font-size:16px"></i>HIET Software Solutions</h3>
-          <p class="tl-desc">Software development, technical training, and professional project delivery. Building real-world applications across web, backend, and data layers while contributing to engineering teams.</p>
-        </div>
-      </div>
-
-      <div class="tl-item gsap-reveal-left">
-        <div class="tl-dot" style="background:var(--neon2);box-shadow:0 0 0 3px rgba(129,140,248,0.2),0 0 14px rgba(129,140,248,0.6)"></div>
-        <div class="tl-card">
-          <div class="tl-date" style="color:var(--neon2);background:rgba(129,140,248,0.07);border-color:rgba(129,140,248,0.12)"><i class="fa-regular fa-calendar"></i> 2024 – Present</div>
-          <h3 class="tl-title"><i class="fa-solid fa-chalkboard-user" style="color:var(--neon2);margin-right:10px;font-size:16px"></i>RV Technical Academy</h3>
-          <p class="tl-desc">Teaching programming, data structures and core computer science subjects to engineering students. Mentoring aspiring developers and delivering high-quality, outcome-driven technical education.</p>
-        </div>
-      </div>
-
-      <div class="tl-item gsap-reveal-left">
-        <div class="tl-dot" style="background:var(--neon3);box-shadow:0 0 0 3px rgba(244,114,182,0.2),0 0 14px rgba(244,114,182,0.6)"></div>
-        <div class="tl-card">
-          <div class="tl-date" style="color:var(--neon3);background:rgba(244,114,182,0.07);border-color:rgba(244,114,182,0.12)"><i class="fa-regular fa-calendar"></i> 2025 – Present</div>
-          <h3 class="tl-title"><i class="fa-solid fa-graduation-cap" style="color:var(--neon3);margin-right:10px;font-size:16px"></i>MVS Govt Degree Arts &amp; Science College</h3>
-          <p class="tl-desc">Teaching Computer Science subjects and mentoring students in programming and research at Mahabubnagar. Contributing to academic excellence and shaping the next generation of CS graduates.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ── EDUCATION ─────────────────────────────────────────────────── -->
-<section id="education">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// academics</div>
-    <h2 class="section-title gsap-reveal">Educational <span class="accent">Background</span></h2>
-    <p class="section-sub gsap-reveal">Academic foundation built on rigorous Computer Science study and research.</p>
-
-    <div class="education-grid">
-      <div class="edu-card gsap-reveal">
-        <div class="edu-icon"><i class="fa-solid fa-user-graduate"></i></div>
-        <div class="edu-degree">M.Sc. Computer Science</div>
-        <div class="edu-uni">Osmania University, Hyderabad</div>
-        <div class="edu-year">2021 – 2023</div>
-        <span class="edu-score"><i class="fa-solid fa-star"></i> Distinction</span>
-      </div>
-      <div class="edu-card gsap-reveal">
-        <div class="edu-icon" style="color:var(--neon2);background:rgba(129,140,248,0.08);border-color:rgba(129,140,248,0.15)"><i class="fa-solid fa-graduation-cap"></i></div>
-        <div class="edu-degree">B.Sc. Computer Science</div>
-        <div class="edu-uni">Kakatiya University</div>
-        <div class="edu-year">2018 – 2021</div>
-        <span class="edu-score" style="color:var(--neon2);background:rgba(129,140,248,0.08);border-color:rgba(129,140,248,0.15)"><i class="fa-solid fa-star"></i> First Class</span>
-      </div>
-      <div class="edu-card gsap-reveal">
-        <div class="edu-icon" style="color:var(--neon3);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.12)"><i class="fa-solid fa-award"></i></div>
-        <div class="edu-degree">TG SET Qualified</div>
-        <div class="edu-uni">TSCHE — Telangana State Eligibility Test</div>
-        <div class="edu-year">2024</div>
-        <span class="edu-score" style="color:var(--neon3);background:rgba(244,114,182,0.08);border-color:rgba(244,114,182,0.12)"><i class="fa-solid fa-check-circle"></i> Qualified</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ── CERTIFICATES ─────────────────────────────────────────────────── -->
-<section id="certificates">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// credentials</div>
-    <h2 class="section-title gsap-reveal">Certificates &amp; <span class="accent">Achievements</span></h2>
-    <p class="section-sub gsap-reveal">Professional certifications and achievements that validate my expertise.</p>
-
-    <div class="certs-grid">
-      <div class="cert-card gsap-reveal">
-        <div class="cert-img"><i class="fa-brands fa-python"></i></div>
-        <div class="cert-body">
-          <div class="cert-title">Python for Everybody</div>
-          <div class="cert-org">Coursera / University of Michigan</div>
-          <a href="#" class="cert-btn"><i class="fa-solid fa-external-link-alt"></i> View</a>
-        </div>
-      </div>
-      <div class="cert-card gsap-reveal">
-        <div class="cert-img" style="color:var(--neon2)"><i class="fa-solid fa-network-wired"></i></div>
-        <div class="cert-body">
-          <div class="cert-title">Networking Fundamentals</div>
-          <div class="cert-org">Cisco Networking Academy</div>
-          <a href="#" class="cert-btn"><i class="fa-solid fa-external-link-alt"></i> View</a>
-        </div>
-      </div>
-      <div class="cert-card gsap-reveal">
-        <div class="cert-img" style="color:var(--gold)"><i class="fa-solid fa-database"></i></div>
-        <div class="cert-body">
-          <div class="cert-title">Database Design</div>
-          <div class="cert-org">Oracle Academy</div>
-          <a href="#" class="cert-btn"><i class="fa-solid fa-external-link-alt"></i> View</a>
-        </div>
-      </div>
-      <div class="cert-card gsap-reveal">
-        <div class="cert-img" style="color:var(--neon3)"><i class="fa-solid fa-cloud"></i></div>
-        <div class="cert-body">
-          <div class="cert-title">Cloud Computing</div>
-          <div class="cert-org">NPTEL / IIT</div>
-          <a href="#" class="cert-btn"><i class="fa-solid fa-external-link-alt"></i> View</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ── CONTACT ─────────────────────────────────────────────────── -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="section-label gsap-reveal">// let's connect</div>
-    <h2 class="section-title gsap-reveal">Get In <span class="accent">Touch</span></h2>
-    <p class="section-sub gsap-reveal">Open for collaborations, academic discussions, software projects, and technical mentoring.</p>
-
-    <div class="contact-grid">
-      <div class="gsap-reveal-left">
-        <h3>Let's Build Something Together</h3>
-        <p>Whether it's a project, a collaboration, or just a conversation about technology — I'm always happy to connect.</p>
-        <div class="social-links">
-          <a href="mailto:akhiljampala1@gmail.com" class="social-link">
-            <i class="fa-solid fa-envelope"></i>
-            <span>akhiljampala1@gmail.com</span>
-            <i class="fa-solid fa-arrow-right arrow"></i>
-          </a>
-          <a href="https://www.linkedin.com/in/jampalaakhil/" target="_blank" class="social-link">
-            <i class="fa-brands fa-linkedin"></i>
-            <span>linkedin.com/in/jampalaakhil</span>
-            <i class="fa-solid fa-arrow-right arrow"></i>
-          </a>
-          <a href="https://github.com/akhil4738" target="_blank" class="social-link">
-            <i class="fa-brands fa-github"></i>
-            <span>github.com/akhil4738</span>
-            <i class="fa-solid fa-arrow-right arrow"></i>
-          </a>
-          <a href="https://wa.me/916302204738" target="_blank" class="social-link">
-            <i class="fa-brands fa-whatsapp" style="color:#25D366"></i>
-            <span>WhatsApp — +91 6302204738</span>
-            <i class="fa-solid fa-arrow-right arrow"></i>
-          </a>
-          <a href="https://syntax-circuit.github.io/app/" target="_blank" class="social-link">
-            <i class="fa-solid fa-globe"></i>
-            <span>syntax-circuit.github.io</span>
-            <i class="fa-solid fa-arrow-right arrow"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="contact-form gsap-reveal-right">
-        <div class="form-row">
-          <label>Your Name</label>
-          <input type="text" id="c-name" placeholder="Ravi Kumar">
-        </div>
-        <div class="form-row">
-          <label>Email Address</label>
-          <input type="email" id="c-email" placeholder="hello@example.com">
-        </div>
-        <div class="form-row">
-          <label>Subject</label>
-          <input type="text" id="c-subject" placeholder="Project Collaboration">
-        </div>
-        <div class="form-row">
-          <label>Message</label>
-          <textarea id="c-message" placeholder="Tell me about your project, idea, or collaboration..."></textarea>
-        </div>
-        <button class="form-submit" id="form-submit-btn">
-          <i class="fa-solid fa-paper-plane"></i> Send Message
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-</main>
-
-<!-- ============================================================
+<!-- =========================================================
      FOOTER
-     ============================================================ -->
-<footer>
-  <div class="footer-logo"><i class="fa-solid fa-code"></i> AKHIL.IN</div>
-  <div class="footer-copy">© 2026 Akhil Jampala — All Rights Reserved</div>
-  <a href="#hero" class="back-top">
-    <i class="fa-solid fa-arrow-up"></i> Back to Top
-  </a>
+========================================================= -->
+
+<footer
+    class="site-footer"
+    style="
+        width:100%;
+        background:#080808;
+        color:#f5f5f5;
+        border-top:1px solid rgba(255,255,255,0.12);
+        padding:70px 0 25px;
+    "
+>
+
+    <div
+        class="container"
+        style="
+            width:min(1200px,92%);
+            margin:0 auto;
+        "
+    >
+
+        <div
+            class="footer-top"
+            style="
+                display:flex;
+                justify-content:space-between;
+                align-items:flex-start;
+                gap:60px;
+                padding-bottom:55px;
+            "
+        >
+
+            <div>
+
+                <a
+                    href="#hero"
+                    class="footer-brand"
+                    style="
+                        display:inline-block;
+                        color:#f5f5f5;
+                        text-decoration:none;
+                        font-size:30px;
+                        font-weight:800;
+                        letter-spacing:-0.04em;
+                        line-height:1;
+                    "
+                >
+                    AKHIL<span style="color:#d4af37;">.IN</span>
+                </a>
+
+                <p
+                    style="
+                        margin:18px 0 0;
+                        color:#999;
+                        font-size:13px;
+                        line-height:1.8;
+                        letter-spacing:0.05em;
+                    "
+                >
+                    Software Developer
+                    <span style="color:#d4af37;">•</span>
+                    Technical Trainer
+                    <span style="color:#d4af37;">•</span>
+                    Academic Professional
+                </p>
+
+            </div>
+
+
+            <div
+                class="footer-links"
+                style="
+                    display:flex;
+                    flex-wrap:wrap;
+                    justify-content:flex-end;
+                    gap:14px 28px;
+                    max-width:600px;
+                "
+            >
+
+                <a
+                    href="#about"
+                    style="
+                        color:#aaa;
+                        text-decoration:none;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.16em;
+                    "
+                >
+                    ABOUT
+                </a>
+
+                <a
+                    href="#skills"
+                    style="
+                        color:#aaa;
+                        text-decoration:none;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.16em;
+                    "
+                >
+                    SKILLS
+                </a>
+
+                <a
+                    href="#projects"
+                    style="
+                        color:#aaa;
+                        text-decoration:none;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.16em;
+                    "
+                >
+                    PROJECTS
+                </a>
+
+                <a
+                    href="#experience"
+                    style="
+                        color:#aaa;
+                        text-decoration:none;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.16em;
+                    "
+                >
+                    EXPERIENCE
+                </a>
+
+                <a
+                    href="#education"
+                    style="
+                        color:#aaa;
+                        text-decoration:none;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.16em;
+                    "
+                >
+                    EDUCATION
+                </a>
+
+                <a
+                    href="#contact"
+                    style="
+                        color:#aaa;
+                        text-decoration:none;
+                        font-size:10px;
+                        font-weight:700;
+                        letter-spacing:0.16em;
+                    "
+                >
+                    CONTACT
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="footer-bottom"
+            style="
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                gap:25px;
+                padding-top:25px;
+                border-top:1px solid rgba(255,255,255,0.10);
+                color:#666;
+                font-size:9px;
+                font-weight:600;
+                letter-spacing:0.14em;
+            "
+        >
+
+            <span>
+                ©
+                <span id="year"></span>
+                AKHIL JAMPALA
+            </span>
+
+
+            <span
+                style="
+                    text-align:center;
+                "
+            >
+                DESIGNED
+                <span style="color:#d4af37;">•</span>
+                DEVELOPED
+                <span style="color:#d4af37;">•</span>
+                AKHIL.IN
+            </span>
+
+
+            <a
+                href="#hero"
+                style="
+                    color:#aaa;
+                    text-decoration:none;
+                    font-size:9px;
+                    font-weight:700;
+                    letter-spacing:0.14em;
+                    white-space:nowrap;
+                "
+            >
+                BACK TO TOP
+                <span style="color:#d4af37; font-size:13px; margin-left:4px;">↑</span>
+            </a>
+
+        </div>
+
+    </div>
+
 </footer>
 
-<!-- WhatsApp float -->
-<a href="https://wa.me/916302204738" class="wa-float" target="_blank" aria-label="WhatsApp">
-  <i class="fa-brands fa-whatsapp"></i>
-</a>
-
-<!-- ============================================================
-     JAVASCRIPT
-     ============================================================ -->
 <script>
-/* ============================================================
-   THREE.JS — CINEMATIC PARTICLE SYSTEM
-   ============================================================ */
-(function initThreeJS() {
-  const canvas = document.getElementById('three-canvas');
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight);
-
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 5;
-
-  /* Particle geometry */
-  const COUNT = 220;
-  const positions = new Float32Array(COUNT * 3);
-  const colors    = new Float32Array(COUNT * 3);
-  const sizes     = new Float32Array(COUNT);
-
-  const palette = [
-    new THREE.Color(0x38bdf8), // cyan
-    new THREE.Color(0x818cf8), // indigo
-    new THREE.Color(0xf472b6), // pink
-    new THREE.Color(0xfbbf24), // gold
-    new THREE.Color(0xffffff), // white
-  ];
-
-  for (let i = 0; i < COUNT; i++) {
-    const r = 12;
-    positions[i * 3 + 0] = (Math.random() - 0.5) * r * 2.5;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * r * 1.5;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * r;
-
-    const c = palette[Math.floor(Math.random() * palette.length)];
-    colors[i * 3 + 0] = c.r;
-    colors[i * 3 + 1] = c.g;
-    colors[i * 3 + 2] = c.b;
-
-    sizes[i] = Math.random() * 3 + 0.5;
-  }
-
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geo.setAttribute('color',    new THREE.BufferAttribute(colors,    3));
-  geo.setAttribute('size',     new THREE.BufferAttribute(sizes,     1));
-
-  /* Bokeh shader material */
-  const mat = new THREE.PointsMaterial({
-    size: 0.055,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    sizeAttenuation: true,
-  });
-
-  const points = new THREE.Points(geo, mat);
-  scene.add(points);
-
-  /* Mouse parallax */
-  let mouseX = 0, mouseY = 0;
-  document.addEventListener('mousemove', e => {
-    mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
-    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-  }, { passive: true });
-
-  /* Resize */
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-
-  /* Animation loop */
-  let frame = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    frame += 0.003;
-
-    points.rotation.y  = frame * 0.04  + mouseX * 0.06;
-    points.rotation.x  = frame * 0.015 - mouseY * 0.04;
-
-    const pos = geo.attributes.position.array;
-    for (let i = 0; i < COUNT; i++) {
-      pos[i * 3 + 1] += Math.sin(frame + i * 0.5) * 0.001;
-    }
-    geo.attributes.position.needsUpdate = true;
-
-    renderer.render(scene, camera);
-  }
-  animate();
-})();
-
-/* ============================================================
-   CUSTOM CURSOR
-   ============================================================ */
-const cursor     = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursor-ring');
-let cx = 0, cy = 0, rx = 0, ry = 0;
-
-document.addEventListener('mousemove', e => {
-  cx = e.clientX;
-  cy = e.clientY;
-  cursor.style.left = cx + 'px';
-  cursor.style.top  = cy + 'px';
-}, { passive: true });
-
-(function animateRing() {
-  rx += (cx - rx) * 0.1;
-  ry += (cy - ry) * 0.1;
-  cursorRing.style.left = rx + 'px';
-  cursorRing.style.top  = ry + 'px';
-  requestAnimationFrame(animateRing);
-})();
-
-const hoverEls = document.querySelectorAll('a, button, .skill-chip, .project-card, .cert-card, .edu-card');
-hoverEls.forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.classList.add('hover'); cursorRing.classList.add('hover'); });
-  el.addEventListener('mouseleave', () => { cursor.classList.remove('hover'); cursorRing.classList.remove('hover'); });
-});
-
-/* ============================================================
-   NAVBAR
-   ============================================================ */
-const navbar = document.getElementById('navbar');
-const hamburger = document.getElementById('hamburger');
-const navMenu   = document.getElementById('nav-menu');
-
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
-  // Scroll progress
-  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-  document.getElementById('scroll-progress').style.width = pct + '%';
-}, { passive: true });
-
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navMenu.classList.toggle('open');
-});
-navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  navMenu.classList.remove('open');
-  hamburger.classList.remove('open');
-}));
-
-/* Active nav link on scroll */
-const sections = document.querySelectorAll('section[id]');
-const navLinks  = document.querySelectorAll('nav ul li a');
-const ioNav = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('nav-active'));
-      const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
-      if (link) link.classList.add('nav-active');
-    }
-  });
-}, { threshold: 0.4 });
-sections.forEach(s => ioNav.observe(s));
-
-/* ============================================================
-   TYPING EFFECT
-   ============================================================ */
-const roles = [
-  'Software Developer',
-  'Academic Trainer',
-  'Full Stack Engineer',
-  'CS Educator',
-  'TG SET Qualified',
-  'Founder — Syntax Circuit'
-];
-let ri = 0, ci = 0, deleting = false;
-const typingEl = document.getElementById('typing-text');
-
-function type() {
-  const word = roles[ri];
-  if (!deleting) {
-    typingEl.textContent = word.slice(0, ++ci);
-    if (ci === word.length) { deleting = true; setTimeout(type, 2000); return; }
-  } else {
-    typingEl.textContent = word.slice(0, --ci);
-    if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
-  }
-  setTimeout(type, deleting ? 38 : 68);
-}
-setTimeout(type, 800);
-
-/* ============================================================
-   GSAP ANIMATIONS
-   ============================================================ */
-gsap.registerPlugin(ScrollTrigger);
-
-/* Hero entrance sequence */
-const heroTL = gsap.timeline({ delay: 0.2 });
-
-heroTL
-  .to('.hero-eyebrow',   { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
-  .to('.hero-name-line', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.3')
-  .to('.name-first',     { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
-  .to('.name-last',      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.45')
-  .to('.hero-role',      { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.2')
-  .to('.hero-desc',      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.2')
-  .to('.hero-ctas',      { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2')
-  .to('.hero-stats',     { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2')
-  .to('.hero-visual',    { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, 0.4);
-
-/* Counter animation */
-function animateCount(el) {
-  const target = parseInt(el.dataset.count);
-  gsap.to({ n: 0 }, {
-    n: target,
-    duration: 1.8,
-    ease: 'power2.out',
-    onUpdate: function() { el.textContent = Math.round(this.targets()[0].n) + '+'; }
-  });
-}
-
-ScrollTrigger.create({
-  trigger: '.hero-stats',
-  start: 'top 80%',
-  once: true,
-  onEnter: () => document.querySelectorAll('[data-count]').forEach(animateCount)
-});
-
-/* General scroll reveals */
-gsap.utils.toArray('.gsap-reveal').forEach((el, i) => {
-  gsap.fromTo(el,
-    { opacity: 0, y: 45 },
-    {
-      opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
-      delay: (i % 4) * 0.08,
-      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
-    }
-  );
-});
-
-gsap.utils.toArray('.gsap-reveal-left').forEach(el => {
-  gsap.fromTo(el,
-    { opacity: 0, x: -50 },
-    { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true } }
-  );
-});
-
-gsap.utils.toArray('.gsap-reveal-right').forEach(el => {
-  gsap.fromTo(el,
-    { opacity: 0, x: 50 },
-    { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true } }
-  );
-});
-
-/* Skill bar animation */
-const skillObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('animated');
-      skillObserver.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('.skill-chip').forEach(c => skillObserver.observe(c));
-
-/* ============================================================
-   SKILLS TAB FILTER
-   ============================================================ */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const tab = btn.dataset.tab;
-    document.querySelectorAll('.skill-chip').forEach((chip, idx) => {
-      const match = tab === 'all' || chip.dataset.tab === tab;
-      chip.style.display = match ? 'flex' : 'none';
-      if (match) {
-        gsap.fromTo(chip,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.4, delay: idx * 0.04, ease: 'power2.out' }
-        );
-      }
-    });
-  });
-});
-
-/* ============================================================
-   CONTACT FORM
-   ============================================================ */
-document.getElementById('form-submit-btn').addEventListener('click', function() {
-  const name    = document.getElementById('c-name').value.trim();
-  const email   = document.getElementById('c-email').value.trim();
-  const subject = document.getElementById('c-subject').value.trim();
-  const message = document.getElementById('c-message').value.trim();
-
-  if (!name || !email || !message) {
-    this.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
-    this.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i> Please fill all fields';
-    setTimeout(() => {
-      this.style.background = '';
-      this.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-    }, 2500);
-    return;
-  }
-
-  const mailto = `mailto:akhiljampala1@gmail.com?subject=${encodeURIComponent(subject || 'Portfolio Contact')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
-  window.location.href = mailto;
-
-  this.style.background = 'linear-gradient(135deg,#10b981,#059669)';
-  this.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
-  setTimeout(() => {
-    this.style.background = '';
-    this.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-  }, 3000);
-});
-
-/* ============================================================
-   SMOOTH HOVER — RIPPLE EFFECT
-   ============================================================ */
-document.querySelectorAll('.btn-primary, .btn-ghost, .form-submit').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    const ripple = document.createElement('span');
-    const rect   = this.getBoundingClientRect();
-    ripple.style.cssText = `
-      position:absolute;width:10px;height:10px;background:rgba(255,255,255,0.3);
-      border-radius:50%;pointer-events:none;
-      top:${e.clientY - rect.top - 5}px;left:${e.clientX - rect.left - 5}px;
-      transform:scale(0);animation:ripple-out 0.5s ease-out forwards;
-    `;
-    this.style.position = 'relative';
-    this.style.overflow = 'hidden';
-    this.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
-
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = `@keyframes ripple-out { to { transform: scale(30); opacity: 0; } }`;
-document.head.appendChild(rippleStyle);
-
-/* ============================================================
-   PARALLAX SECTION BACKGROUNDS
-   ============================================================ */
-window.addEventListener('scroll', () => {
-  const sy = window.scrollY;
-  document.querySelectorAll('.bg-orb').forEach((orb, i) => {
-    const speed = 0.03 + i * 0.01;
-    orb.style.transform = `translateY(${sy * speed}px)`;
-  });
-}, { passive: true });
-
-/* ============================================================
-   DEBOUNCED RESIZE
-   ============================================================ */
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    ScrollTrigger.refresh();
-  }, 250);
-});
+    document.getElementById("year").textContent = new Date().getFullYear();
 </script>
+
+<!-- =========================================================
+     MAIN JAVASCRIPT
+     
+     All interactive functionality is centralized in
+     script.js. No duplicate inline initialization is used.
+========================================================= -->
+
+<script
+    src="script.js"
+    defer
+></script>
+
+
 </body>
+
 </html>
