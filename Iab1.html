@@ -1,0 +1,1476 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C Programming Lab Manual</title>
+
+<style>
+:root{
+ --bg:#f3f5fa;--card:#fff;--text:#172033;
+ --muted:#68748a;--primary:#6558e8;
+ --code:#111827;--border:#e2e6ef;
+}
+.dark{
+ --bg:#10131c;--card:#1c2230;--text:#edf0fa;
+ --muted:#a5aec1;--primary:#a59aff;
+ --code:#090d16;--border:#343c4e;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,sans-serif;line-height:1.6;
+}
+header{
+ background:#171c32;color:white;padding:22px 5%;
+ position:sticky;top:0;z-index:10;
+}
+.top{display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:25px}
+header p{margin:5px 0;color:#c7c9dc}
+button{
+ cursor:pointer;border:0;border-radius:7px;
+ padding:9px 14px;font-weight:bold;
+}
+.theme{background:#ffffff20;color:white}
+.container{
+ display:grid;grid-template-columns:250px 1fr;
+ gap:22px;max-width:1450px;margin:auto;padding:22px;
+}
+aside{
+ background:var(--card);padding:18px;border-radius:12px;
+ height:calc(100vh - 140px);overflow:auto;
+ position:sticky;top:115px;
+}
+aside a{
+ display:block;padding:8px;text-decoration:none;
+ color:var(--muted);border-radius:6px;font-size:13px;
+}
+aside a:hover{background:var(--bg);color:var(--primary)}
+main{min-width:0}
+.search{
+ width:100%;padding:14px;border:1px solid var(--border);
+ border-radius:9px;background:var(--card);
+ color:var(--text);font-size:16px;margin-bottom:20px;
+}
+.section{margin:25px 0}
+.section h2{font-size:21px}
+.program{
+ background:var(--card);border:1px solid var(--border);
+ border-radius:12px;padding:18px;margin:15px 0;
+}
+.program h3{margin:0 0 12px;font-size:17px}
+.codehead{
+ display:flex;justify-content:space-between;align-items:center;
+ background:#273148;color:white;padding:9px 12px;
+ border-radius:8px 8px 0 0;font-size:13px;
+}
+.copy{background:var(--primary);color:white}
+pre{
+ margin:0;background:var(--code);color:#d7e2f4;
+ padding:17px;overflow:auto;border-radius:0 0 8px 8px;
+ font-size:13px;line-height:1.65;tab-size:4;
+}
+.note{color:var(--muted);font-size:13px}
+.hidden{display:none!important}
+table{width:100%;border-collapse:collapse}
+td,th{padding:9px;border-bottom:1px solid var(--border);text-align:left}
+footer{text-align:center;padding:30px;color:var(--muted)}
+@media(max-width:800px){
+ .container{grid-template-columns:1fr;padding:12px}
+ aside{position:static;height:auto}
+ header h1{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="top">
+  <div>
+   <h1>💻 C Programming Lab Manual</h1>
+   <p>29 Important Programs | Practical Examination Preparation</p>
+  </div>
+  <button class="theme" onclick="toggleTheme()">🌙 Theme</button>
+ </div>
+</header>
+
+<div class="container">
+
+<aside>
+ <h3>📚 Contents</h3>
+ <a href="#s1">1. Simple Numeric Problems</a>
+ <a href="#s2">2. Pattern Programs</a>
+ <a href="#s3">3. Expression Evaluation</a>
+ <a href="#s4">4. Arrays, Pointers & Functions</a>
+ <a href="#s5">5. Strings</a>
+ <a href="#s6">6. Sorting & Searching</a>
+ <hr>
+ <strong>Quick Navigation</strong>
+ <div id="nav"></div>
+</aside>
+
+<main>
+
+<input class="search" id="search"
+ placeholder="🔍 Search programs by name or number..."
+ oninput="filterPrograms()">
+
+<div id="programs">
+
+<!-- SECTION 1 -->
+
+<section class="section" id="s1">
+<h2>1. Simple Numeric Problems</h2>
+
+<div class="program">
+<h3>1. Maximum and Minimum Among Three Numbers</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a, b, c, max, min;
+
+    printf("Enter three numbers: ");
+    scanf("%d%d%d", &amp;a, &amp;b, &amp;c);
+
+    max = min = a;
+
+    if (b > max)
+        max = b;
+
+    if (c > max)
+        max = c;
+
+    if (b < min)
+        min = b;
+
+    if (c < min)
+        min = c;
+
+    printf("Maximum = %d\n", max);
+    printf("Minimum = %d\n", min);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>2. Simple Interest and Compound Interest</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+int main()
+{
+    float p, r, t, si, ci, amount;
+
+    printf("Enter principal, rate and time: ");
+    scanf("%f%f%f", &amp;p, &amp;r, &amp;t);
+
+    si = (p * r * t) / 100;
+    amount = p * pow(1 + r / 100, t);
+    ci = amount - p;
+
+    printf("Simple Interest = %.2f\n", si);
+    printf("Compound Interest = %.2f\n", ci);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>3. Multiplication Table for Given Number and Rows</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n, rows, i;
+
+    printf("Enter number and rows: ");
+    scanf("%d%d", &amp;n, &amp;rows);
+
+    for (i = 1; i <= rows; i++)
+    {
+        printf("%d x %d = %d\n", n, i, n * i);
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>4. Binary Equivalent of a Number (0 to 255)</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n, i;
+
+    printf("Enter a number (0 to 255): ");
+    scanf("%d", &amp;n);
+
+    if (n < 0 || n > 255)
+    {
+        printf("Invalid number\n");
+        return 0;
+    }
+
+    printf("Binary equivalent = ");
+
+    for (i = 7; i >= 0; i--)
+    {
+        printf("%d", (n >> i) &amp; 1);
+    }
+
+    printf("\n");
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>5. Largest of Three Numbers</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a, b, c;
+
+    printf("Enter three numbers: ");
+    scanf("%d%d%d", &amp;a, &amp;b, &amp;c);
+
+    if (a >= b &amp;&amp; a >= c)
+        printf("Largest = %d\n", a);
+    else if (b >= a &amp;&amp; b >= c)
+        printf("Largest = %d\n", b);
+    else
+        printf("Largest = %d\n", c);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>6. Grade of a Student Based on Marks</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int marks;
+
+    printf("Enter marks: ");
+    scanf("%d", &amp;marks);
+
+    if (marks >= 90)
+        printf("Grade A\n");
+    else if (marks >= 80)
+        printf("Grade B\n");
+    else if (marks >= 70)
+        printf("Grade C\n");
+    else if (marks >= 60)
+        printf("Grade D\n");
+    else if (marks >= 50)
+        printf("Grade E\n");
+    else
+        printf("Grade F\n");
+
+    return 0;
+}</code></pre>
+<p class="note">Grade boundaries are illustrative because the question paper does not specify them.</p>
+</div>
+</section>
+
+<!-- SECTION 2 -->
+
+<section class="section" id="s2">
+<h2>2. Pattern Programs</h2>
+
+<div class="program">
+<h3>7. Continuous Number Triangle</h3>
+<p>Expected Output:</p>
+<pre><code>1
+2 3
+4 5 6
+7 8 9 10</code></pre>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j, num = 1;
+
+    for (i = 1; i <= 4; i++)
+    {
+        for (j = 1; j <= i; j++)
+        {
+            printf("%d ", num);
+            num++;
+        }
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>8. Pyramid Star Pattern</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j, spaces;
+
+    for (i = 1; i <= 5; i++)
+    {
+        for (spaces = 1; spaces <= 5 - i; spaces++)
+            printf(" ");
+
+        for (j = 1; j <= 2 * i - 1; j++)
+            printf("*");
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>9. Right-Angled Triangle Star Pattern</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j;
+
+    for (i = 1; i <= 5; i++)
+    {
+        for (j = 1; j <= i; j++)
+            printf("*");
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>10. Inverted Right-Angled Triangle Star Pattern</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j;
+
+    for (i = 5; i >= 1; i--)
+    {
+        for (j = 1; j <= i; j++)
+            printf("*");
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>11. Number Pattern</h3>
+<p>Expected Output:</p>
+<pre><code>1
+12
+123
+1234
+12345</code></pre>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j;
+
+    for (i = 1; i <= 5; i++)
+    {
+        for (j = 1; j <= i; j++)
+            printf("%d", j);
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>12. Repeated Number Pattern</h3>
+<p>Expected Output:</p>
+<pre><code>1
+22
+333
+4444
+55555</code></pre>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j;
+
+    for (i = 1; i <= 5; i++)
+    {
+        for (j = 1; j <= i; j++)
+            printf("%d", i);
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>13. Square Star Pattern</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int i, j;
+
+    for (i = 1; i <= 4; i++)
+    {
+        for (j = 1; j <= 4; j++)
+            printf("*");
+
+        printf("\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</section>
+
+<!-- SECTION 3 -->
+
+<section class="section" id="s3">
+<h2>3. Expression Evaluation</h2>
+
+<div class="program">
+<h3>14. Calculator Using Switch Statement</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a, b;
+    char op;
+
+    printf("Enter expression: ");
+    scanf("%d %c %d", &amp;a, &amp;op, &amp;b);
+
+    switch (op)
+    {
+        case '+':
+            printf("Result = %d\n", a + b);
+            break;
+
+        case '-':
+            printf("Result = %d\n", a - b);
+            break;
+
+        case '*':
+            printf("Result = %d\n", a * b);
+            break;
+
+        case '/':
+            if (b != 0)
+                printf("Result = %.2f\n", (float)a / b);
+            else
+                printf("Division by zero is not possible\n");
+            break;
+
+        case '%':
+            if (b != 0)
+                printf("Result = %d\n", a % b);
+            else
+                printf("Modulo by zero is not possible\n");
+            break;
+
+        default:
+            printf("Invalid operator\n");
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>15. Prime Number</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n, i, isPrime = 1;
+
+    printf("Enter a number: ");
+    scanf("%d", &amp;n);
+
+    if (n <= 1)
+        isPrime = 0;
+    else
+    {
+        for (i = 2; i <= n / i; i++)
+        {
+            if (n % i == 0)
+            {
+                isPrime = 0;
+                break;
+            }
+        }
+    }
+
+    if (isPrime == 1)
+        printf("Prime Number\n");
+    else
+        printf("Not a Prime Number\n");
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>16. Sum of Digits and Number Palindrome</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n, temp, digit;
+    int sum = 0, reverse = 0;
+
+    printf("Enter a positive number: ");
+    scanf("%d", &amp;n);
+
+    temp = n;
+
+    while (temp > 0)
+    {
+        digit = temp % 10;
+        sum = sum + digit;
+        reverse = reverse * 10 + digit;
+        temp = temp / 10;
+    }
+
+    printf("Sum of digits = %d\n", sum);
+
+    if (n == reverse)
+        printf("Palindrome Number\n");
+    else
+        printf("Not a Palindrome Number\n");
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>17. Fibonacci Series</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int n, i;
+    int first = 0, second = 1, next;
+
+    printf("Enter number of terms: ");
+    scanf("%d", &amp;n);
+
+    for (i = 1; i <= n; i++)
+    {
+        printf("%d ", first);
+
+        next = first + second;
+        first = second;
+        second = next;
+    }
+
+    return 0;
+}</code></pre>
+</div>
+</section>
+
+<!-- SECTION 4 -->
+
+<section class="section" id="s4">
+<h2>4. Arrays, Pointers and Functions</h2>
+
+<div class="program">
+<h3>18. Minimum, Maximum and Average in an Array</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a[100], n, i;
+    int min, max, sum = 0;
+    float average;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements: ");
+
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &amp;a[i]);
+        sum = sum + a[i];
+    }
+
+    min = max = a[0];
+
+    for (i = 1; i < n; i++)
+    {
+        if (a[i] < min)
+            min = a[i];
+
+        if (a[i] > max)
+            max = a[i];
+    }
+
+    average = (float)sum / n;
+
+    printf("Minimum = %d\n", min);
+    printf("Maximum = %d\n", max);
+    printf("Average = %.2f\n", average);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>19. Addition and Multiplication of Two Matrices Using Functions</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+void addition(int a[2][2], int b[2][2])
+{
+    int i, j;
+
+    printf("Matrix Addition:\n");
+
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 2; j++)
+            printf("%d ", a[i][j] + b[i][j]);
+
+        printf("\n");
+    }
+}
+
+void multiplication(int a[2][2], int b[2][2])
+{
+    int i, j, k, sum;
+
+    printf("Matrix Multiplication:\n");
+
+    for (i = 0; i < 2; i++)
+    {
+        for (j = 0; j < 2; j++)
+        {
+            sum = 0;
+
+            for (k = 0; k < 2; k++)
+                sum = sum + a[i][k] * b[k][j];
+
+            printf("%d ", sum);
+        }
+
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int a[2][2], b[2][2];
+    int i, j;
+
+    printf("Enter first matrix elements:\n");
+
+    for (i = 0; i < 2; i++)
+        for (j = 0; j < 2; j++)
+            scanf("%d", &amp;a[i][j]);
+
+    printf("Enter second matrix elements:\n");
+
+    for (i = 0; i < 2; i++)
+        for (j = 0; j < 2; j++)
+            scanf("%d", &amp;b[i][j]);
+
+    addition(a, b);
+    multiplication(a, b);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>20. Read Elements Using Pointer and Display Using Array</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a[100], n, i;
+    int *p = a;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", p + i);
+
+    printf("Array elements are:\n");
+
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>21. Display Array in Reverse Order Using Pointer</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a[100], n, i;
+    int *p = a;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", p + i);
+
+    printf("Reverse order:\n");
+
+    for (i = n - 1; i >= 0; i--)
+        printf("%d ", *(p + i));
+
+    return 0;
+}</code></pre>
+</div>
+</section>
+
+<!-- SECTION 5 -->
+
+<section class="section" id="s5">
+<h2>5. Strings</h2>
+
+<div class="program">
+<h3>22 (I). Insert a Substring into a Given String at a Position</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void insert(char str[], char sub[], int pos)
+{
+    char result[300];
+    int i, j, k = 0;
+
+    for (i = 0; i < pos; i++)
+    {
+        result[k] = str[i];
+        k++;
+    }
+
+    for (j = 0; sub[j] != '\0'; j++)
+    {
+        result[k] = sub[j];
+        k++;
+    }
+
+    for (i = pos; str[i] != '\0'; i++)
+    {
+        result[k] = str[i];
+        k++;
+    }
+
+    result[k] = '\0';
+    strcpy(str, result);
+}
+
+int main()
+{
+    char str[300], sub[150];
+    int pos;
+
+    printf("Enter main string: ");
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0';
+
+    printf("Enter substring: ");
+    fgets(sub, sizeof(sub), stdin);
+    sub[strcspn(sub, "\n")] = '\0';
+
+    printf("Enter position: ");
+    scanf("%d", &amp;pos);
+
+    insert(str, sub, pos);
+
+    printf("Result = %s\n", str);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>22 (II). Delete N Characters from a Given Position</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+void deleteCharacters(char str[], int pos, int n)
+{
+    int i;
+
+    for (i = pos; str[i + n] != '\0'; i++)
+        str[i] = str[i + n];
+
+    str[i] = '\0';
+}
+
+int main()
+{
+    char str[300];
+    int pos, n;
+
+    printf("Enter a string: ");
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0';
+
+    printf("Enter position: ");
+    scanf("%d", &amp;pos);
+
+    printf("Enter number of characters to delete: ");
+    scanf("%d", &amp;n);
+
+    deleteCharacters(str, pos, n);
+
+    printf("Result = %s\n", str);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>23. Check Whether a String Is Palindrome (Without Flag Variable)</h3>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main()
+{
+    char str[100];
+    int i, len;
+
+    printf("Enter a string: ");
+    scanf("%99s", str);
+
+    len = strlen(str);
+
+    for (i = 0; i < len / 2; i++)
+    {
+        if (str[i] != str[len - 1 - i])
+        {
+            printf("Not a Palindrome\n");
+            return 0;
+        }
+    }
+
+    printf("Palindrome\n");
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>24. Find Position of a Character in a String</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    char str[100], ch;
+    int i, pos = -1;
+
+    printf("Enter a string: ");
+    scanf("%99s", str);
+
+    printf("Enter character to search: ");
+    scanf(" %c", &amp;ch);
+
+    for (i = 0; str[i] != '\0'; i++)
+    {
+        if (str[i] == ch)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    printf("Position = %d\n", pos);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>25. Count Lines, Words and Characters Without ctype.h</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    char ch;
+
+    int lines = 0, words = 0, characters = 0;
+    int inWord = 0;
+
+    printf("Enter text (Ctrl+Z then Enter to stop):\n");
+
+    while ((ch = getchar()) != EOF)
+    {
+        characters++;
+
+        if (ch == '\n')
+            lines++;
+
+        if (ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r')
+        {
+            inWord = 0;
+        }
+        else if (inWord == 0)
+        {
+            words++;
+            inWord = 1;
+        }
+    }
+
+    printf("\nLines = %d\n", lines);
+    printf("Words = %d\n", words);
+    printf("Characters = %d\n", characters);
+
+    return 0;
+}</code></pre>
+<p class="note">In Windows, press Ctrl + Z and then Enter to stop entering text. This program counts newline-terminated lines.</p>
+</div>
+</section>
+
+<!-- SECTION 6 -->
+
+<section class="section" id="s6">
+<h2>6. Sorting and Searching</h2>
+
+<div class="program">
+<h3>26. Linear Search Using Non-Recursive Function</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int linearSearch(int a[], int n, int key)
+{
+    int i;
+
+    for (i = 0; i < n; i++)
+    {
+        if (a[i] == key)
+            return i;
+    }
+
+    return -1;
+}
+
+int main()
+{
+    int a[100], n, i, key, pos;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter key element: ");
+    scanf("%d", &amp;key);
+
+    pos = linearSearch(a, n, key);
+
+    if (pos == -1)
+        printf("Element not found\n");
+    else
+        printf("Element found at position %d\n", pos + 1);
+
+    return 0;
+}</code></pre>
+</div>
+
+<div class="program">
+<h3>27. Binary Search Using Non-Recursive Function</h3>
+<pre><code>#include &lt;stdio.h&gt;
+
+int binarySearch(int a[], int n, int key)
+{
+    int low = 0, high = n - 1;
+    int mid;
+
+    while (low <= high)
+    {
+        mid = (low + high) / 2;
+
+        if (a[mid] == key)
+            return mid;
+        else if (key < a[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+
+    return -1;
+}
+
+int main()
+{
+    int a[100], n, i, key, pos;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter sorted array elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &amp;a[i]);
+
+    printf("Enter key element: ");
+    scanf("%d", &amp;key);
+
+    pos = binarySearch(a, n, key);
+
+    if (pos == -1)
+        printf("Element not found\n");
+    else
+        printf("Element found at position %d\n", pos + 1);
+
+    return 0;
+}</code></pre>
+<p class="note">Binary search requires the array to be sorted in ascending order.</p>
+</div>
+  
+<!-- ========================================= -->
+<!-- PROGRAM 28: BUBBLE SORT -->
+<!-- ========================================= -->
+
+<div class="program">
+    <h3>28. Bubble Sort in Ascending Order</h3>
+
+    <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a[100], n, i, j, temp;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements:\n");
+
+    for (i = 0; i &lt; n; i++)
+    {
+        scanf("%d", &amp;a[i]);
+    }
+
+    // Bubble Sort in Ascending Order
+    for (i = 0; i &lt; n - 1; i++)
+    {
+        for (j = 0; j &lt; n - 1 - i; j++)
+        {
+            if (a[j] &gt; a[j + 1])
+            {
+                temp = a[j];
+
+                a[j] = a[j + 1];
+
+                a[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("Ascending order:\n");
+
+    for (i = 0; i &lt; n; i++)
+    {
+        printf("%d ", a[i]);
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+
+<!-- ========================================= -->
+<!-- PROGRAM 29: SELECTION SORT -->
+<!-- ========================================= -->
+
+<div class="program">
+    <h3>29. Selection Sort in Descending Order</h3>
+
+    <pre><code>#include &lt;stdio.h&gt;
+
+int main()
+{
+    int a[100], n, i, j;
+    int maxIndex, temp;
+
+    printf("Enter array size: ");
+    scanf("%d", &amp;n);
+
+    printf("Enter array elements:\n");
+
+    for (i = 0; i &lt; n; i++)
+    {
+        scanf("%d", &amp;a[i]);
+    }
+
+    // Selection Sort in Descending Order
+    for (i = 0; i &lt; n - 1; i++)
+    {
+        maxIndex = i;
+
+        for (j = i + 1; j &lt; n; j++)
+        {
+            if (a[j] &gt; a[maxIndex])
+            {
+                maxIndex = j;
+            }
+        }
+
+        temp = a[i];
+
+        a[i] = a[maxIndex];
+
+        a[maxIndex] = temp;
+    }
+
+    printf("Descending order:\n");
+
+    for (i = 0; i &lt; n; i++)
+    {
+        printf("%d ", a[i]);
+    }
+
+    return 0;
+}</code></pre>
+</div>
+
+
+<!-- ========================================= -->
+<!-- EXAM REVISION SECTION -->
+<!-- ========================================= -->
+
+<section class="revision-section" id="exam-revision">
+
+    <h2>C Programming Lab - Important Examination Topics</h2>
+
+    <p>
+        Revise the following concepts according to the
+        corresponding program numbers.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Program Numbers</th>
+                <th>Important Concepts</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>1–6</td>
+                <td>if-else, operators, loops</td>
+            </tr>
+
+            <tr>
+                <td>7–13</td>
+                <td>Nested for loops</td>
+            </tr>
+
+            <tr>
+                <td>14</td>
+                <td>Switch statement</td>
+            </tr>
+
+            <tr>
+                <td>15–17</td>
+                <td>while, for, break</td>
+            </tr>
+
+            <tr>
+                <td>18</td>
+                <td>Arrays</td>
+            </tr>
+
+            <tr>
+                <td>19</td>
+                <td>Functions and 2D arrays</td>
+            </tr>
+
+            <tr>
+                <td>20–21</td>
+                <td>Pointers</td>
+            </tr>
+
+            <tr>
+                <td>22–25</td>
+                <td>Strings</td>
+            </tr>
+
+            <tr>
+                <td>26</td>
+                <td>Linear Search</td>
+            </tr>
+
+            <tr>
+                <td>27</td>
+                <td>Binary Search</td>
+            </tr>
+
+            <tr>
+                <td>28</td>
+                <td>Bubble Sort</td>
+            </tr>
+
+            <tr>
+                <td>29</td>
+                <td>Selection Sort</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+
+<!-- ========================================= -->
+<!-- PRACTICE TIPS -->
+<!-- ========================================= -->
+
+<section class="practice-section">
+
+    <h2>Important Practice Tips</h2>
+
+    <ul>
+        <li>Write every program once without looking at the solution.</li>
+
+        <li>Compile and execute each program.</li>
+
+        <li>Understand the logic behind every loop.</li>
+
+        <li>Practice array and string operations carefully.</li>
+
+        <li>Understand functions and pointers with examples.</li>
+
+        <li>Pay special attention to Programs 19, 22, 23, 24, 25 and 27.</li>
+    </ul>
+
+</section>
+
+
+<!-- ========================================= -->
+<!-- FOOTER -->
+<!-- ========================================= -->
+
+<footer class="footer">
+
+    <h3>C Programming Practice Sessions</h3>
+
+    <p>
+        Practice every program, understand the logic,
+        and prepare confidently for your laboratory examination.
+    </p>
+
+    <p>
+        Total Programs: 29
+    </p>
+
+    <p>
+        &copy; 2026 C Programming Lab Practice
+    </p>
+
+</footer>
+
+
+<!-- ========================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================= -->
+
+<script>
+
+// =========================================
+// SEARCH PROGRAMS
+// =========================================
+
+function filterPrograms()
+{
+    const searchInput = document.getElementById("searchInput");
+
+    if (!searchInput) return;
+
+    const searchValue = searchInput.value.toLowerCase();
+
+    const programs = document.querySelectorAll(".program");
+
+    programs.forEach(function(program)
+    {
+        const content = program.innerText.toLowerCase();
+
+        if (content.includes(searchValue))
+        {
+            program.style.display = "";
+        }
+        else
+        {
+            program.style.display = "none";
+        }
+    });
+}
+
+
+// =========================================
+// DARK / LIGHT THEME
+// =========================================
+
+function toggleTheme()
+{
+    document.body.classList.toggle("dark-mode");
+
+    const isDark = document.body.classList.contains("dark-mode");
+
+    localStorage.setItem("cLabTheme", isDark ? "dark" : "light");
+}
+
+
+// Load saved theme
+
+window.addEventListener("DOMContentLoaded", function()
+{
+    const savedTheme = localStorage.getItem("cLabTheme");
+
+    if (savedTheme === "dark")
+    {
+        document.body.classList.add("dark-mode");
+    }
+});
+
+
+// =========================================
+// COPY PROGRAM CODE
+// =========================================
+
+async function copyCode(button)
+{
+    const program = button.closest(".program");
+
+    if (!program) return;
+
+    const code = program.querySelector("pre code");
+
+    if (!code) return;
+
+    const text = code.innerText;
+
+    try
+    {
+        await navigator.clipboard.writeText(text);
+
+        button.innerText = "Copied!";
+
+    }
+    catch (error)
+    {
+        const textArea = document.createElement("textarea");
+
+        textArea.value = text;
+
+        document.body.appendChild(textArea);
+
+        textArea.select();
+
+        document.execCommand("copy");
+
+        textArea.remove();
+
+        button.innerText = "Copied!";
+    }
+
+    setTimeout(function()
+    {
+        button.innerText = "Copy Code";
+    }, 2000);
+}
+
+
+// =========================================
+// ADD COPY BUTTON TO EVERY PROGRAM
+// =========================================
+
+document.addEventListener("DOMContentLoaded", function()
+{
+    const programs = document.querySelectorAll(".program");
+
+    programs.forEach(function(program)
+    {
+        const pre = program.querySelector("pre");
+
+        if (!pre) return;
+
+        // Avoid duplicate buttons
+        if (pre.querySelector(".copy-btn")) return;
+
+        const button = document.createElement("button");
+
+        button.className = "copy-btn";
+
+        button.innerText = "Copy Code";
+
+        button.type = "button";
+
+        button.addEventListener("click", function()
+        {
+            copyCode(button);
+        });
+
+        pre.parentNode.insertBefore(button, pre);
+    });
+});
+
+
+// =========================================
+// SMOOTH SCROLL
+// =========================================
+
+document.querySelectorAll('a[href^="#"]').forEach(function(link)
+{
+    link.addEventListener("click", function(event)
+    {
+        const target = document.querySelector(this.getAttribute("href"));
+
+        if (target)
+        {
+            event.preventDefault();
+
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>
+  
+
